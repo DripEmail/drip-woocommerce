@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+  web:
+    build: .
+    ports:
+    - 3007:80
+    environment:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_NAME=woocommerce
+      - WORDPRESS_DB_USER=woocommerce
+      - WORDPRESS_DB_PASSWORD=woocommerce
+    volumes:
+      - type: bind
+        source: './..'
+        target: /var/www/html/wp-content/plugins/drip-woocommerce
+        consistency: cached
+  db:
+    image: mysql:5.7.27
+    environment:
+      - MYSQL_DATABASE=woocommerce
+      - MYSQL_USER=woocommerce
+      - MYSQL_PASSWORD=woocommerce
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
