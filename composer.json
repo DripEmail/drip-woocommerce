@@ -1,0 +1,16 @@
+{
+    "name": "drip/drip-woocommerce",
+    "license": "GPL-2.0-only",
+    "authors": [
+        {
+            "name": "William Johnston",
+            "email": "william.johnston@drip.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "wp-coding-standards/wpcs": "^2.2",
+        "phpcompatibility/phpcompatibility-wp": "^2.1",
+        "phpunit/phpunit": "4.8.*|5.7.*"
+    }
+}
