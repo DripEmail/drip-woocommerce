@@ -35,7 +35,8 @@ matrix:
     #   dist: precise
 
 before_script:
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  # - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - composer install
   - |
     if [ -f ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ]; then
       phpenv config-rm xdebug.ini
@@ -49,8 +50,7 @@ before_script:
     fi
   - |
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
-      composer global require wp-coding-standards/wpcs phpcompatibility/phpcompatibility-wp
-      phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
+      ./vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs/,vendor/phpcompatibility/phpcompatibility-wp/,vendor/phpcompatibility/php-compatibility/,vendor/phpcompatibility/phpcompatibility-paragonie/
     fi
 
 script:
@@ -61,5 +61,5 @@ script:
     fi
   - |
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
-      phpcs
+      ./vendor/bin/phpcs
     fi
