@@ -1,3 +1,4 @@
+// Parameters can be found by running `wp wc product create --help` in the container.
 Cypress.Commands.add('wpcliCreateProduct', (desc) => {
   cy.log('Creating woocommerce product')
 
