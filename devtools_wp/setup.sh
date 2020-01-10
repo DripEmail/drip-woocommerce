@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# Spin up a new instance of Magento
+# Spin up a new instance of WooCommerce
 # Add --build when you need to rebuild the Dockerfile.
 docker-compose up -d
 
@@ -21,5 +21,5 @@ SCRIPT
 docker-compose exec -T -u www-data web /bin/bash -c "$woocommerce_setup_script"
 
 # echo "Backing up database for later reset"
-# mkdir -p db_data
-# docker-compose exec -e MYSQL_PWD=magento db mysqldump -u magento magento > db_data/dump.sql
+mkdir -p db_data
+docker-compose exec -e MYSQL_PWD=woocommerce db mysqldump -u woocommerce woocommerce > db_data/dump.sql

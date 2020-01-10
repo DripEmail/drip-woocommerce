@@ -3,7 +3,7 @@
 //   cy.exec('DRIP_COMPOSE_ENV=test ./flush_caches.sh')
 // })
 
-// beforeEach(function() {
-//   cy.log('resetting docker for test')
-//   cy.exec('DRIP_COMPOSE_ENV=test ./reset.sh', {timeout: 120000})
-// })
+beforeEach(function() {
+  cy.log('resetting docker for test')
+  cy.exec('DRIP_COMPOSE_ENV=test ./reset.sh', {timeout: 120000})
+})
