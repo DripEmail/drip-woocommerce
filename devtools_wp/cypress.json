@@ -1,6 +1,6 @@
 {
   "ignoreTestFiles": "*.js",
-  "baseUrl": "http://wp.localhost:3007",
+  "baseUrl": "http://localhost:3007",
 
   "defaultCommandTimeout": 15000,
   "pageLoadTimeout": 100000,
