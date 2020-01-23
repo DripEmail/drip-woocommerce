@@ -23,7 +23,7 @@
 import './commands'
 import './docker_helpers'
 import './wp_cli_helpers'
-// import './mocking_helpers'
+import './mocking_helper'
 // import './product_management'
 
 // chai.use(chaiString)
