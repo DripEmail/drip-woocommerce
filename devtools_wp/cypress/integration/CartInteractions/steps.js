@@ -13,10 +13,20 @@ Given('I have a product', () => {
 })
 
 Given('I have set up a cart webhook', () => {
+  cy.wrap(Mockclient.mockAnyResponse({
+    "httpRequest": {
+        "method": "POST",
+        "path": "/my_fair_endpoint"
+    },
+    "httpResponse": {
+        "statusCode": 202
+    }
+  }))
+
   cy.wpcliCreateWebhook({
     'name': 'My Fair Webhook',
-    'topic': 'dripcart.updated',
-    'delivery_url': 'http://mock:1080/my_fair_endpoint',
+    'topic': 'action.wc_drip_woocommerce_cart_event',
+    'delivery_url': 'http://mock:8080/my_fair_endpoint',
   })
 })
 
@@ -30,34 +40,14 @@ Then('I add it to a cart', () => {
 Then('I get sent a webhook', () => {
   cy.log('Validating that we got the webhook')
   cy.wrap(Mockclient.retrieveRecordedRequests({
-    // TODO: Reenable this
-    // 'path': '/my_fair_endpoint'
+    'path': '/my_fair_endpoint',
+    'headers': {
+      'X-WC-Webhook-Topic': ["action.wc_drip_woocommerce_cart_event"]
+    }
   })).then(function(recordedRequests) {
-    console.log(recordedRequests)
     expect(recordedRequests).to.have.lengthOf(1)
     const body = JSON.parse(recordedRequests[0].body.string)
-    console.log(body)
-    // expect(body.subscribers).to.have.lengthOf(1)
-
-    // const sub = body.subscribers[0]
-    // expect(sub.email).to.eq('testuser@example.com')
-    // expect(sub.new_email).to.eq('')
-
-    // if (state === 'subscribed') {
-    //   expect(sub.initial_status).to.eq('active')
-    //   expect(sub.custom_fields.accepts_marketing).to.eq('yes')
-    //   expect(sub.status).to.eq('active')
-    // } else {
-    //   expect(sub.initial_status).to.eq('unsubscribed')
-    //   expect(sub.custom_fields.accepts_marketing).to.eq('no')
-    //   expect(sub.status).to.be.undefined
-    // }
-
-    // expect(sub.custom_fields.birthday).to.be.null
-    // expect(sub.custom_fields.first_name).to.eq('Test')
-    // expect(sub.custom_fields.gender).to.eq('')
-    // expect(sub.custom_fields.last_name).to.eq('User')
-    // expect(sub.custom_fields.magento_customer_group).to.eq('General')
-    // expect(sub.custom_fields.magento_store).to.eq(1)
+    expect(body.action).to.eq('wc_drip_woocommerce_cart_event')
+    expect(body.arg).to.eq('blah de blah')
   })
 })
