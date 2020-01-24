@@ -21,3 +21,10 @@ services:
       - MYSQL_USER=woocommerce
       - MYSQL_PASSWORD=woocommerce
       - MYSQL_RANDOM_ROOT_PASSWORD=true
+    tmpfs: /var/lib/mysql
+  mock:
+    image: jamesdbloom/mockserver:mockserver-5.7.0
+    # We need to use port 8080 for WP webhooks to work.
+    command: ["-logLevel", "INFO", "-serverPort", "8080"]
+    ports:
+    - 1080:8080

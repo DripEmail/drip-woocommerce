@@ -1,0 +1,19 @@
+{
+  "name": "drip-woocommerce-tests",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "chai-string": "^1.5.0",
+    "cypress": "^3.8.2",
+    "cypress-cucumber-preprocessor": "^1.13.0",
+    "cypress-pipe": "^1.5.0",
+    "mockserver-client": "5.7.0"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true
+  },
+  "devDependencies": {
+    "cypress-plugin-retries": "^1.4.0"
+  }
+}
