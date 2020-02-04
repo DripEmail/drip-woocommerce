@@ -52,7 +52,7 @@ class drip_woocommerce_cart_events
                 );
             }
         }
-        
+
         do_action( 'wc_drip_woocommerce_cart_event', $event_data );
     }
 
@@ -85,3 +85,5 @@ class drip_woocommerce_cart_events
         return $categories;
     }
 }
+
+include('drip-woocommerce-settings.php');
