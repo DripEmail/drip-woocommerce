@@ -15,6 +15,10 @@ function createWooEntity(entity, params) {
   cy.exec(`docker-compose exec -u www-data -T web wp wc ${entity} create ${options}`)
 }
 
+Cypress.Commands.add('wpcliCreateProductCategory', (desc) => {
+  createWooEntity('product_cat', desc)
+})
+
 // Parameters can be found by running `wp wc product create --help` in the container.
 Cypress.Commands.add('wpcliCreateProduct', (desc) => {
   createWooEntity('product', desc)
