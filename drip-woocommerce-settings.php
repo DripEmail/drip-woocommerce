@@ -55,8 +55,8 @@ class WC_Settings_Drip {
   public static function settings_group( $locations ) {
     $locations[] = array(
       'id'          => 'drip',
-      'label'       => __( 'Drip', 'woocommerce' ),
-      'description' => __( 'Drip Settings', 'woocommerce' ),
+      'label'       => __( 'Drip', self::NAME ),
+      'description' => __( 'Drip Settings', self::NAME ),
     );
     return $locations;
   }
