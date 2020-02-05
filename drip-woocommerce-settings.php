@@ -93,7 +93,7 @@ class WC_Settings_Drip {
         'id'   => self::ACCOUNT_ID_KEY,
         'name' => __( 'Account ID', self::NAME ),
         'type' => 'number',
-        'desc' => __( 'Drip Account ID', self::NAME ),
+        'desc' => __( 'Read-only, visible if integration was successful', self::NAME ),
         'custom_attributes' => array('readonly' => 'readonly'),
       ),
       'section_end' => array(
