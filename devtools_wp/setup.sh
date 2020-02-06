@@ -15,6 +15,7 @@ cd /var/www/html/ && \
 wp core install --url="http://localhost:$port" --title="drip_woocommerce_test" --admin_user="drip" --admin_email="drip@example.com" --admin_password="abc1234567890" --skip-email && \
 wp plugin activate woocommerce && \
 wp plugin activate drip-woocommerce && \
+if ! grep -q drip_woo_test_force_mocks wp-includes/functions.php; then
 cat << "EOF" >> wp-includes/functions.php
 function drip_woo_test_force_mocks(\$is_external, \$host) {
 	return \$is_external || 'mock' === \$host;
@@ -25,10 +26,37 @@ function drip_woo_test_deliver_async() {
 }
 add_filter( 'woocommerce_webhook_deliver_async', 'drip_woo_test_deliver_async', 10, 0);
 EOF
+fi
+SCRIPT
+)
+
+composer="php /var/www/html/composer.phar"
+update_bashrc_script=$(cat <<SCRIPT
+if ! grep -q 'composer.phar' /root/.bashrc; then
+  echo 'alias composer="$composer"' >> /root/.bashrc
+fi
+if ! grep -q 'composer/vendor' /root/.bashrc; then
+  echo 'PATH=/root/.composer/vendor/bin:\${PATH}' >> /root/.bashrc
+fi
+if ! grep -q PHP_MEMORY_LIMIT /root/.bashrc; then
+  echo 'export PHP_MEMORY_LIMIT=1G' >> /root/.bashrc
+fi
 SCRIPT
 )
 
 docker-compose exec -T -u www-data web /bin/bash -c "$woocommerce_setup_script"
+docker-compose exec -T -u root web /bin/bash -c "$(cat install-composer.sh)"
+docker-compose exec -T -u root web /bin/bash -c "$update_bashrc_script"
+docker-compose exec -T -u root web /bin/bash -c "
+  $composer global require 'squizlabs/php_codesniffer=*' && \
+    $composer require --dev \
+      'dealerdirect/phpcodesniffer-composer-installer:^0.6' \
+      'phpcompatibility/phpcompatibility-wp:*' && \
+    $composer install
+"
+# All that to use phpcbf to automatically fix violoations!
+# ie. root@867cf9a0815c:/var/www/html/wp-content/plugins/woocommerce# phpcbf --extensions=php ../drip-woocommerce
+# I don't know why this needs to be run from the woocommerce plugin directory
 
 # echo "Backing up database for later reset"
 mkdir -p db_data
