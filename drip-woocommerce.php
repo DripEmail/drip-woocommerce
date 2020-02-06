@@ -12,3 +12,4 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
     (new Drip_Woocommerce_Cart_Events())->setup_cart_actions();
 }
 
+include('drip-woocommerce-settings.php');
