@@ -5,7 +5,7 @@ function createWooEntity(entity, params) {
     'user': 'drip',
   }
 
-  const mergedParams = {...defaults, ...params}
+  const mergedParams = { ...defaults, ...params }
 
   let options = ''
   for (const key in mergedParams) {
@@ -14,6 +14,22 @@ function createWooEntity(entity, params) {
 
   cy.exec(`docker-compose exec -u www-data -T web wp wc ${entity} create ${options}`)
 }
+
+Cypress.Commands.add('wpcliCreateUser', (desc) => {
+  const options = function (params) {
+    let options = ''
+    for (const key in params) {
+      if (key.startsWith('inviso-')) {
+        options += ` ${params[key]}`
+      } else {
+        options += ` --${key}="${params[key]}"`
+      }
+    }
+    return options
+  }
+
+  cy.exec(`docker-compose exec -u www-data -T web wp user create ${options(desc)}`)
+})
 
 Cypress.Commands.add('wpcliCreateProductCategory', (desc) => {
   createWooEntity('product_cat', desc)

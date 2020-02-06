@@ -11,10 +11,15 @@ port=$(docker-compose port web 80 | cut -d':' -f2)
 docker-compose exec -T db /bin/bash -c 'while ! mysql --protocol TCP -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" -e "show databases;" > /dev/null 2>&1; do sleep 1; done'
 
 woocommerce_setup_script=$(cat <<SCRIPT
+apt update -y && apt upgrade -y && apt install -y vim-tiny net-tools; \
 cd /var/www/html/ && \
-wp core install --url="http://localhost:$port" --title="drip_woocommerce_test" --admin_user="drip" --admin_email="drip@example.com" --admin_password="abc1234567890" --skip-email && \
-wp plugin activate woocommerce && \
-wp plugin activate drip-woocommerce && \
+/usr/local/bin/wp core install --url="http://localhost:$port" --title="drip_woocommerce_test" --admin_user="drip" --admin_email="drip@example.com" --admin_password="abc1234567890" --skip-email && \
+/usr/local/bin/wp plugin activate woocommerce && \
+/usr/local/bin/wp plugin activate drip-woocommerce; \
+CART_PAGE_ID=\$(/usr/local/bin/wp post create --post_type=page --post_author="drip" --post_title="My Fair Cart" --post_name="My Fair Cart" --post_content="[woocommerce_cart]" --post_status="publish" --porcelain) && \
+/usr/local/bin/wp option set woocommerce_cart_page_id \$CART_PAGE_ID; \
+CHKOUT_PAGE_ID=\$(/usr/local/bin/wp post create --post_type=page --post_author="drip" --post_title="My Fair Checkout" --post_name="My Fair Checkout" --post_content="[woocommerce_checkout]" --post_status="publish" --porcelain) && \
+/usr/local/bin/wp option set woocommerce_checkout_page_id \$CHKOUT_PAGE_ID; \
 if ! grep -q drip_woo_test_force_mocks wp-includes/functions.php; then
 cat << "EOF" >> wp-includes/functions.php
 function drip_woo_test_force_mocks(\$is_external, \$host) {
