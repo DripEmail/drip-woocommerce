@@ -105,5 +105,3 @@ class WC_Settings_Drip {
     return apply_filters( 'wc_settings_drip_settings', $settings );
   }
 }
-
-WC_Settings_Drip::init();
