@@ -7,6 +7,8 @@ class WC_Snippet_Drip {
   public static function render_snippet() {
     if ( $account_id = self::get_account_id() ) {
       include( "snippet.js.php" );
+    } else {
+      echo "<!-- Add your woocommerce credentials in Drip to begin tracking -->";
     }
   }
 
