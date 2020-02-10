@@ -1,7 +1,7 @@
 import { Given, When, Then } from "cypress-cucumber-preprocessor/steps"
 import { mockServerClient } from "mockserver-client"
 
-const Mockclient = mockServerClient("localhost", 1080);
+const Mockclient = mockServerClient("localhost", 1080)
 
 Given('I have a product', () => {
   cy.wpcliCreateProductCategory({
@@ -14,6 +14,16 @@ Given('I have a product', () => {
     'slug': 'fair-widget',
     'regular_price': 10.99,
     'sku': 'fair-widg-12345',
+    'categories': '[{"id":16}]'
+  })
+})
+
+Given('I have a second product', () => {
+  cy.wpcliCreateProduct({
+    'name': 'My Fair Gizmo',
+    'slug': 'fair-gizmo',
+    'regular_price': 11.11,
+    'sku': 'fair-gzmo-67890',
     'categories': '[{"id":16}]'
   })
 })
@@ -54,6 +64,17 @@ Given('I have a logged in user', () => {
   cy.contains("Hello world!")
 })
 
+Then('I add {string} to a cart', (product) => {
+  let slug = '/?product=fair-widget'
+  if(product === 'My Fair Gizmo') {
+    slug = '/?product=fair-gizmo'
+  }
+  cy.visit(slug)
+  cy.wrap(Mockclient.reset())
+  cy.contains('Add to cart').click().wait(300)
+  cy.contains('has been added to your cart')
+})
+
 Then('I add it to a cart', () => {
   // This is the product slug
   cy.visit('/?product=fair-widget')
@@ -68,6 +89,14 @@ Then('I remove it from the cart', () => {
   cy.contains("Proceed to checkout")
   cy.get('a.remove[data-product_id="6"]').click()
   cy.contains("Your cart is currently empty.")
+})
+
+Then ('I remove the widget from the cart', () => {
+  cy.visit('http://localhost:3007/?page_id=4') // using the page SLUG won't work here
+  cy.wrap(Mockclient.reset())
+  cy.contains("Proceed to checkout")
+  cy.get('a.remove[data-product_id="6"]').click()
+  cy.contains(/.*My Fair Widget.* removed\./)
 })
 
 Then('I restore it to the cart', () => {
@@ -105,6 +134,8 @@ Then('I get sent a webhook', () => {
   })).then(function (recordedRequests) {
     cy.wrap(validateRequests(recordedRequests)).then(function (body) {
       validateRequestBody(body)
+      expect(body.arg.grand_total).to.eq('10.99')
+      expect(Object.keys(body.arg.cart_data)).to.have.lengthOf(1)
       validateMyFairWidget(body)
     })
   })
@@ -122,6 +153,8 @@ Then('I get sent a webhook with an empty cart', () => {
   )).then(function (recordedRequests) {
     cy.wrap(validateRequests(recordedRequests)).then(function (body) {
       validateRequestBody(body)
+      expect(Object.keys(body.arg.cart_data)).to.have.lengthOf(0)
+      expect(body.arg.grand_total).to.eq(0)
       expect(body.arg.cart_data).to.be.empty
     })
   })
@@ -139,7 +172,86 @@ Then('I get sent an updated webhook', () => {
   )).then(function (recordedRequests) {
     cy.wrap(validateRequests(recordedRequests)).then(function (body) {
       validateRequestBody(body)
+      expect(Object.keys(body.arg.cart_data)).to.have.lengthOf(1)
       validateMyFairWidget(body, 9001)
+      expect(body.arg.grand_total.toString()).to.eq(`${10.99 * 9001}`)
+    })
+  })
+})
+
+Then('I get sent a webhook with two products', () => {
+  cy.log('Validating that we got the webhook')
+  cy.wrap(Mockclient.retrieveRecordedRequests(
+    {
+      'path': '/my_fair_endpoint',
+      'headers': {
+        'X-WC-Webhook-Topic': ["action.wc_drip_woocommerce_cart_event"]
+      }
+    }
+  )).then(function (recordedRequests) {
+    cy.wrap(validateRequests(recordedRequests)).then(function (body) {
+      console.log(body)
+      validateRequestBody(body)
+      expect(Object.keys(body.arg.cart_data)).to.have.lengthOf(2)
+      expect(body.arg.grand_total).to.eq('22.10')
+      validateMyFairWidget(body)
+      validateMyFairGizmo(body)
+    })
+  })
+})
+
+Then('I get sent a webhook with a cart session ID', () => {
+  cy.log('Validating the webhook has a valid cart session id')
+  cy.wrap(Mockclient.retrieveRecordedRequests(
+    {
+      'path': '/my_fair_endpoint',
+      'headers': {
+        'X-WC-Webhook-Topic': ["action.wc_drip_woocommerce_cart_event"]
+      }
+    }
+  )).then(function (recordedRequests) {
+    const body = validateRequests(recordedRequests)
+    expect(body.arg.session).to.have.lengthOf(64)
+    cy.wrap(body.arg.session).as('lastCartSession')
+  })
+})
+
+Then('I get sent a webhook with a different cart session ID', () => {
+  cy.log('Validating the webhook has a new cart session ID')
+  cy.wrap(Mockclient.retrieveRecordedRequests(
+    {
+      'path': '/my_fair_endpoint',
+      'headers': {
+        'X-WC-Webhook-Topic': ["action.wc_drip_woocommerce_cart_event"]
+      }
+    }
+  )).then(function (recordedRequests) {
+    const body = validateRequests(recordedRequests)
+    cy.wrap(this.lastCartSession).then(function(lastCartSession) {
+      expect(lastCartSession).to.have.lengthOf(64)
+      expect(body.arg.session).to.have.lengthOf(64)
+      expect(body.arg.session).to.not.eq(lastCartSession)
+      cy.wrap(body.arg.session).as('lastCartSession')
+    })
+  })
+})
+
+Then('I get sent a webhook with the same cart session ID', () => {
+  cy.log('Validating the webhook receives a persisted cart session id')
+  cy.wrap(Mockclient.retrieveRecordedRequests(
+    {
+      'path': '/my_fair_endpoint',
+      'headers': {
+        'X-WC-Webhook-Topic': ["action.wc_drip_woocommerce_cart_event"]
+      }
+    }
+  )).then(function (recordedRequests) {
+    const body = validateRequests(recordedRequests)
+    cy.wrap(this.lastCartSession).then(function(lastCartSession) {
+      expect(lastCartSession).to.have.lengthOf(64)
+      expect(body.arg.session).to.have.lengthOf(64)
+      expect(body.arg.session).to.eq(lastCartSession)
+      cy.wrap(body.arg.session).as('lastCartSession')
     })
   })
 })
@@ -168,14 +280,32 @@ const validateRequests = function (requests) {
 
 const validateRequestBody = function (body) {
   expect(body.action).to.eq('wc_drip_woocommerce_cart_event')
+  cy.wrap([
+    'event_action',
+    'session',
+    'customer_email',
+    'cart_data',
+    'grand_total',
+    'total_discounts',
+    'total_taxes',
+    'total_fees',
+    'total_shipping',
+    'currency'
+  ]).each(function(item) {
+    expect(Object.keys(body.arg)).contains(item)
+    expect(body.arg[item], `body.arg[${item}]`).to.not.be.null;
+  })
   expect(body.arg.event_action).to.eq('updated')
   expect(body.arg.customer_email).to.eq('myfairuser@example.com')
-  expect(Object.keys(body.arg)).contains('cart_data')
+  expect(Number(body.arg.total_discounts)).to.eq(0)
+  expect(Number(body.arg.total_taxes)).to.eq(0)
+  expect(Number(body.arg.total_fees)).to.eq(0)
+  expect(Number(body.arg.total_shipping)).to.eq(0)
+  expect(body.arg.currency).to.eq('GBP')
 }
 
 const validateMyFairWidget = function (body, quantity = 1) {
-  expect(Object.keys(body.arg.cart_data)).to.have.lengthOf(1)
-  const product = body.arg.cart_data[Object.keys(body.arg.cart_data)[0]]
+  const product = findWidget(body.arg.cart_data)
   expect(product.product_id.toString()).to.eq('6') // only works because we reset the entire db with each scenerio
   expect(product.product_variant_id.toString()).to.eq('6')
   expect(product.sku).to.eq('fair-widg-12345')
@@ -190,4 +320,37 @@ const validateMyFairWidget = function (body, quantity = 1) {
   expect(product.categories).to.have.lengthOf(1)
   expect(product.categories[0]).to.eq('my fair category')
   return product
+}
+
+const validateMyFairGizmo = function (body, quantity = 1) {
+  const product = findGizmo(body.arg.cart_data)
+  expect(product.product_id.toString()).to.eq('7') // only works because we reset the entire db with each scenerio
+  expect(product.product_variant_id.toString()).to.eq('7')
+  expect(product.sku).to.eq('fair-gzmo-67890')
+  expect(product.name).to.eq('My Fair Gizmo')
+  expect(product.quantity).to.eq(quantity)
+  expect(product.price.toString()).to.eq('11.11')
+  expect(product.taxes.toString()).to.eq('0')
+  expect(product.total.toString()).to.eq(`${11.11 * quantity}`)
+  expect(product.product_url).to.eq('http://localhost:3007/?product=fair-gizmo')
+  expect(product.image_url).contains('<img')
+  expect(product.image_url).contains('http://localhost:3007/wp-content/plugins/woocommerce/assets/images/placeholder.png')
+  expect(product.categories).to.have.lengthOf(1)
+  expect(product.categories[0]).to.eq('my fair category')
+  return product
+}
+
+const findWidget = function(cart_data) {
+  return findProduct(6, cart_data)
+}
+
+const findGizmo = function(cart_data) {
+  return findProduct(7, cart_data)
+}
+
+const findProduct = function(product_id, cart_data) {
+  if(cart_data[Object.keys(cart_data)[0]].product_id === product_id) {
+    return cart_data[Object.keys(cart_data)[0]]
+  }
+  return cart_data[Object.keys(cart_data)[1]]
 }

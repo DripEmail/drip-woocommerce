@@ -16,5 +16,5 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
     WC_Settings_Drip::init();
     WC_Snippet_Drip::init();
 
-    (new Drip_Woocommerce_Cart_Events())->setup_cart_actions();
+    Drip_Woocommerce_Cart_Events::init();
 }
