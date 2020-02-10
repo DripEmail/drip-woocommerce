@@ -106,7 +106,7 @@ class Drip_Woocommerce_Cart_Events
         if($cid) { return $cid; }
         $cid = $this->generate_drip_cart_session_id();
         WC()->session->set( self::CART_SESSION_KEY, $cid);
-        return $this->drip_cart_session_id();
+        return $cid;
     }
 
     private function remove_drip_cart_session_id()
