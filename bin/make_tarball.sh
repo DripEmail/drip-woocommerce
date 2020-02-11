@@ -15,9 +15,9 @@ fi
 
 NAME="drip-woocommerce-${BRANCH}"
 tarball="/tmp/${NAME}.tbz"
-tar cjf $tarball \
-  ./license.txt \
-  ./readme.txt \
-  ./src
+tar cjf $tarball -C ../ \
+  drip-woocommerce/license.txt \
+  drip-woocommerce/readme.txt \
+  drip-woocommerce/src
 
 echo $tarball
