@@ -18,6 +18,7 @@ tarball="/tmp/${NAME}.tbz"
 tar cjf $tarball -C ../ \
   drip-woocommerce/license.txt \
   drip-woocommerce/readme.txt \
+  drip-woocommerce/drip-woocommerce.php \
   drip-woocommerce/src
 
 echo $tarball
