@@ -132,11 +132,12 @@ Then('I get sent a webhook', () => {
       'X-WC-Webhook-Topic': ["action.wc_drip_woocommerce_cart_event"]
     }
   })).then(function (recordedRequests) {
+
     cy.wrap(validateRequests(recordedRequests)).then(function (body) {
-      validateRequestBody(body)
-      expect(body.arg.grand_total).to.eq('10.99')
-      expect(Object.keys(body.arg.cart_data)).to.have.lengthOf(1)
-      validateMyFairWidget(body)
+      const event = validateRequestBody(body)
+      expect(event.grand_total).to.eq('10.99')
+      expect(Object.keys(event.cart_data)).to.have.lengthOf(1)
+      validateMyFairWidget(event)
     })
   })
 })
@@ -152,10 +153,10 @@ Then('I get sent a webhook with an empty cart', () => {
     }
   )).then(function (recordedRequests) {
     cy.wrap(validateRequests(recordedRequests)).then(function (body) {
-      validateRequestBody(body)
-      expect(Object.keys(body.arg.cart_data)).to.have.lengthOf(0)
-      expect(body.arg.grand_total).to.eq(0)
-      expect(body.arg.cart_data).to.be.empty
+      const event = validateRequestBody(body)
+      expect(Object.keys(event.cart_data)).to.have.lengthOf(0)
+      expect(event.grand_total).to.eq(0)
+      expect(event.cart_data).to.be.empty
     })
   })
 })
@@ -171,10 +172,10 @@ Then('I get sent an updated webhook', () => {
     }
   )).then(function (recordedRequests) {
     cy.wrap(validateRequests(recordedRequests)).then(function (body) {
-      validateRequestBody(body)
-      expect(Object.keys(body.arg.cart_data)).to.have.lengthOf(1)
-      validateMyFairWidget(body, 9001)
-      expect(body.arg.grand_total.toString()).to.eq(`${10.99 * 9001}`)
+      const event = validateRequestBody(body)
+      expect(Object.keys(event.cart_data)).to.have.lengthOf(1)
+      validateMyFairWidget(event, 9001)
+      expect(event.grand_total.toString()).to.eq(`${10.99 * 9001}`)
     })
   })
 })
@@ -191,11 +192,11 @@ Then('I get sent a webhook with two products', () => {
   )).then(function (recordedRequests) {
     cy.wrap(validateRequests(recordedRequests)).then(function (body) {
       console.log(body)
-      validateRequestBody(body)
-      expect(Object.keys(body.arg.cart_data)).to.have.lengthOf(2)
-      expect(body.arg.grand_total).to.eq('22.10')
-      validateMyFairWidget(body)
-      validateMyFairGizmo(body)
+      const event = validateRequestBody(body)
+      expect(Object.keys(event.cart_data)).to.have.lengthOf(2)
+      expect(event.grand_total).to.eq('22.10')
+      validateMyFairWidget(event)
+      validateMyFairGizmo(event)
     })
   })
 })
@@ -211,8 +212,9 @@ Then('I get sent a webhook with a cart session ID', () => {
     }
   )).then(function (recordedRequests) {
     const body = validateRequests(recordedRequests)
-    expect(body.arg.session).to.have.lengthOf(64)
-    cy.wrap(body.arg.session).as('lastCartSession')
+    const event = JSON.parse(decodeBase64(body.arg))
+    expect(event.session).to.have.lengthOf(64)
+    cy.wrap(event.session).as('lastCartSession')
   })
 })
 
@@ -228,10 +230,11 @@ Then('I get sent a webhook with a different cart session ID', () => {
   )).then(function (recordedRequests) {
     const body = validateRequests(recordedRequests)
     cy.wrap(this.lastCartSession).then(function(lastCartSession) {
+      const event = JSON.parse(decodeBase64(body.arg))
       expect(lastCartSession).to.have.lengthOf(64)
-      expect(body.arg.session).to.have.lengthOf(64)
-      expect(body.arg.session).to.not.eq(lastCartSession)
-      cy.wrap(body.arg.session).as('lastCartSession')
+      expect(event.session).to.have.lengthOf(64)
+      expect(event.session).to.not.eq(lastCartSession)
+      cy.wrap(event.session).as('lastCartSession')
     })
   })
 })
@@ -247,11 +250,12 @@ Then('I get sent a webhook with the same cart session ID', () => {
     }
   )).then(function (recordedRequests) {
     const body = validateRequests(recordedRequests)
+    const event = JSON.parse(decodeBase64(body.arg))
     cy.wrap(this.lastCartSession).then(function(lastCartSession) {
       expect(lastCartSession).to.have.lengthOf(64)
-      expect(body.arg.session).to.have.lengthOf(64)
-      expect(body.arg.session).to.eq(lastCartSession)
-      cy.wrap(body.arg.session).as('lastCartSession')
+      expect(event.session).to.have.lengthOf(64)
+      expect(event.session).to.eq(lastCartSession)
+      cy.wrap(event.session).as('lastCartSession')
     })
   })
 })
@@ -280,6 +284,8 @@ const validateRequests = function (requests) {
 
 const validateRequestBody = function (body) {
   expect(body.action).to.eq('wc_drip_woocommerce_cart_event')
+  console.log(decodeBase64(body.arg))
+  const event = JSON.parse(decodeBase64(body.arg))
   cy.wrap([
     'event_action',
     'session',
@@ -292,20 +298,21 @@ const validateRequestBody = function (body) {
     'total_shipping',
     'currency'
   ]).each(function(item) {
-    expect(Object.keys(body.arg)).contains(item)
-    expect(body.arg[item], `body.arg[${item}]`).to.not.be.null;
+    expect(Object.keys(event)).contains(item)
+    expect(event[item], `body.arg[${item}]`).to.not.be.null;
   })
-  expect(body.arg.event_action).to.eq('updated')
-  expect(body.arg.customer_email).to.eq('myfairuser@example.com')
-  expect(Number(body.arg.total_discounts)).to.eq(0)
-  expect(Number(body.arg.total_taxes)).to.eq(0)
-  expect(Number(body.arg.total_fees)).to.eq(0)
-  expect(Number(body.arg.total_shipping)).to.eq(0)
-  expect(body.arg.currency).to.eq('GBP')
+  expect(event.event_action).to.eq('updated')
+  expect(event.customer_email).to.eq('myfairuser@example.com')
+  expect(Number(event.total_discounts)).to.eq(0)
+  expect(Number(event.total_taxes)).to.eq(0)
+  expect(Number(event.total_fees)).to.eq(0)
+  expect(Number(event.total_shipping)).to.eq(0)
+  expect(event.currency).to.eq('GBP')
+  return event;
 }
 
-const validateMyFairWidget = function (body, quantity = 1) {
-  const product = findWidget(body.arg.cart_data)
+const validateMyFairWidget = function (event, quantity = 1) {
+  const product = findWidget(event.cart_data)
   expect(product.product_id.toString()).to.eq('6') // only works because we reset the entire db with each scenerio
   expect(product.product_variant_id.toString()).to.eq('6')
   expect(product.sku).to.eq('fair-widg-12345')
@@ -322,8 +329,8 @@ const validateMyFairWidget = function (body, quantity = 1) {
   return product
 }
 
-const validateMyFairGizmo = function (body, quantity = 1) {
-  const product = findGizmo(body.arg.cart_data)
+const validateMyFairGizmo = function (event, quantity = 1) {
+  const product = findGizmo(event.cart_data)
   expect(product.product_id.toString()).to.eq('7') // only works because we reset the entire db with each scenerio
   expect(product.product_variant_id.toString()).to.eq('7')
   expect(product.sku).to.eq('fair-gzmo-67890')
@@ -354,3 +361,5 @@ const findProduct = function(product_id, cart_data) {
   }
   return cart_data[Object.keys(cart_data)[1]]
 }
+
+const decodeBase64 = function(encoded_string) { return atob(encoded_string); }
