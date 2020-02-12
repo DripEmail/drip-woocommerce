@@ -25,17 +25,16 @@ class Drip_Woocommerce_Cart_Events
     public function drip_woocommerce_cart_updated() {
         if( $this->user_invalid() ) { return; }
 
-        $event_data = $this->base_event();
+        $event = $this->base_event();
 
         $cart_contents = WC()->cart->get_cart();
         foreach( $cart_contents as $product_id => $cart_item_info ) {
             $product_event_data = $this->product_event_data($cart_item_info);
             if($product_event_data) {
-                $event_data['cart_data'][$product_id] = $product_event_data;
+                $event->cart_data[$product_id] = $product_event_data;
             }
         }
-        
-        do_action( 'wc_drip_woocommerce_cart_event', json_encode( $event_data ) );
+        do_action( 'wc_drip_woocommerce_cart_event', base64_encode( json_encode( $event ) ) );
 
         if(WC()->cart->is_empty()) {
             $this->remove_drip_cart_session_id();
@@ -44,18 +43,18 @@ class Drip_Woocommerce_Cart_Events
 
     private function base_event() {
         WC()->cart->calculate_totals();
-        return array(
-            'event_action' => self::CART_UPDATED_ACTION, // TODO: we can trap cart created events if we have to generate a new cart session id
-            'customer_email' => wp_get_current_user()->user_email,
-            'session' => $this->drip_cart_session_id(),
-            'grand_total' => WC()->cart->get_total('drip_woocommerce'),
-            'total_discounts' => WC()->cart->get_discount_total('drip_woocommerce'),
-            'total_taxes' => WC()->cart->get_total_tax('drip_woocommerce'),
-            'total_fees' => WC()->cart->get_fee_total('drip_woocommerce'),
-            'total_shipping' => WC()->cart->get_shipping_total('drip_woocommerce'),
-            'currency' => get_option('woocommerce_currency'),
-            'cart_data' => array(),
-        );
+        
+        $event = new Drip_Woocommerce_Cart_Event();
+        $event->event_action = self::CART_UPDATED_ACTION; // TODO: we can trap cart created events if we have to generate a new cart session id
+        $event->customer_email = wp_get_current_user()->user_email;
+        $event->session = $this->drip_cart_session_id();
+        $event->grand_total = WC()->cart->get_total('drip_woocommerce');
+        $event->total_discounts = WC()->cart->get_discount_total('drip_woocommerce');
+        $event->total_taxes = WC()->cart->get_total_tax('drip_woocommerce');
+        $event->total_fees = WC()->cart->get_fee_total('drip_woocommerce');
+        $event->total_shipping = WC()->cart->get_shipping_total('drip_woocommerce');
+        $event->currency = get_option('woocommerce_currency');
+        return $event;
     }
 
     private function product_event_data($cart_item_info) {
@@ -63,20 +62,22 @@ class Drip_Woocommerce_Cart_Events
         $product_data = WC()->product_factory->get_product( $product_key );
 
         if( ! $product_data ) { return false; }
-        return array(
-            'product_id' => $cart_item_info['product_id'],
-            'product_variant_id' => $product_key,
-            'sku' => $product_data->get_sku('drip_woocommerce'),
-            'name' => $product_data->get_name('drip_woocommerce'),
-            'short_description' => $product_data->get_short_description('drip_woocommerce'),
-            'price' => $product_data->get_price('drip_woocommerce'),
-            'taxes' => $cart_item_info['line_tax'],
-            'total' => $cart_item_info['line_total'],
-            'quantity' => $cart_item_info['quantity'],
-            'product_url' => $product_data->get_permalink(),
-            'image_url' => $product_data->get_image('woocommerce_single', array(), true),
-            'categories' => $this->product_categories($product_data)
-        );
+
+        $cart_event_product = new Drip_Woocommerce_Cart_Event_Product();
+        $cart_event_product->product_id =$cart_item_info['product_id'];
+        $cart_event_product->product_variant_id = $product_key;
+        $cart_event_product->sku = $product_data->get_sku('drip_woocommerce');
+        $cart_event_product->name = $product_data->get_name('drip_woocommerce');
+        $cart_event_product->short_description = $product_data->get_short_description('drip_woocommerce');
+        $cart_event_product->price = $product_data->get_price('drip_woocommerce');
+        $cart_event_product->taxes = $cart_item_info['line_tax'];
+        $cart_event_product->total = $cart_item_info['line_total'];
+        $cart_event_product->quantity = $cart_item_info['quantity'];
+        $cart_event_product->product_url = $product_data->get_permalink();
+        $cart_event_product->image_url = $product_data->get_image('woocommerce_single', array(), true);
+        $cart_event_product->categories = $this->product_categories($product_data);
+
+        return $cart_event_product;
     }
 
     private function user_invalid() {
@@ -119,4 +120,36 @@ class Drip_Woocommerce_Cart_Events
         $random_data = random_bytes(32); // as of php7, random_bytes is advertised as cryptographically secure
         return hash('sha256',  $random_data); 
     }
+}
+
+//
+
+class Drip_Woocommerce_Cart_Event
+{
+    public $event_action;
+    public $customer_email;
+    public $session;
+    public $grand_total;
+    public $total_discounts;
+    public $total_taxes;
+    public $total_fees;
+    public $total_shipping;
+    public $currency;
+    public $cart_data = array();
+}
+
+class Drip_Woocommerce_Cart_Event_Product
+{
+    public $product_id;
+    public $product_variant_id;
+    public $sku;
+    public $name;
+    public $short_description;
+    public $price;
+    public $taxes;
+    public $total;
+    public $quantity;
+    public $product_url;
+    public $image_url;
+    public $categories = array();
 }

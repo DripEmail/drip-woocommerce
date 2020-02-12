@@ -132,7 +132,7 @@ Then('I get sent a webhook', () => {
       'X-WC-Webhook-Topic': ["action.wc_drip_woocommerce_cart_event"]
     }
   })).then(function (recordedRequests) {
-    console.log(recordedRequests)
+
     cy.wrap(validateRequests(recordedRequests)).then(function (body) {
       const event = validateRequestBody(body)
       expect(event.grand_total).to.eq('10.99')
@@ -212,7 +212,7 @@ Then('I get sent a webhook with a cart session ID', () => {
     }
   )).then(function (recordedRequests) {
     const body = validateRequests(recordedRequests)
-    const event = JSON.parse(body.arg)
+    const event = JSON.parse(decodeBase64(body.arg))
     expect(event.session).to.have.lengthOf(64)
     cy.wrap(event.session).as('lastCartSession')
   })
@@ -230,7 +230,7 @@ Then('I get sent a webhook with a different cart session ID', () => {
   )).then(function (recordedRequests) {
     const body = validateRequests(recordedRequests)
     cy.wrap(this.lastCartSession).then(function(lastCartSession) {
-      const event = JSON.parse(body.arg)
+      const event = JSON.parse(decodeBase64(body.arg))
       expect(lastCartSession).to.have.lengthOf(64)
       expect(event.session).to.have.lengthOf(64)
       expect(event.session).to.not.eq(lastCartSession)
@@ -250,7 +250,7 @@ Then('I get sent a webhook with the same cart session ID', () => {
     }
   )).then(function (recordedRequests) {
     const body = validateRequests(recordedRequests)
-    const event = JSON.parse(body.arg)
+    const event = JSON.parse(decodeBase64(body.arg))
     cy.wrap(this.lastCartSession).then(function(lastCartSession) {
       expect(lastCartSession).to.have.lengthOf(64)
       expect(event.session).to.have.lengthOf(64)
@@ -284,7 +284,8 @@ const validateRequests = function (requests) {
 
 const validateRequestBody = function (body) {
   expect(body.action).to.eq('wc_drip_woocommerce_cart_event')
-  const event = JSON.parse(body.arg)
+  console.log(decodeBase64(body.arg))
+  const event = JSON.parse(decodeBase64(body.arg))
   cy.wrap([
     'event_action',
     'session',
@@ -360,3 +361,16 @@ const findProduct = function(product_id, cart_data) {
   }
   return cart_data[Object.keys(cart_data)[1]]
 }
+
+// attribution: https://stackoverflow.com/a/15016605
+const decodeBase64 = function(s) {
+  console.log(s)
+  var e={},i,b=0,c,x,l=0,a,r='',w=String.fromCharCode,L=s.length;
+  var A="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+  for(i=0;i<64;i++){e[A.charAt(i)]=i;}
+  for(x=0;x<L;x++){
+      c=e[s.charAt(x)];b=(b<<6)+c;l+=6;
+      while(l>=8){((a=(b>>>(l-=8))&0xff)||(x<(L-2)))&&(r+=w(a));}
+  }
+  return r;
+};
