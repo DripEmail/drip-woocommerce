@@ -1,5 +1,5 @@
 <?php
-class WC_Settings_Drip {
+class Drip_Woocommerce_Settings {
   const NAME = "woocommerce-settings-drip";
   const ACCOUNT_ID_KEY = "account_id";
 
@@ -10,7 +10,6 @@ class WC_Settings_Drip {
   public static function init() {
     add_filter( 'woocommerce_settings_tabs_array', __CLASS__ . '::add_settings_tab', 50 );
     add_action( 'woocommerce_settings_tabs_settings_drip', __CLASS__ . '::settings_tab' );
-    //add_action( 'woocommerce_update_options_settings_drip', __CLASS__ . '::update_settings' );
     add_filter( 'woocommerce_settings_groups', __CLASS__ . '::settings_group');
     add_filter( 'woocommerce_settings-drip', __CLASS__ . '::settings_group_options');
   }
@@ -36,17 +35,6 @@ class WC_Settings_Drip {
    */
   public static function settings_tab() {
     woocommerce_admin_fields( self::get_settings() );
-  }
-
-
-  /**
-   * Uses the WooCommerce options API to save settings via the @see woocommerce_update_options() function.
-   *
-   * @uses woocommerce_update_options()
-   * @uses self::get_settings()
-   */
-  public static function update_settings() {
-    woocommerce_update_options( self::get_settings() );
   }
 
   /**

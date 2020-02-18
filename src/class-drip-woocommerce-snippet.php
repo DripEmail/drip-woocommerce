@@ -1,5 +1,5 @@
 <?php
-class WC_Snippet_Drip {
+class Drip_Woocommerce_Snippet {
   public static function init() {
     add_action( "wp_footer", __CLASS__ . "::render_snippet" );
   }
@@ -13,6 +13,6 @@ class WC_Snippet_Drip {
   }
 
   public static function get_account_id() {
-    return WC_Admin_Settings::get_option( WC_Settings_Drip::ACCOUNT_ID_KEY );
+    return WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::ACCOUNT_ID_KEY );
   }
 }
