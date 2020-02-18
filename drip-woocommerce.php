@@ -9,7 +9,7 @@ Description: A Wordpress plugin to connect to Drip's WooCommerce integration
 Version: 0.0.1
 Author: DripEmail
 Author URI: https://github.com/DripEmail/
-License: GPLv2 or later
+License: GPLv2
 */
 
 defined( 'ABSPATH' ) || die( 'Executing outside of the WordPress context.' );
