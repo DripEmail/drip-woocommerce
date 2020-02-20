@@ -34,7 +34,7 @@ class Drip_Woocommerce_Cart_Events
                 $event->cart_data[$product_id] = $product_event_data;
             }
         }
-        do_action( 'wc_drip_woocommerce_cart_event', base64_encode( json_encode( $event ) ) );
+        do_action( 'wc_drip_woocommerce_cart_event', $event );
 
         if(WC()->cart->is_empty()) {
             $this->remove_drip_cart_session_id();
@@ -43,7 +43,7 @@ class Drip_Woocommerce_Cart_Events
 
     private function base_event() {
         WC()->cart->calculate_totals();
-        
+
         $event = new Drip_Woocommerce_Cart_Event();
         $event->event_action = self::CART_UPDATED_ACTION; // TODO: we can trap cart created events if we have to generate a new cart session id
         $event->customer_email = wp_get_current_user()->user_email;
@@ -118,7 +118,7 @@ class Drip_Woocommerce_Cart_Events
     private function generate_drip_cart_session_id()
     {
         $random_data = random_bytes(32); // as of php7, random_bytes is advertised as cryptographically secure
-        return hash('sha256',  $random_data); 
+        return hash('sha256',  $random_data);
     }
 }
 
