@@ -34,7 +34,7 @@ class Drip_Woocommerce_Cart_Events
                 $event->cart_data[$product_id] = $product_event_data;
             }
         }
-        do_action( 'wc_drip_woocommerce_cart_event', $event );
+        do_action( 'wc_drip_woocommerce_cart_event', array($event) );
 
         if(WC()->cart->is_empty()) {
             $this->remove_drip_cart_session_id();
