@@ -212,7 +212,7 @@ Then('I get sent a webhook with a cart session ID', () => {
     }
   )).then(function (recordedRequests) {
     const body = validateRequests(recordedRequests)
-    const event = body.arg
+    const event = JSON.parse(body.arg)
     expect(event.session).to.have.lengthOf(64)
     cy.wrap(event.session).as('lastCartSession')
   })
@@ -230,7 +230,7 @@ Then('I get sent a webhook with a different cart session ID', () => {
   )).then(function (recordedRequests) {
     const body = validateRequests(recordedRequests)
     cy.wrap(this.lastCartSession).then(function(lastCartSession) {
-      const event = body.arg
+      const event = JSON.parse(body.arg)
       expect(lastCartSession).to.have.lengthOf(64)
       expect(event.session).to.have.lengthOf(64)
       expect(event.session).to.not.eq(lastCartSession)
@@ -250,7 +250,7 @@ Then('I get sent a webhook with the same cart session ID', () => {
     }
   )).then(function (recordedRequests) {
     const body = validateRequests(recordedRequests)
-    const event = body.arg
+    const event = JSON.parse(body.arg)
     cy.wrap(this.lastCartSession).then(function(lastCartSession) {
       expect(lastCartSession).to.have.lengthOf(64)
       expect(event.session).to.have.lengthOf(64)
@@ -284,7 +284,7 @@ const validateRequests = function (requests) {
 
 const validateRequestBody = function (body) {
   expect(body.action).to.eq('wc_drip_woocommerce_cart_event')
-  const event = body.arg
+  const event = JSON.parse(body.arg)
   cy.wrap([
     'event_action',
     'session',
