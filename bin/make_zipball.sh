@@ -3,6 +3,7 @@
 set -e
 
 cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+dir=${PWD##*/}
 
 if [[ ! -z "$(git status --porcelain)" ]]; then
   >&2 echo "WARNING: your working copy is dirty"
@@ -25,13 +26,17 @@ if [[ -z "$outdir" ]] || [[ ! -d "$outdir" ]]; then
   exit 1
 fi
 
+echo $(git rev-parse HEAD) > REVISION
+trap "rm -f $dir/REVISION" EXIT
+
 cd ..
 name="drip-woocommerce-${branch}-${version}"
 zipball="${outdir}/${name}.zip"
 zip -r $zipball \
-  drip-woocommerce/license.txt \
-  drip-woocommerce/readme.txt \
-  drip-woocommerce/drip-woocommerce.php \
-  drip-woocommerce/src
+  $dir/REVISION \
+  $dir/license.txt \
+  $dir/readme.txt \
+  $dir/drip-woocommerce.php \
+  $dir/src
 
 echo $zipball
