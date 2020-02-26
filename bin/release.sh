@@ -15,8 +15,7 @@ if [[ "$branch" != "master" ]]; then
   exit 1
 fi
 
-command -v ghr >/dev/null 2>&1
-if [[ "$?" -ne "0" ]]; then
+if ! command -v ghr >/dev/null 2>&1; then
   >&2 echo "ERROR: ghr not found in PATH, please install: https://github.com/tcnksm/ghr"
   exit 1
 fi
@@ -26,7 +25,7 @@ if [[ -z "$GITHUB_TOKEN" ]]; then
   exit 1
 fi
 
-plugin_version=$(cat drip-woocommerce.php | grep -e '^Version: ' | awk '{print $2}')
+plugin_version=$(grep -e '^Version: ' drip-woocommerce.php | awk '{print $2}')
 if [[ -z "$plugin_version" ]]; then
   >&2 echo "ERROR: unable to parse plugin version from drip-woocommerce.php"
   exit 1
@@ -43,7 +42,7 @@ fi
 
 comment="Creating tag and github release '$plugin_version'. Is this correct?"
 while true; do
-  read -p "$comment [yes/no] ? " yn
+  read -rp "$comment [yes/no] ? " yn
   case $yn in
     [Yy]* ) break;;
     [Nn]* ) echo "Goodbye!"; exit;;
@@ -60,8 +59,8 @@ else
   tag_arg="-s"
 fi
 
-git tag $tag_arg $plugin_version -m "Release $plugin_version"
-git push origin $plugin_version
+git tag "$tag_arg" "$plugin_version" -m "Release $plugin_version"
+git push origin "$plugin_version"
 
 # generate release zip and upload to github
 
@@ -69,5 +68,5 @@ git push origin $plugin_version
 mkdir -p dist
 trap "rm -rf dist" EXIT
 zipball=$(bin/make_zipball.sh | tail -1)
-mv $zipball dist/drip-woocommerce-${plugin_version}.zip
-ghr $plugin_version dist
+mv "$zipball" "dist/drip-woocommerce-${plugin_version}.zip"
+ghr "$plugin_version" dist
