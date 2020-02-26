@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
 cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
 if [[ ! -z "$(git status --porcelain)" ]]; then
-  >&2 echo "ERROR: your working copy is dirty"
+  >&2 echo "ERROR: working copy dirty"
   exit 1
 fi
 
@@ -15,8 +15,8 @@ if [[ "$branch" != "master" ]]; then
   exit 1
 fi
 
-ghr=$(which ghr)
-if [[ -z "$ghr" ]]; then
+command -v ghr >/dev/null 2>&1
+if [[ "$?" -ne "0" ]]; then
   >&2 echo "ERROR: ghr not found in PATH, please install: https://github.com/tcnksm/ghr"
   exit 1
 fi
@@ -67,7 +67,7 @@ git push origin $plugin_version
 
 [[ -d dist ]] && rm -rf dist # ensure old dist is not uploaded
 mkdir -p dist
-trap "rm -f dist" EXIT
+trap "rm -rf dist" EXIT
 zipball=$(bin/make_zipball.sh | tail -1)
 mv $zipball dist/drip-woocommerce-${plugin_version}.zip
-$ghr $plugin_version dist
+ghr $plugin_version dist
