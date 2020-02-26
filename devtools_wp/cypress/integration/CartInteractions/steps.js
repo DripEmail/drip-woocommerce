@@ -3,21 +3,6 @@ import { mockServerClient } from "mockserver-client"
 
 const Mockclient = mockServerClient("localhost", 1080)
 
-Given('I have a product', () => {
-  cy.wpcliCreateProductCategory({
-    'porcelain': '',
-    'name': 'my fair category'
-  })
-
-  cy.wpcliCreateProduct({
-    'name': 'My Fair Widget',
-    'slug': 'fair-widget',
-    'regular_price': 10.99,
-    'sku': 'fair-widg-12345',
-    'categories': '[{"id":16}]'
-  })
-})
-
 Given('I have a second product', () => {
   cy.wpcliCreateProduct({
     'name': 'My Fair Gizmo',
