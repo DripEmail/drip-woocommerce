@@ -3,7 +3,6 @@
 set -e
 
 cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
-dir=${PWD##*/}
 
 if [[ ! -z "$(git status --porcelain)" ]]; then
   >&2 echo "ERROR: your working copy is dirty"
@@ -42,9 +41,26 @@ if git tag | grep -q "$plugin_version"; then
   exit 1
 fi
 
+comment="Creating tag and github release '$plugin_version'. Is this correct?"
+while true; do
+  read -p "$comment [yes/no] ? " yn
+  case $yn in
+    [Yy]* ) break;;
+    [Nn]* ) echo "Goodbye!"; exit;;
+    * ) echo "Please answer yes or no.";;
+  esac
+done
+
 # create and push tag
 
-git tag -s $plugin_version -m "Release $plugin_version"
+if [[ -z "$(git config user.signingkey)" ]]; then
+  >&2 echo "WARNING: creating unsigned tag"
+  tag_arg="-a"
+else
+  tag_arg="-s"
+fi
+
+git tag $tag_arg $plugin_version -m "Release $plugin_version"
 git push origin $plugin_version
 
 # generate release zip and upload to github
