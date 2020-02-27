@@ -15,6 +15,10 @@ function createWooEntity(entity, params) {
   cy.exec(`docker-compose exec -u www-data -T web wp wc ${entity} create ${options}`)
 }
 
+function setDripAccount(account_id){
+  cy.exec(`docker-compose exec -u www-data -T web wp option update account_id "${account_id}"`)
+}
+
 Cypress.Commands.add('wpcliCreateUser', (desc) => {
   const options = function (params) {
     let options = ''
@@ -42,4 +46,8 @@ Cypress.Commands.add('wpcliCreateProduct', (desc) => {
 
 Cypress.Commands.add('wpcliCreateWebhook', (desc) => {
   createWooEntity('webhook', desc)
+})
+
+Cypress.Commands.add('wpcliSetDripAccount', (desc) => {
+  setDripAccount(desc)
 })

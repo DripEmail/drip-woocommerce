@@ -23,7 +23,7 @@ class Drip_Woocommerce_Cart_Events
     }
 
     public function drip_woocommerce_cart_updated() {
-        if( $this->user_invalid() ) { return; }
+        if( $this->user_invalid() && is_null($this->find_drip_visitor_uuid()) ) { return; }
 
         $event = $this->base_event();
 
@@ -43,10 +43,14 @@ class Drip_Woocommerce_Cart_Events
 
     private function base_event() {
         WC()->cart->calculate_totals();
-        
+
         $event = new Drip_Woocommerce_Cart_Event();
         $event->event_action = self::CART_UPDATED_ACTION; // TODO: we can trap cart created events if we have to generate a new cart session id
-        $event->customer_email = wp_get_current_user()->user_email;
+        if ( ! $this->user_invalid() ) {
+            $event->customer_email = wp_get_current_user()->user_email;
+        } else {
+            $event->visitor_uuid = $this->find_drip_visitor_uuid();
+        }
         $event->session = $this->drip_cart_session_id();
         $event->grand_total = WC()->cart->get_total('drip_woocommerce');
         $event->total_discounts = WC()->cart->get_discount_total('drip_woocommerce');
@@ -118,7 +122,28 @@ class Drip_Woocommerce_Cart_Events
     private function generate_drip_cart_session_id()
     {
         $random_data = random_bytes(32); // as of php7, random_bytes is advertised as cryptographically secure
-        return hash('sha256',  $random_data); 
+        return hash('sha256',  $random_data);
+    }
+
+    private function find_drip_visitor_uuid()
+    {
+        $account_id = WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::ACCOUNT_ID_KEY );
+        if ($account_id === "") { return; }
+
+        $drip_cookie = urldecode($_COOKIE["_drip_client_{$account_id}"]);
+
+        if ($drip_cookie === "") { return; }
+
+        $cookie_array = explode('&', $drip_cookie);
+
+        foreach($cookie_array as $cookie) {
+            list($key, $value) = explode('=', $cookie);
+            if ($key === "vid") {
+                $visitor_uuid = $value;
+            }
+        }
+
+        return $visitor_uuid;
     }
 }
 
@@ -128,6 +153,7 @@ class Drip_Woocommerce_Cart_Event
 {
     public $event_action;
     public $customer_email;
+    public $visitor_uuid;
     public $session;
     public $grand_total;
     public $total_discounts;
