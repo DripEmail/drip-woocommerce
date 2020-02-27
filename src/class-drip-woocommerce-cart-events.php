@@ -130,7 +130,7 @@ class Drip_Woocommerce_Cart_Events
         $account_id = WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::ACCOUNT_ID_KEY );
         if( empty( $account_id) ) { return; }
 
-        $drip_cookie = urldecode($_COOKIE["_drip_client_{$account_id}"]);
+        $drip_cookie = empty($_COOKIE["_drip_client_{$account_id}"]) ? "" : urldecode($_COOKIE["_drip_client_{$account_id}"]);
 
         if( empty( $drip_cookie ) ) { return; }
 
