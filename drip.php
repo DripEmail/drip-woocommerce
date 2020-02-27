@@ -3,7 +3,7 @@
  * @package Drip_Woocommerce
  */
 /*
-Plugin Name: Drip WooCommerce
+Plugin Name: Drip
 Plugin URI: https://github.com/DripEmail/drip-woocommerce
 Description: A Wordpress plugin to connect to Drip's WooCommerce integration
 Version: 0.0.1
