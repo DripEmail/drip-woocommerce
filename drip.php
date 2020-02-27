@@ -15,15 +15,15 @@ License: GPLv2
 defined( 'ABSPATH' ) || die( 'Executing outside of the WordPress context.' );
 
 if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ) ) {
-    require_once(__DIR__ . '/src/class-drip-woocommerce-settings.php');
-    require_once(__DIR__ . '/src/class-drip-woocommerce-snippet.php');
-    require_once(__DIR__ . '/src/class-drip-woocommerce-cart-events.php');
-    require_once(__DIR__ . '/src/class-drip-woocommerce-view-events.php');
-    require_once(__DIR__ . '/src/class-drip-woocommerce-version.php');
+	require_once(__DIR__ . '/src/class-drip-woocommerce-settings.php');
+	require_once(__DIR__ . '/src/class-drip-woocommerce-snippet.php');
+	require_once(__DIR__ . '/src/class-drip-woocommerce-cart-events.php');
+	require_once(__DIR__ . '/src/class-drip-woocommerce-view-events.php');
+	require_once(__DIR__ . '/src/class-drip-woocommerce-version.php');
 
-    Drip_Woocommerce_Settings::init();
-    Drip_Woocommerce_Snippet::init();
-    Drip_Woocommerce_Cart_Events::init();
-    Drip_Woocommerce_View_Events::init();
-    Drip_Woocommerce_Version::init();
+	Drip_Woocommerce_Settings::init();
+	Drip_Woocommerce_Snippet::init();
+	Drip_Woocommerce_Cart_Events::init();
+	Drip_Woocommerce_View_Events::init();
+	Drip_Woocommerce_Version::init();
 }
