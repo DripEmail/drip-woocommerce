@@ -132,7 +132,7 @@ class Drip_Woocommerce_Cart_Events
 
         $drip_cookie = urldecode($_COOKIE["_drip_client_{$account_id}"]);
 
-        if( empty( $drip_cookie) ) { return; }
+        if( empty( $drip_cookie ) ) { return; }
 
         $cookie_array = explode('&', $drip_cookie);
 

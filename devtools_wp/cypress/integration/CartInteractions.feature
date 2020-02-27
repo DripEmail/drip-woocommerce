@@ -12,7 +12,14 @@ Feature: Cart Interactions
     When I restore it to the cart
     Then No webhook is sent
 
-  Scenario: Not logged in with Drip configured
+  Scenario: Not logged in with Drip configured and not identified
+    Given I have a product
+      And I have Drip configured
+      And I have set up a cart webhook
+    When I add it to a cart
+    Then No webhook is sent
+
+  Scenario: Not logged in with Drip configured and identified
     Given I have a product
       And I have Drip configured
       And I have been cookied
