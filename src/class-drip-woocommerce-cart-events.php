@@ -46,10 +46,10 @@ class Drip_Woocommerce_Cart_Events
 
         $event = new Drip_Woocommerce_Cart_Event();
         $event->event_action = self::CART_UPDATED_ACTION; // TODO: we can trap cart created events if we have to generate a new cart session id
-        if ( ! $this->user_invalid() ) {
-            $event->customer_email = wp_get_current_user()->user_email;
-        } else {
+        if ( $this->user_invalid() ) {
             $event->visitor_uuid = $this->find_drip_visitor_uuid();
+        } else {
+            $event->customer_email = wp_get_current_user()->user_email;
         }
         $event->session = $this->drip_cart_session_id();
         $event->grand_total = WC()->cart->get_total('drip_woocommerce');
