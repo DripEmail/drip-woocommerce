@@ -128,11 +128,11 @@ class Drip_Woocommerce_Cart_Events
     private function find_drip_visitor_uuid()
     {
         $account_id = WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::ACCOUNT_ID_KEY );
-        if ($account_id === "") { return; }
+        if( empty( $account_id) ) { return; }
 
         $drip_cookie = urldecode($_COOKIE["_drip_client_{$account_id}"]);
 
-        if ($drip_cookie === "") { return; }
+        if( empty( $drip_cookie) ) { return; }
 
         $cookie_array = explode('&', $drip_cookie);
 
