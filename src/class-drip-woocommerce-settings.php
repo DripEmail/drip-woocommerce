@@ -1,17 +1,25 @@
 <?php
+/**
+ * Management for plugin settings
+ *
+ * @package Drip_Woocommerce
+ */
+
+/**
+ * Management for plugin settings
+ */
 class Drip_Woocommerce_Settings {
-	const NAME = "woocommerce-settings-drip";
-	const ACCOUNT_ID_KEY = "account_id";
+	const NAME           = 'woocommerce-settings-drip';
+	const ACCOUNT_ID_KEY = 'account_id';
 
 	/**
 	 * Bootstraps the class and hooks required actions & filters.
-	 *
 	 */
 	public static function init() {
 		add_filter( 'woocommerce_settings_tabs_array', __CLASS__ . '::add_settings_tab', 50 );
 		add_action( 'woocommerce_settings_tabs_settings_drip', __CLASS__ . '::settings_tab' );
-		add_filter( 'woocommerce_settings_groups', __CLASS__ . '::settings_group');
-		add_filter( 'woocommerce_settings-drip', __CLASS__ . '::settings_group_options');
+		add_filter( 'woocommerce_settings_groups', __CLASS__ . '::settings_group' );
+		add_filter( 'woocommerce_settings-drip', __CLASS__ . '::settings_group_options' );
 	}
 
 
@@ -39,6 +47,8 @@ class Drip_Woocommerce_Settings {
 
 	/**
 	 * Register the `drip` settings group.
+	 *
+	 * @param array $locations Locations within the settings group.
 	 */
 	public static function settings_group( $locations ) {
 		$locations[] = array(
@@ -51,6 +61,8 @@ class Drip_Woocommerce_Settings {
 
 	/**
 	 * Register options under `drip` settings group.
+	 *
+	 * @param array $settings Settings group to register.
 	 */
 	public static function settings_group_options( $settings ) {
 		$settings[] = array(
@@ -71,25 +83,26 @@ class Drip_Woocommerce_Settings {
 	 */
 	public static function get_settings() {
 		$settings = array(
-			'section_title' => array(
+			'section_title'      => array(
 				'id'   => 'wc_settings_drip_section_title',
 				'name' => __( 'Drip', self::NAME ),
 				'type' => 'title',
 				'desc' => '',
 			),
 			self::ACCOUNT_ID_KEY => array(
-				'id'   => self::ACCOUNT_ID_KEY,
-				'name' => __( 'Account ID', self::NAME ),
-				'type' => 'number',
-				'desc' => __( 'Read-only, visible if integration was successful', self::NAME ),
-				'custom_attributes' => array('readonly' => 'readonly'),
+				'id'                => self::ACCOUNT_ID_KEY,
+				'name'              => __( 'Account ID', self::NAME ),
+				'type'              => 'number',
+				'desc'              => __( 'Read-only, visible if integration was successful', self::NAME ),
+				'custom_attributes' => array( 'readonly' => 'readonly' ),
 			),
-			'section_end' => array(
+			'section_end'        => array(
 				'type' => 'sectionend',
-				'id'   => 'wc_settings_drip_section_end'
-			)
+				'id'   => 'wc_settings_drip_section_end',
+			),
 		);
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		return apply_filters( 'wc_settings_drip_settings', $settings );
 	}
 }

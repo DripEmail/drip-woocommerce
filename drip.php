@@ -17,6 +17,7 @@ License: GPLv2
 
 defined( 'ABSPATH' ) || die( 'Executing outside of the WordPress context.' );
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ) ) {
 	require_once __DIR__ . '/src/class-drip-woocommerce-settings.php';
 	require_once __DIR__ . '/src/class-drip-woocommerce-snippet.php';

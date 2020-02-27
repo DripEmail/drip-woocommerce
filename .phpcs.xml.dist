@@ -26,7 +26,10 @@
 	<!-- https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards -->
 	<!-- https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/wiki/Customizable-sniff-properties -->
 	<config name="minimum_supported_wp_version" value="4.6"/>
-	<rule ref="WordPress"></rule>
+	<rule ref="WordPress">
+		<!-- We use constants for this, so the sniffer breaks. -->
+		<exclude name="WordPress.WP.I18n.NonSingularStringLiteralDomain" />
+	</rule>
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
 			<!-- Value: replace the function, class, and variable prefixes used. Separate multiple prefixes with a comma. -->
