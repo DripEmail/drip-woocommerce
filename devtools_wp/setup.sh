@@ -11,7 +11,6 @@ port=$(docker-compose port web 80 | cut -d':' -f2)
 docker-compose exec -T db /bin/bash -c 'while ! mysql --protocol TCP -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" -e "show databases;" > /dev/null 2>&1; do sleep 1; done'
 
 woocommerce_setup_script=$(cat <<SCRIPT
-apt update -y && apt upgrade -y && apt install -y vim-tiny net-tools; \
 cd /var/www/html/ && \
 /usr/local/bin/wp core install --url="http://localhost:$port" --title="drip_woocommerce_test" --admin_user="drip" --admin_email="drip@example.com" --admin_password="abc1234567890" --skip-email && \
 /usr/local/bin/wp plugin activate woocommerce && \
@@ -59,7 +58,7 @@ docker-compose exec -T -u root web /bin/bash -c "
       'phpcompatibility/phpcompatibility-wp:*' && \
     $composer install
 "
-# All that to use phpcbf to automatically fix violoations!
+# All that to use phpcbf to automatically fix violations!
 # ie. root@867cf9a0815c:/var/www/html/wp-content/plugins/woocommerce# phpcbf --extensions=php ../drip
 # I don't know why this needs to be run from the woocommerce plugin directory
 
