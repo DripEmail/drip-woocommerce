@@ -36,7 +36,10 @@ class Drip_Woocommerce_Cookie_Parser {
 		$drip_cookie_array = $this->drip_cookie_array();
 
 		foreach ( $drip_cookie_array as $cookie ) {
-			list($key, $value) = explode( '=', $cookie );
+			if ( strpos( $cookie, '=' ) === false ) {
+				continue;
+			}
+			list($key, $value) = explode( '=', $cookie, 2 );
 			if ( 'vid' === $key ) {
 				return $value;
 			}

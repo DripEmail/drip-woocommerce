@@ -30,4 +30,24 @@ class Drip_Woocommerce_Cookie_Parser_Test extends WP_UnitTestCase {
 
 		$this->assertEquals( null, $parser->get_vid() );
 	}
+
+	/**
+	 * Test for blank cookie
+	 */
+	public function test_blank() {
+		$example = '';
+		$parser  = new Drip_Woocommerce_Cookie_Parser( $example );
+
+		$this->assertEquals( null, $parser->get_vid() );
+	}
+
+	/**
+	 * Test for invalid cookie
+	 */
+	public function test_invalid() {
+		$example = 'skjhfdhjklashkljdflhjk';
+		$parser  = new Drip_Woocommerce_Cookie_Parser( $example );
+
+		$this->assertEquals( null, $parser->get_vid() );
+	}
 }
