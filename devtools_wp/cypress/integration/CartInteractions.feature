@@ -12,6 +12,21 @@ Feature: Cart Interactions
     When I restore it to the cart
     Then No webhook is sent
 
+  Scenario: Not logged in with Drip configured and not identified
+    Given I have a product
+      And I have Drip configured
+      And I have set up a cart webhook
+    When I add it to a cart
+    Then No webhook is sent
+
+  Scenario: Not logged in with Drip configured and identified
+    Given I have a product
+      And I have Drip configured
+      And I have been cookied
+      And I have set up a cart webhook
+    When I add it to a cart
+    Then I get sent a webhook with visitor_uuid
+
   Scenario: Adding a product to a cart
     Given I have a product
       And I have a logged in user
@@ -42,7 +57,7 @@ Feature: Cart Interactions
       And I have set up a cart webhook
       And I add it to a cart
     When I increase the quantity in the cart
-    Then I get sent an updated webhook    
+    Then I get sent an updated webhook
 
   Scenario: Setting the quantity of a product to zero
     Given I have a product
@@ -77,4 +92,4 @@ Feature: Cart Interactions
     Then I get sent a webhook with the same cart session ID
     When I restore it to the cart
     Then I get sent a webhook with the same cart session ID
-    
+

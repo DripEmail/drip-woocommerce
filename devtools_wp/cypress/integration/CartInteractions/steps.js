@@ -31,6 +31,10 @@ Given('I have set up a cart webhook', () => {
   })
 })
 
+Given('I have Drip configured', () => {
+    cy.wpcliSetDripAccount('1234567')
+})
+
 Given('I have a logged in user', () => {
   cy.log('Creating User')
   cy.wpcliCreateUser({
@@ -47,6 +51,10 @@ Given('I have a logged in user', () => {
   cy.get('#user_pass').clear().type('123!@#abc')
   cy.get('#wp-submit[value="Log In"]').click()
   cy.contains("Hello world!")
+})
+
+Given('I have been cookied', () => {
+    cy.setCookie('_drip_client_1234567', 'vid%253D8f081a6c93ca47bab5a33eed8f1adab6%2526pageViews%253D7%2526sessionPageCount%253D3%2526lastVisitedAt%253D1573592329061%2526weeklySessionCount%253D1%2526lastSessionAt%253D1573591512388')
 })
 
 Then('I add {string} to a cart', (product) => {
@@ -120,6 +128,47 @@ Then('I get sent a webhook', () => {
 
     cy.wrap(validateRequests(recordedRequests)).then(function (body) {
       const event = validateRequestBody(body)
+      expect(event.grand_total).to.eq('10.99')
+      expect(Object.keys(event.cart_data)).to.have.lengthOf(1)
+      validateMyFairWidget(event)
+    })
+  })
+})
+
+Then('I get sent a webhook with visitor_uuid', () => {
+  cy.log('Validating that we got the webhook')
+  cy.wrap(Mockclient.retrieveRecordedRequests({
+    'path': '/my_fair_endpoint',
+    'headers': {
+      'X-WC-Webhook-Topic': ["action.wc_drip_woocommerce_cart_event"]
+    }
+  })).then(function (recordedRequests) {
+
+    cy.wrap(validateRequests(recordedRequests)).then(function (body) {
+      expect(body.action).to.eq('wc_drip_woocommerce_cart_event')
+      const event = JSON.parse(decodeBase64(body.arg))
+      cy.wrap([
+        'event_action',
+        'session',
+        'visitor_uuid',
+        'cart_data',
+        'grand_total',
+        'total_discounts',
+        'total_taxes',
+        'total_fees',
+        'total_shipping',
+        'currency'
+      ]).each(function(item) {
+        expect(Object.keys(event)).contains(item)
+        expect(event[item], `body.arg[${item}]`).to.not.be.null;
+      })
+      expect(event.event_action).to.eq('updated')
+      expect(event.visitor_uuid).to.eq('8f081a6c93ca47bab5a33eed8f1adab6')
+      expect(Number(event.total_discounts)).to.eq(0)
+      expect(Number(event.total_taxes)).to.eq(0)
+      expect(Number(event.total_fees)).to.eq(0)
+      expect(Number(event.total_shipping)).to.eq(0)
+      expect(event.currency).to.eq('GBP')
       expect(event.grand_total).to.eq('10.99')
       expect(Object.keys(event.cart_data)).to.have.lengthOf(1)
       validateMyFairWidget(event)

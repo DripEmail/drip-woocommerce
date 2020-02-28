@@ -9,6 +9,7 @@ defined( 'ABSPATH' ) || die( 'Executing outside of the WordPress context.' );
 
 require_once __DIR__ . '/class-drip-woocommerce-cart-event.php';
 require_once __DIR__ . '/class-drip-woocommerce-cart-event-product.php';
+require_once __DIR__ . '/class-drip-woocommerce-cookie-parser.php';
 
 /**
  * Cart event handling
@@ -40,7 +41,7 @@ class Drip_Woocommerce_Cart_Events {
 	 * Callback for cart actions
 	 */
 	public function drip_woocommerce_cart_updated() {
-		if ( $this->user_invalid() ) {
+		if ( $this->user_invalid() && is_null( $this->find_drip_visitor_uuid() ) ) {
 			return;
 		}
 
@@ -67,9 +68,13 @@ class Drip_Woocommerce_Cart_Events {
 	private function base_event() {
 		WC()->cart->calculate_totals();
 
-		$event                  = new Drip_Woocommerce_Cart_Event();
-		$event->event_action    = self::CART_UPDATED_ACTION; // TODO: we can trap cart created events if we have to generate a new cart session id.
-		$event->customer_email  = wp_get_current_user()->user_email;
+		$event               = new Drip_Woocommerce_Cart_Event();
+		$event->event_action = self::CART_UPDATED_ACTION; // TODO: we can trap cart created events if we have to generate a new cart session id.
+		if ( $this->user_invalid() ) {
+				$event->visitor_uuid = $this->find_drip_visitor_uuid();
+		} else {
+				$event->customer_email = wp_get_current_user()->user_email;
+		}
 		$event->session         = $this->drip_cart_session_id();
 		$event->grand_total     = WC()->cart->get_total( 'drip_woocommerce' );
 		$event->total_discounts = WC()->cart->get_discount_total( 'drip_woocommerce' );
@@ -170,5 +175,20 @@ class Drip_Woocommerce_Cart_Events {
 	private function generate_drip_cart_session_id() {
 		$random_data = random_bytes( 32 ); // as of php7, random_bytes is advertised as cryptographically secure.
 		return hash( 'sha256', $random_data );
+	}
+
+
+	/**
+	 * Retrieve Drip visitor_uuid from cookie
+	 */
+	private function find_drip_visitor_uuid() {
+		$account_id = WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::ACCOUNT_ID_KEY );
+		if ( empty( $account_id ) || empty( $_COOKIE[ "_drip_client_{$account_id}" ] ) ) {
+			return;
+		}
+
+		$parser = new Drip_Woocommerce_Cookie_Parser( wp_kses_data( wp_unslash( $_COOKIE[ "_drip_client_{$account_id}" ] ) ) );
+
+		return $parser->get_vid();
 	}
 }

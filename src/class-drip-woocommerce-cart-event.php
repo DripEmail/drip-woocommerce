@@ -24,6 +24,13 @@ class Drip_Woocommerce_Cart_Event {
 	public $customer_email;
 
 	/**
+	 * Visitor UUID
+	 *
+	 * @var string
+	 */
+	public $visitor_uuid;
+
+	/**
 	 * Session
 	 *
 	 * @var string
