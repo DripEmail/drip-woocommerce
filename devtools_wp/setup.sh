@@ -15,7 +15,7 @@ apt update -y && apt upgrade -y && apt install -y vim-tiny net-tools; \
 cd /var/www/html/ && \
 /usr/local/bin/wp core install --url="http://localhost:$port" --title="drip_woocommerce_test" --admin_user="drip" --admin_email="drip@example.com" --admin_password="abc1234567890" --skip-email && \
 /usr/local/bin/wp plugin activate woocommerce && \
-/usr/local/bin/wp plugin activate drip-woocommerce; \
+/usr/local/bin/wp plugin activate drip; \
 CART_PAGE_ID=\$(/usr/local/bin/wp post create --post_type=page --post_author="drip" --post_title="My Fair Cart" --post_name="My Fair Cart" --post_content="[woocommerce_cart]" --post_status="publish" --porcelain) && \
 /usr/local/bin/wp option set woocommerce_cart_page_id \$CART_PAGE_ID; \
 CHKOUT_PAGE_ID=\$(/usr/local/bin/wp post create --post_type=page --post_author="drip" --post_title="My Fair Checkout" --post_name="My Fair Checkout" --post_content="[woocommerce_checkout]" --post_status="publish" --porcelain) && \
@@ -60,7 +60,7 @@ docker-compose exec -T -u root web /bin/bash -c "
     $composer install
 "
 # All that to use phpcbf to automatically fix violoations!
-# ie. root@867cf9a0815c:/var/www/html/wp-content/plugins/woocommerce# phpcbf --extensions=php ../drip-woocommerce
+# ie. root@867cf9a0815c:/var/www/html/wp-content/plugins/woocommerce# phpcbf --extensions=php ../drip
 # I don't know why this needs to be run from the woocommerce plugin directory
 
 # echo "Backing up database for later reset"

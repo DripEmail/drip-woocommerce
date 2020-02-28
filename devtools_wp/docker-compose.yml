@@ -12,7 +12,7 @@ services:
     volumes:
       - type: bind
         source: './..'
-        target: /var/www/html/wp-content/plugins/drip-woocommerce
+        target: /var/www/html/wp-content/plugins/drip
         consistency: cached
   db:
     image: mysql:5.7.27
