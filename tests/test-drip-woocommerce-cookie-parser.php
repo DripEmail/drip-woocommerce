@@ -17,4 +17,11 @@ class Drip_Woocommerce_Cookie_Parser_Test extends WP_UnitTestCase {
 
 		$this->assertEquals( '9abd631718b5404c877ef75500800304', $parser->get_vid() );
 	}
+
+	public function test_missing() {
+		$example = null;
+		$parser = new Drip_Woocommerce_Cookie_Parser( $example );
+
+		$this->assertEquals( null, $parser->get_vid() );
+	}
 }

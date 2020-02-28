@@ -48,6 +48,10 @@ class Drip_Woocommerce_Cookie_Parser {
 	}
 
 	private function drip_cookie_array() {
+		if ( empty( $this->drip_cookie_string() ) ) {
+			return array();
+		}
+
 		return explode( '&', $this->drip_cookie_string() );
 	}
 }
