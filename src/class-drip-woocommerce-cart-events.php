@@ -9,6 +9,7 @@ defined( 'ABSPATH' ) || die( 'Executing outside of the WordPress context.' );
 
 require_once __DIR__ . '/class-drip-woocommerce-cart-event.php';
 require_once __DIR__ . '/class-drip-woocommerce-cart-event-product.php';
+require_once __DIR__ . '/class-drip-woocommerce-cookie-parser.php';
 
 /**
  * Cart event handling
@@ -182,23 +183,12 @@ class Drip_Woocommerce_Cart_Events {
 	 */
 	private function find_drip_visitor_uuid() {
 		$account_id = WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::ACCOUNT_ID_KEY );
-		if ( empty( $account_id ) ) {
-			return; }
-
-			$drip_cookie = empty( $_COOKIE[ "_drip_client_{$account_id}" ] ) ? '' : urldecode( wp_kses_data( wp_unslash( $_COOKIE[ "_drip_client_{$account_id}" ] ) ) );
-
-		if ( empty( $drip_cookie ) ) {
-			return; }
-
-			$cookie_array = explode( '&', $drip_cookie );
-
-		foreach ( $cookie_array as $cookie ) {
-				list($key, $value) = explode( '=', $cookie );
-			if ( 'vid' === $key ) {
-					$visitor_uuid = $value;
-			}
+		if ( empty( $account_id ) || empty( $_COOKIE[ "_drip_client_{$account_id}" ] ) ) {
+			return;
 		}
 
-				return $visitor_uuid;
+		$parser = new Drip_Woocommerce_Cookie_Parser( wp_kses_data( wp_unslash( $_COOKIE[ "_drip_client_{$account_id}" ] ) ) );
+
+		return $parser->get_vid();
 	}
 }
