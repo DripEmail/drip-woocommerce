@@ -46,7 +46,7 @@ class Drip_Woocommerce_Version {
 	 * @param string $attribute a plugin attribute.
 	 */
 	private static function my_plugin_data( $attribute ) {
-		$path        = realpath( __DIR__ . '/../drip-woocommerce.php' );
+		$path        = realpath( __DIR__ . '/../drip.php' );
 		$plugin_data = get_plugin_data( $path );
 		return trim( $plugin_data[ $attribute ] );
 	}

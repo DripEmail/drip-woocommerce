@@ -68,5 +68,5 @@ git push origin "$plugin_version"
 mkdir -p dist
 trap "rm -rf dist" EXIT
 zipball=$(bin/make_zipball.sh | tail -1)
-mv "$zipball" "dist/drip-woocommerce-${plugin_version}.zip"
+mv "$zipball" "dist/drip-${plugin_version}.zip"
 ghr "$plugin_version" dist
