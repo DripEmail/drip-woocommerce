@@ -25,9 +25,9 @@ if [[ -z "$GITHUB_TOKEN" ]]; then
   exit 1
 fi
 
-plugin_version=$(grep -e '^Version: ' drip-woocommerce.php | awk '{print $2}')
+plugin_version=$(grep -e '^Version: ' drip.php | awk '{print $2}')
 if [[ -z "$plugin_version" ]]; then
-  >&2 echo "ERROR: unable to parse plugin version from drip-woocommerce.php"
+  >&2 echo "ERROR: unable to parse plugin version from drip.php"
   exit 1
 fi
 
