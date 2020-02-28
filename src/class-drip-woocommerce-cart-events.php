@@ -176,12 +176,16 @@ class Drip_Woocommerce_Cart_Events {
 		return hash( 'sha256', $random_data );
 	}
 
+
+	/**
+	 * Retrieve Drip visitor_uuid from cookie
+	 */
 	private function find_drip_visitor_uuid() {
-			 $account_id = WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::ACCOUNT_ID_KEY );
+		$account_id = WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::ACCOUNT_ID_KEY );
 		if ( empty( $account_id ) ) {
 			return; }
 
-			$drip_cookie = empty( $_COOKIE[ "_drip_client_{$account_id}" ] ) ? '' : urldecode( $_COOKIE[ "_drip_client_{$account_id}" ] );
+			$drip_cookie = empty( $_COOKIE[ "_drip_client_{$account_id}" ] ) ? '' : urldecode( wp_kses_data( wp_unslash( $_COOKIE[ "_drip_client_{$account_id}" ] ) ) );
 
 		if ( empty( $drip_cookie ) ) {
 			return; }
@@ -190,12 +194,11 @@ class Drip_Woocommerce_Cart_Events {
 
 		foreach ( $cookie_array as $cookie ) {
 				list($key, $value) = explode( '=', $cookie );
-			if ( $key === 'vid' ) {
+			if ( 'vid' === $key ) {
 					$visitor_uuid = $value;
 			}
 		}
 
 				return $visitor_uuid;
 	}
-}
 }
