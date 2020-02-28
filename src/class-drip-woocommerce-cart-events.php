@@ -40,7 +40,7 @@ class Drip_Woocommerce_Cart_Events {
 	 * Callback for cart actions
 	 */
 	public function drip_woocommerce_cart_updated() {
-		if ( $this->user_invalid() && is_null($this->find_drip_visitor_uuid()) ) {
+		if ( $this->user_invalid() && is_null( $this->find_drip_visitor_uuid() ) ) {
 			return;
 		}
 
@@ -67,8 +67,8 @@ class Drip_Woocommerce_Cart_Events {
 	private function base_event() {
 		WC()->cart->calculate_totals();
 
-		$event                  = new Drip_Woocommerce_Cart_Event();
-		$event->event_action    = self::CART_UPDATED_ACTION; // TODO: we can trap cart created events if we have to generate a new cart session id.
+		$event               = new Drip_Woocommerce_Cart_Event();
+		$event->event_action = self::CART_UPDATED_ACTION; // TODO: we can trap cart created events if we have to generate a new cart session id.
 		if ( $this->user_invalid() ) {
 				$event->visitor_uuid = $this->find_drip_visitor_uuid();
 		} else {
@@ -176,25 +176,26 @@ class Drip_Woocommerce_Cart_Events {
 		return hash( 'sha256', $random_data );
 	}
 
-	private function find_drip_visitor_uuid()
-	{
-			$account_id = WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::ACCOUNT_ID_KEY );
-			if( empty( $account_id) ) { return; }
+	private function find_drip_visitor_uuid() {
+			 $account_id = WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::ACCOUNT_ID_KEY );
+		if ( empty( $account_id ) ) {
+			return; }
 
-			$drip_cookie = empty($_COOKIE["_drip_client_{$account_id}"]) ? "" : urldecode($_COOKIE["_drip_client_{$account_id}"]);
+			$drip_cookie = empty( $_COOKIE[ "_drip_client_{$account_id}" ] ) ? '' : urldecode( $_COOKIE[ "_drip_client_{$account_id}" ] );
 
-			if( empty( $drip_cookie ) ) { return; }
+		if ( empty( $drip_cookie ) ) {
+			return; }
 
-			$cookie_array = explode('&', $drip_cookie);
+			$cookie_array = explode( '&', $drip_cookie );
 
-			foreach($cookie_array as $cookie) {
-					list($key, $value) = explode('=', $cookie);
-					if ($key === "vid") {
-							$visitor_uuid = $value;
-					}
+		foreach ( $cookie_array as $cookie ) {
+				list($key, $value) = explode( '=', $cookie );
+			if ( $key === 'vid' ) {
+					$visitor_uuid = $value;
 			}
+		}
 
 				return $visitor_uuid;
-		}
 	}
+}
 }
