@@ -5,6 +5,9 @@
  * @package Drip_Woocommerce
  */
 
+/**
+ * Require the class we are testing
+ */
 require_once __dir__ . '/../src/class-drip-woocommerce-cookie-parser.php';
 
 /**
