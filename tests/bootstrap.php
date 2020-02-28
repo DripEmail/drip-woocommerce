@@ -23,7 +23,7 @@ require_once $drip_woocommerce_tests_dir . '/includes/functions.php';
  * Manually load the plugin being tested.
  */
 function drip_woocommerce_manually_load_plugin() {
-	require dirname( dirname( __FILE__ ) ) . '/drip-woocommerce.php';
+	require dirname( dirname( __FILE__ ) ) . '/drip.php';
 }
 tests_add_filter( 'muplugins_loaded', 'drip_woocommerce_manually_load_plugin' );
 
