@@ -19,9 +19,11 @@ class Drip_Woocommerce_Cookie_Parser {
 	private $cookie_string;
 
 	/**
+	 * Constructor
+	 *
 	 * @param string $cookie_string The cookie string.
 	 */
-	public function __construct($cookie_string) {
+	public function __construct( $cookie_string ) {
 		$this->cookie_string = $cookie_string;
 	}
 
@@ -39,14 +41,18 @@ class Drip_Woocommerce_Cookie_Parser {
 				return $value;
 			}
 		}
-
-		return;
 	}
 
+	/**
+	 * Parsed cookie string
+	 */
 	private function drip_cookie_string() {
-		return empty( $this->cookie_string ) ? '' : urldecode( wp_kses_data( wp_unslash( $this->cookie_string ) ) );
+		return empty( $this->cookie_string ) ? '' : urldecode( $this->cookie_string );
 	}
 
+	/**
+	 * Split parsed string into array
+	 */
 	private function drip_cookie_array() {
 		if ( empty( $this->drip_cookie_string() ) ) {
 			return array();

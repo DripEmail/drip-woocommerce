@@ -183,11 +183,11 @@ class Drip_Woocommerce_Cart_Events {
 	 */
 	private function find_drip_visitor_uuid() {
 		$account_id = WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::ACCOUNT_ID_KEY );
-		if ( empty( $account_id ) ) {
+		if ( empty( $account_id ) || empty( $_COOKIE[ "_drip_client_{$account_id}" ] ) ) {
 			return;
 		}
 
-		$parser = new Drip_Woocommerce_Cookie_Parser($_COOKIE[ "_drip_client_{$account_id}" ]);
+		$parser = new Drip_Woocommerce_Cookie_Parser( wp_kses_data( wp_unslash( $_COOKIE[ "_drip_client_{$account_id}" ] ) ) );
 
 		return $parser->get_vid();
 	}
