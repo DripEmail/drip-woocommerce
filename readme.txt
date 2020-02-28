@@ -24,6 +24,12 @@ Send personalized emails when a customer views products on your site but doesnâ€
 
 == Changelog ==
 
+= 0.0.2 =
+
+* Linter fixes to prep for WP Plugin Directory submission.
+* Rename from drip-woocommerce to drip.
+* Send Viewed a Product events via the JS API.
+
 = 0.0.1 =
 * Initial release
 
