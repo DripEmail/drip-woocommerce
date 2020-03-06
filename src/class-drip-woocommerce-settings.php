@@ -5,6 +5,8 @@
  * @package Drip_Woocommerce
  */
 
+defined( 'ABSPATH' ) || die( 'Executing outside of the WordPress context.' );
+
 /**
  * Management for plugin settings
  */
