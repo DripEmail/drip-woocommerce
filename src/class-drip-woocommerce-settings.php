@@ -95,7 +95,7 @@ class Drip_Woocommerce_Settings {
 				'id'                => self::ACCOUNT_ID_KEY,
 				'name'              => __( 'Account ID', self::NAME ),
 				'type'              => 'number',
-				'desc'              => __( 'Read-only, visible if integration was successful', self::NAME ),
+				'desc'              => __( 'Drip Account ID is populated when your store is successfully connected to Drip.', self::NAME ),
 				'custom_attributes' => array( 'readonly' => 'readonly' ),
 			),
 			'section_end'        => array(
