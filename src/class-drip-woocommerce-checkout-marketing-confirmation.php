@@ -63,10 +63,10 @@ class Drip_Woocommerce_Checkout_Marketing_Confirmation {
 		if ( isset( $_POST[ self::FIELD_NAME ] ) && '1' === $_POST[ self::FIELD_NAME ] ) {
 			do_action(
 				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-				'wc_drip_woocommerce_accepts_marketing',
+				'wc_drip_woocommerce_subscriber_updated',
 				array(
-					'email'             => $order->get_billing_email(),
-					'accepts_marketing' => true,
+					'email'  => $order->get_billing_email(),
+					'status' => 'active',
 				)
 			);
 		}
