@@ -31,10 +31,6 @@ Given('I have set up a cart webhook', () => {
   })
 })
 
-Given('I have Drip configured', () => {
-    cy.wpcliSetDripAccount('1234567')
-})
-
 Given('I have a logged in user', () => {
   cy.log('Creating User')
   cy.wpcliCreateUser({

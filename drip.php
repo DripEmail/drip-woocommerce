@@ -24,10 +24,12 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	require_once __DIR__ . '/src/class-drip-woocommerce-cart-events.php';
 	require_once __DIR__ . '/src/class-drip-woocommerce-view-events.php';
 	require_once __DIR__ . '/src/class-drip-woocommerce-version.php';
+	require_once __DIR__ . '/src/class-drip-woocommerce-customer-identify.php';
 
 	Drip_Woocommerce_Settings::init();
 	Drip_Woocommerce_Snippet::init();
 	Drip_Woocommerce_Cart_Events::init();
 	Drip_Woocommerce_View_Events::init();
 	Drip_Woocommerce_Version::init();
+	Drip_Woocommerce_Customer_Identify::init();
 }
