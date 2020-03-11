@@ -37,6 +37,7 @@ zip -r $zipball \
   $dir/license.txt \
   $dir/readme.txt \
   $dir/drip.php \
-  $dir/src
+  $dir/src \
+  $dir/assets
 
 echo $zipball
