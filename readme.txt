@@ -29,6 +29,7 @@ Send personalized emails when a customer views products on your site but doesnâ€
 * Allow carts to be associated based on being identified in JS.
 * Clarified wording on the purpose of the account id field in the settings.
 * Explicitly identify customers upon order completion.
+* Officially rename plugin to "drip"
 
 = 0.0.2 =
 
