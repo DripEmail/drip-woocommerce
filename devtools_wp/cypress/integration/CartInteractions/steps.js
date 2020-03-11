@@ -49,27 +49,12 @@ Given('I have a logged in user', () => {
   cy.contains("Hello world!")
 })
 
+Given('I have Drip configured', () => {
+  cy.wpcliSetDripAccount('1234567')
+})
+
 Given('I have been cookied', () => {
-    cy.setCookie('_drip_client_1234567', 'vid%253D8f081a6c93ca47bab5a33eed8f1adab6%2526pageViews%253D7%2526sessionPageCount%253D3%2526lastVisitedAt%253D1573592329061%2526weeklySessionCount%253D1%2526lastSessionAt%253D1573591512388')
-})
-
-Then('I add {string} to a cart', (product) => {
-  let slug = '/?product=fair-widget'
-  if(product === 'My Fair Gizmo') {
-    slug = '/?product=fair-gizmo'
-  }
-  cy.visit(slug)
-  cy.wrap(Mockclient.reset())
-  cy.contains('Add to cart').click().wait(300)
-  cy.contains('has been added to your cart')
-})
-
-Then('I add it to a cart', () => {
-  // This is the product slug
-  cy.visit('/?product=fair-widget')
-  cy.wrap(Mockclient.reset())
-  cy.contains('Add to cart').click()
-  cy.contains('has been added to your cart')
+  cy.setCookie('_drip_client_1234567', 'vid%253D8f081a6c93ca47bab5a33eed8f1adab6%2526pageViews%253D7%2526sessionPageCount%253D3%2526lastVisitedAt%253D1573592329061%2526weeklySessionCount%253D1%2526lastSessionAt%253D1573591512388')
 })
 
 Then('I remove it from the cart', () => {
