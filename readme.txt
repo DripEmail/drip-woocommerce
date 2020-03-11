@@ -53,6 +53,14 @@ When you connect your WooCommerce store to Drip, you’ll have access to:
 * Dashboards in Drip show you must-have engagement metrics and revenue details, such as revenue per person, for your emails and workflows
 * Workflow split testing makes it possible to see which combination of engagement and channel is having the greatest impact.
 
+== Screenshots ==
+
+1. Account dashboard
+2. Broadcast dashboard
+3. Multi-channel workflows
+4. Product recommendations
+5. Customer profiles
+6. Visual email builder
 
 == Installation ==
 
