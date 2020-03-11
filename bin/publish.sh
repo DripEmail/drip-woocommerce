@@ -118,6 +118,7 @@ git archive --format=tar "$VERSION" \
   readme.txt \
   drip.php \
   src \
+  assets \
   | tar x -C "$dst"
 
 cd "$REPOSITORY"
