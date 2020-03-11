@@ -24,6 +24,12 @@ Send personalized emails when a customer views products on your site but doesnâ€
 
 == Changelog ==
 
+= 0.0.3 =
+
+* Allow carts to be associated based on being identified in JS.
+* Clarified wording on the purpose of the account id field in the settings.
+* Explicitly identify customers upon order completion.
+
 = 0.0.2 =
 
 * Linter fixes to prep for WP Plugin Directory submission.
