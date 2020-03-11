@@ -80,4 +80,4 @@ mkdir -p dist
 trap "rm -rf dist" EXIT
 zipball=$(bin/make_zipball.sh | tail -1)
 mv "$zipball" "dist/drip-${plugin_version}.zip"
-ghr "$plugin_version" dist
+ghr -u DripEmail "$plugin_version" dist
