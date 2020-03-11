@@ -10,6 +10,7 @@ defined( 'ABSPATH' ) || die( 'Executing outside of the WordPress context.' );
 /**
  * Injects Drip JS snippet
  */
+
 class Drip_Woocommerce_Customer_Identify {
 	/**
 	 * Set up component
@@ -20,7 +21,7 @@ class Drip_Woocommerce_Customer_Identify {
 
 	/**
 	 * Set up to render JS snippet
-	 * 
+	 *
 	 * @param int $order_id the order ID
 	 */
 	public static function exec( $order_id )
@@ -28,9 +29,9 @@ class Drip_Woocommerce_Customer_Identify {
 		if( self::not_integrated() ) { return; }
 
 		$order = wc_get_order( $order_id );
-		if( $order && $order->get_billing_email(' drip_woocommerce' ) ) {
+		if( $order && $order->get_billing_email( 'drip_woocommerce' ) ) {
 			$dwci = new Drip_Woocommerce_Customer_Identify();
-			$dwci->render( $order->get_billing_email('drip_woocommerce') );
+			$dwci->render( $order->get_billing_email( 'drip_woocommerce' ) );
 		}
 
 	}
@@ -44,7 +45,7 @@ class Drip_Woocommerce_Customer_Identify {
 
 	/**
 	 * Render js snippet based on the customer's e-mail
-	 * 
+	 *
 	 * @param string $customer_email the customer e-mail
 	 */
 	public function render( $customer_email )
@@ -56,7 +57,7 @@ class Drip_Woocommerce_Customer_Identify {
 				'id'    => (string) $customer_email
 			);
 
-			if($drip_identify_data['found']) {
+			if( $drip_identify_data['found'] ) {
 				$this->scriptinator( $drip_identify_data );
 			}
 		}
@@ -64,17 +65,17 @@ class Drip_Woocommerce_Customer_Identify {
 
 	/**
 	 * Generates the wp script handle
-	 * 
+	 *
 	 * @return string the unique handle for the customer identify script
 	 */
 	private function script_handle()
 	{
 		return 'Drip customer identify';
 	}
-	
+
 	/**
 	 * Generate the url for the script
-	 * 
+	 *
 	 * @return string the url to the customer_identify.js script
 	 */
 	private function script_url()
@@ -84,7 +85,7 @@ class Drip_Woocommerce_Customer_Identify {
 
 	/**
 	 * Generate the lineline script that passes data to the customer identify js
-	 * 
+	 *
 	 * @param array $data contains the data necessary for customer_identify.js
 	 * @return string javascript that will be added to the wp page
 	 */
@@ -93,8 +94,8 @@ class Drip_Woocommerce_Customer_Identify {
 	}
 
 	/**
-	 * register, enqueue, and inline the customer identify scripts
-	 * 
+	 * Register, enqueue, and inline the customer identification scripts
+	 *
 	 * @param array $data contains the data necessary for customer_identify.js
 	 */
 	private function scriptinator( $data )
