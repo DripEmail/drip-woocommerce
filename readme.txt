@@ -1,4 +1,4 @@
-=== Drip ===
+=== Drip for WooCommerce ===
 Contributors: getdrip
 Tags: woocommerce, drip, ecrm, email marketing automation
 Requires at least: 4.6
