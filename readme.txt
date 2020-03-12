@@ -8,7 +8,7 @@ Requires PHP: 7.2
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Drip is a sales and marketing automation platform designed specifically for eCommerce.
+Drip empowers WooCommerce stores to build customer loyalty through deep insights, proven strategies, and tailored communication across channels.
 
 == Description ==
 
