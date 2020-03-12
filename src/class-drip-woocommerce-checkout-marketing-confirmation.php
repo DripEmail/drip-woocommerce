@@ -40,7 +40,7 @@ class Drip_Woocommerce_Checkout_Marketing_Confirmation {
 	 * Callback for woocommerce_review_order_before_submit
 	 */
 	public function callback_review_order() {
-		if( $this->drip_not_integrated() ) {
+		if ( $this->drip_not_integrated() ) {
 			return;
 		}
 
@@ -62,7 +62,7 @@ class Drip_Woocommerce_Checkout_Marketing_Confirmation {
 	 * @param WC_Order $order The order object.
 	 */
 	public function callback_checkout_order_processed( $order_id, $posted_data, $order ) {
-		if( $this->drip_not_integrated() ) {
+		if ( $this->drip_not_integrated() ) {
 			return;
 		}
 
