@@ -22,11 +22,11 @@ class Drip_Woocommerce_Checkout_Marketing_Confirmation {
 	}
 
 	/**
-	 * Whether the customer chose to accept marketing
-	 *
-	 * @var bool
+	 * See if the account id is preesent from the woocommerce settings
 	 */
-	private $accepts_marketing;
+	private function drip_not_integrated() {
+		return ! (bool) WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::ACCOUNT_ID_KEY );
+	}
 
 	/**
 	 * Initialize actions/filters
@@ -40,6 +40,10 @@ class Drip_Woocommerce_Checkout_Marketing_Confirmation {
 	 * Callback for woocommerce_review_order_before_submit
 	 */
 	public function callback_review_order() {
+		if( $this->drip_not_integrated() ) {
+			return;
+		}
+
 		woocommerce_form_field(
 			self::FIELD_NAME,
 			array(
@@ -58,6 +62,10 @@ class Drip_Woocommerce_Checkout_Marketing_Confirmation {
 	 * @param WC_Order $order The order object.
 	 */
 	public function callback_checkout_order_processed( $order_id, $posted_data, $order ) {
+		if( $this->drip_not_integrated() ) {
+			return;
+		}
+
 		// Ignoring nonce since it was checked earlier.
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		if ( isset( $_POST[ self::FIELD_NAME ] ) && '1' === $_POST[ self::FIELD_NAME ] ) {
