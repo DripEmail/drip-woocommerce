@@ -62,6 +62,10 @@ When you connect your WooCommerce store to Drip, you’ll have access to:
 5. Customer profiles
 6. Visual email builder
 
+== Support ==
+
+Please send support requests to our team within Drip.
+
 == Installation ==
 
 **See [the MyDrip instructions for details](https://my.drip.com/docs/manual/woocommerce/).**
