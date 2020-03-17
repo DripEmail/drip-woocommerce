@@ -51,12 +51,13 @@ class Drip_Woocommerce_Checkout_Marketing_Confirmation {
 		// changes, WC_Admin_Settings::get_option() returns nothing for the
 		// Drip_Woocommerce_Settings::MARKETING_CONFIG_TEXT, so...
 		// ...we have to guard against an empty return here.
+		// phpcs:ignore WordPress.PHP.DisallowShortTernary.Found
 		$label = WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::MARKETING_CONFIG_TEXT ) ?: 'Subscribe to the newsletter';
 		woocommerce_form_field(
 			self::FIELD_NAME,
 			array(
 				'type'  => 'checkbox',
-				'label' =>   $label,
+				'label' => $label,
 			)
 		);
 	}

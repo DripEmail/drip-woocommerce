@@ -24,7 +24,7 @@ class Drip_Woocommerce_Settings {
 		add_action( 'woocommerce_settings_tabs_settings_drip', __CLASS__ . '::settings_tab' );
 		add_filter( 'woocommerce_settings_groups', __CLASS__ . '::settings_group' );
 		add_filter( 'woocommerce_settings-drip', __CLASS__ . '::settings_group_options' );
-		add_action( 'woocommerce_update_options_settings_drip', __CLASS__ . '::settings_update');
+		add_action( 'woocommerce_update_options_settings_drip', __CLASS__ . '::settings_update' );
 	}
 
 
@@ -93,7 +93,7 @@ class Drip_Woocommerce_Settings {
 			'option_key'  => self::MARKETING_CONFIG_TEXT,
 			'label'       => __( 'Sign Up Description', self::NAME ),
 			'description' => __( 'The text displayed next to subscriber sign up checkbox.', self::NAME ),
-			'default'     => 'Subscribe to the newsletter',
+			'default'     => __( 'Subscribe to the newsletter', self::NAME ),
 			'type'        => 'text',
 		);
 		return $settings;
@@ -101,7 +101,6 @@ class Drip_Woocommerce_Settings {
 
 	/**
 	 * Persists the settings updated to wp options
-	 *
 	 */
 	public static function settings_update() {
 		woocommerce_update_options( self::get_settings() );
@@ -114,21 +113,21 @@ class Drip_Woocommerce_Settings {
 	 */
 	public static function get_settings() {
 		$drip_settings = new Drip_Woocommerce_Settings();
-		$settings = array(
-			'section_title'      => array(
+		$settings      = array(
+			'section_title'             => array(
 				'id'   => 'wc_settings_drip_section_title',
 				'name' => __( 'Drip', self::NAME ),
 				'type' => 'title',
 				'desc' => '',
 			),
-			self::ACCOUNT_ID_KEY => array(
+			self::ACCOUNT_ID_KEY        => array(
 				'id'                => self::ACCOUNT_ID_KEY,
 				'name'              => __( 'Account ID', self::NAME ),
 				'type'              => 'number',
 				'desc'              => __( 'Drip Account ID is populated when your store is successfully connected to Drip.', self::NAME ),
 				'custom_attributes' => array( 'readonly' => 'readonly' ),
 			),
-			self::MARKETING_CONFIG_KEY => array(
+			self::MARKETING_CONFIG_KEY  => array(
 				'id'                => self::MARKETING_CONFIG_KEY,
 				'name'              => __( 'Enable Subscriber Sign Up', self::NAME ),
 				'type'              => 'checkbox',
@@ -141,10 +140,10 @@ class Drip_Woocommerce_Settings {
 				'name'              => __( 'Sign Up Label', self::NAME ),
 				'type'              => 'text',
 				'desc'              => __( 'Text that will appear next to the sign up checkbox', self::NAME ),
-				'default'			=> 'Subscribe to the newsletter',
+				'default'           => __( 'Subscribe to the newsletter', self::NAME ),
 				'custom_attributes' => $drip_settings->custom_attributes(),
 			),
-			'section_end'        => array(
+			'section_end'               => array(
 				'type' => 'sectionend',
 				'id'   => 'wc_settings_drip_section_end',
 			),
@@ -155,22 +154,12 @@ class Drip_Woocommerce_Settings {
 	}
 
 	/**
-	 * Returns a translatable string for the config text
-	 * 
-	 * @param string $domain
-	 * @return string
-	 */
-	private function marketing_config_text_default_value($domain) {
-		return __( 'Subscribe to the newsletter', $domain );
-	}
-
-	/**
 	 * Return an array for custom_attributes based on a successful integration
-	 * 
+	 *
 	 * @return array for custom_attributes
 	 */
 	private function custom_attributes() {
-		if( $this->is_integrated() ) {
+		if ( $this->is_integrated() ) {
 			return array();
 		} else {
 			return array(
@@ -182,12 +171,12 @@ class Drip_Woocommerce_Settings {
 
 	/**
 	 * Returns a boolean value indicating if the Drip account is integrated or not
-	 * 
+	 *
 	 * @return bool
 	 */
 	private function is_integrated() {
 		// this only works because at this point we're in a callback from a woocommerce
-		// action, so WC_Admin_Settings has been initialized
-		return (bool) WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::ACCOUNT_ID_KEY );
+		// action, so WC_Admin_Settings has been initialized...........................
+		return (bool) WC_Admin_Settings::get_option( self::ACCOUNT_ID_KEY );
 	}
 }
