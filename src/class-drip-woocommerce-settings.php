@@ -11,8 +11,10 @@ defined( 'ABSPATH' ) || die( 'Executing outside of the WordPress context.' );
  * Management for plugin settings
  */
 class Drip_Woocommerce_Settings {
-	const NAME           = 'woocommerce-settings-drip';
-	const ACCOUNT_ID_KEY = 'account_id';
+	const NAME                  = 'woocommerce-settings-drip';
+	const ACCOUNT_ID_KEY        = 'account_id';
+	const MARKETING_CONFIG_KEY  = 'drip_enable_signup';
+	const MARKETING_CONFIG_TEXT = 'drip_signup_text';
 
 	/**
 	 * Bootstraps the class and hooks required actions & filters.
@@ -22,6 +24,7 @@ class Drip_Woocommerce_Settings {
 		add_action( 'woocommerce_settings_tabs_settings_drip', __CLASS__ . '::settings_tab' );
 		add_filter( 'woocommerce_settings_groups', __CLASS__ . '::settings_group' );
 		add_filter( 'woocommerce_settings-drip', __CLASS__ . '::settings_group_options' );
+		add_action( 'woocommerce_update_options_settings_drip', __CLASS__ . '::settings_update');
 	}
 
 
@@ -75,7 +78,33 @@ class Drip_Woocommerce_Settings {
 			'default'     => '',
 			'type'        => 'number',
 		);
+
+		$settings[] = array(
+			'id'          => self::MARKETING_CONFIG_KEY,
+			'option_key'  => self::MARKETING_CONFIG_KEY,
+			'label'       => __( 'Enable Subscriber Sign Up', self::NAME ),
+			'description' => __( 'If checked, includes an sign up option during checkout.', self::NAME ),
+			'default'     => 'yes',
+			'type'        => 'checkbox',
+		);
+
+		$settings[] = array(
+			'id'          => self::MARKETING_CONFIG_TEXT,
+			'option_key'  => self::MARKETING_CONFIG_TEXT,
+			'label'       => __( 'Sign Up Description', self::NAME ),
+			'description' => __( 'The text displayed next to subscriber sign up checkbox.', self::NAME ),
+			'default'     => 'Subscribe to the newsletter',
+			'type'        => 'text',
+		);
 		return $settings;
+	}
+
+	/**
+	 * Persists the settings updated to wp options
+	 *
+	 */
+	public static function settings_update() {
+		woocommerce_update_options( self::get_settings() );
 	}
 
 	/**
@@ -84,6 +113,7 @@ class Drip_Woocommerce_Settings {
 	 * @return array Array of settings for @see woocommerce_admin_fields() function.
 	 */
 	public static function get_settings() {
+		$drip_settings = new Drip_Woocommerce_Settings();
 		$settings = array(
 			'section_title'      => array(
 				'id'   => 'wc_settings_drip_section_title',
@@ -98,6 +128,22 @@ class Drip_Woocommerce_Settings {
 				'desc'              => __( 'Drip Account ID is populated when your store is successfully connected to Drip.', self::NAME ),
 				'custom_attributes' => array( 'readonly' => 'readonly' ),
 			),
+			self::MARKETING_CONFIG_KEY => array(
+				'id'                => self::MARKETING_CONFIG_KEY,
+				'name'              => __( 'Enable Subscriber Sign Up', self::NAME ),
+				'type'              => 'checkbox',
+				'desc'              => __( 'Enable subscriber sign up during checkout process', self::NAME ),
+				'default'           => 'yes',
+				'custom_attributes' => $drip_settings->custom_attributes(),
+			),
+			self::MARKETING_CONFIG_TEXT => array(
+				'id'                => self::MARKETING_CONFIG_TEXT,
+				'name'              => __( 'Sign Up Label', self::NAME ),
+				'type'              => 'text',
+				'desc'              => __( 'Text that will appear next to the sign up checkbox', self::NAME ),
+				'default'			=> 'Subscribe to the newsletter',
+				'custom_attributes' => $drip_settings->custom_attributes(),
+			),
 			'section_end'        => array(
 				'type' => 'sectionend',
 				'id'   => 'wc_settings_drip_section_end',
@@ -106,5 +152,42 @@ class Drip_Woocommerce_Settings {
 
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		return apply_filters( 'wc_settings_drip_settings', $settings );
+	}
+
+	/**
+	 * Returns a translatable string for the config text
+	 * 
+	 * @param string $domain
+	 * @return string
+	 */
+	private function marketing_config_text_default_value($domain) {
+		return __( 'Subscribe to the newsletter', $domain );
+	}
+
+	/**
+	 * Return an array for custom_attributes based on a successful integration
+	 * 
+	 * @return array for custom_attributes
+	 */
+	private function custom_attributes() {
+		if( $this->is_integrated() ) {
+			return array();
+		} else {
+			return array(
+				'disabled' => 'disabled',
+				'readonly' => 'readonly',
+			);
+		}
+	}
+
+	/**
+	 * Returns a boolean value indicating if the Drip account is integrated or not
+	 * 
+	 * @return bool
+	 */
+	private function is_integrated() {
+		// this only works because at this point we're in a callback from a woocommerce
+		// action, so WC_Admin_Settings has been initialized
+		return (bool) WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::ACCOUNT_ID_KEY );
 	}
 }

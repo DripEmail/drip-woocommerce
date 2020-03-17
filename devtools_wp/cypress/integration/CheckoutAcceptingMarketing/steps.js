@@ -38,7 +38,7 @@ Then('I start to check out', () => {
 
 Then('I accept marketing', () => {
   // The input is created before it is attached, and we can sometimes get ahead of that.
-  cy.contains('Subscribe to newsletter')
+  cy.contains('Subscribe to the newsletter')
   cy.get('input#drip_woocommerce_accepts_marketing[type="checkbox"]').check({ force: true })
 })
 

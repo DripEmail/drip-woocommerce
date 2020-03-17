@@ -17,3 +17,13 @@ Given('I have a logged in user', () => {
   cy.get('#wp-submit[value="Log In"]').click()
   cy.contains("Hello world!")
 })
+
+Given('I am logged in as an admin user', () => {
+  cy.log('logging in as the admin user')
+  cy.visit('http://localhost:3007/wp-login.php')
+  cy.contains('Lost your password?').wait(300)
+  cy.get('#user_login').clear().type('drip')
+  cy.get('#user_pass').clear().type('abc1234567890')
+  cy.get('#wp-submit[value="Log In"]').click()
+  cy.contains("Hello world!")
+})
