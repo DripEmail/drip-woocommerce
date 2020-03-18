@@ -25,6 +25,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	require_once __DIR__ . '/src/class-drip-woocommerce-view-events.php';
 	require_once __DIR__ . '/src/class-drip-woocommerce-version.php';
 	require_once __DIR__ . '/src/class-drip-woocommerce-customer-identify.php';
+	require_once __DIR__ . '/src/class-drip-woocommerce-checkout-marketing-confirmation.php';
 	require_once __DIR__ . '/src/class-drip-woocommerce-plugin-view.php';
 
 	Drip_Woocommerce_Settings::init();
@@ -33,5 +34,6 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	Drip_Woocommerce_View_Events::init();
 	Drip_Woocommerce_Version::init();
 	Drip_Woocommerce_Customer_Identify::init();
+	Drip_Woocommerce_Checkout_Marketing_Confirmation::init();
 	Drip_Woocommerce_Plugin_View::init();
 }
