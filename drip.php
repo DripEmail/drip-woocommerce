@@ -6,12 +6,12 @@
  */
 
 /*
-Plugin Name: Drip
+Plugin Name: Drip for WooCommerce
 Plugin URI: https://github.com/DripEmail/drip-woocommerce
 Description: A WordPress plugin to connect to Drip's WooCommerce integration
 Version: 0.0.3
-Author: DripEmail
-Author URI: https://github.com/DripEmail/
+Author: Drip
+Author URI: https://www.drip.com/
 License: GPLv2
 */
 
@@ -26,6 +26,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	require_once __DIR__ . '/src/class-drip-woocommerce-version.php';
 	require_once __DIR__ . '/src/class-drip-woocommerce-customer-identify.php';
 	require_once __DIR__ . '/src/class-drip-woocommerce-checkout-marketing-confirmation.php';
+	require_once __DIR__ . '/src/class-drip-woocommerce-plugin-view.php';
 
 	Drip_Woocommerce_Settings::init();
 	Drip_Woocommerce_Snippet::init();
@@ -34,4 +35,5 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 	Drip_Woocommerce_Version::init();
 	Drip_Woocommerce_Customer_Identify::init();
 	Drip_Woocommerce_Checkout_Marketing_Confirmation::init();
+	Drip_Woocommerce_Plugin_View::init();
 }

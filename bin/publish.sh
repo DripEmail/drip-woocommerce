@@ -123,10 +123,12 @@ git archive --format=tar "$VERSION" \
 
 cd "$REPOSITORY"
 cp "tags/$VERSION/readme.txt" trunk/readme.txt
+mv "tags/$VERSION/assets/icon-*" assets/
+# mv "tags/$VERSION/assets/banner-*" assets/
 
 if [[ "$DRY_RUN" = "true" ]]; then
   svn status
 else
   svn add trunk/readme.txt "tags/$VERSION"
-  svn commit -m "Publish version $VERSION"
+  svn commit -m "Publish version $VERSION" --username getdrip
 fi

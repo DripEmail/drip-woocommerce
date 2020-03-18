@@ -1,4 +1,4 @@
-=== Drip ===
+=== Drip for WooCommerce ===
 Contributors: getdrip
 Tags: woocommerce, drip, ecrm, email marketing automation
 Requires at least: 4.6
@@ -8,7 +8,7 @@ Requires PHP: 7.2
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Drip is a sales and marketing automation platform designed specifically for eCommerce.
+Drip empowers WooCommerce stores to build customer loyalty through deep insights, proven strategies, and tailored communication across channels.
 
 == Description ==
 
@@ -62,6 +62,10 @@ When you connect your WooCommerce store to Drip, you’ll have access to:
 5. Customer profiles
 6. Visual email builder
 
+== Support ==
+
+Please send support requests to our team within Drip.
+
 == Installation ==
 
 **See [the MyDrip instructions for details](https://my.drip.com/docs/manual/woocommerce/).**
@@ -91,4 +95,4 @@ When you connect your WooCommerce store to Drip, you’ll have access to:
 
 == Development ==
 
-TODO
+The philosophy behind this plugin is to do as little as possible in it, and as much as possible in a microservice run by Drip. This allows us to ship fixes for our customers without their having to upgrade a plugin. So often a bug will need to be fixed in the microservice rather than in this plugin. If you do indeed find a bug in the plugin, feel free to submit [a Pull Request in our GitHub repo](https://github.com/DripEmail/drip-woocommerce/).

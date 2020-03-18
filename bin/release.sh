@@ -33,7 +33,7 @@ fi
 
 echo "Using version from plugin metadata: $plugin_version"
 
-readme_version=$(grep -e '^Stable tag: ' readme.txt | awk '{print $2}')
+readme_version=$(grep -e '^Stable tag: ' readme.txt | awk '{print $3}')
 if [[ -z "$readme_version" ]]; then
   >&2 echo "ERROR: unable to parse readme version from readme.txt"
   exit 1
@@ -43,8 +43,6 @@ if [[ "$readme_version" != "$plugin_version" ]]; then
   >&2 echo "ERROR: version from plugin metadata ($plugin_version) and readme ($readme_version) do not match"
   exit 1
 fi
-
-echo "Using plugin version: $plugin_version"
 
 git fetch origin --tags
 
@@ -82,4 +80,4 @@ mkdir -p dist
 trap "rm -rf dist" EXIT
 zipball=$(bin/make_zipball.sh | tail -1)
 mv "$zipball" "dist/drip-${plugin_version}.zip"
-ghr "$plugin_version" dist
+ghr -u DripEmail "$plugin_version" dist
