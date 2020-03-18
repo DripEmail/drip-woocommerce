@@ -27,6 +27,8 @@ EOF
   exit "$ret"
 }
 
+DRY_RUN="false"
+
 while (( "$#" )); do
   case "$1" in
     -r|--repository)
@@ -122,9 +124,10 @@ git archive --format=tar "$VERSION" \
   | tar x -C "$dst"
 
 cd "$REPOSITORY"
-cp "tags/$VERSION/readme.txt" trunk/readme.txt
-mv "tags/$VERSION/assets/icon-*" assets/
-# mv "tags/$VERSION/assets/banner-*" assets/
+
+cp tags/$VERSION/readme.txt trunk/readme.txt
+mv tags/$VERSION/assets/icon-* assets/
+# mv tags/$VERSION/assets/banner-* assets/
 
 if [[ "$DRY_RUN" = "true" ]]; then
   svn status
