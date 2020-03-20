@@ -4,7 +4,7 @@ Tags: woocommerce, drip, ecrm, email marketing automation
 Requires at least: 4.6
 Tested up to: 5.3
 Stable tag: 0.0.4
-Requires PHP: 7.2
+Requires PHP: 5.6
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
