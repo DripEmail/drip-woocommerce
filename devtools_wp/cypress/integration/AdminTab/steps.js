@@ -25,7 +25,7 @@ Then('My Drip account ID is displayed', () => {
 
 Then('there should be a checkbox for sign-ups', () => {
     cy.get('input[id="drip_enable_signup"]').should('have.length',1)
-    cy.get('label[for="drip_enable_signup"]').contains('Enable subscriber sign up during checkout process')
+    cy.get('label[for="drip_enable_signup"]').contains('Show a sign up option at checkout.')
 })
 
 Then('the sign-up option should be checked by default', () => {
@@ -33,7 +33,7 @@ Then('the sign-up option should be checked by default', () => {
 })
 
 Then('there should be a textbox to customize the text for the sign-up', () => {
-    cy.get('input[id="drip_signup_text"]').should('have.value', 'Subscribe to the newsletter')
+    cy.get('input[id="drip_signup_text"]').should('have.value', 'Send me news, announcements, and discounts.')
 })
 
 Then('the checkbox should be disabled', () => {
@@ -43,7 +43,7 @@ Then('the checkbox should be disabled', () => {
 
 Then('the textbox should be disabled', () => {
     // cannot figure out how to validate the readonly attribute
-    cy.get('input[id="drip_signup_text"]').should('be.disabled').should('have.value', 'Subscribe to the newsletter')
+    cy.get('input[id="drip_signup_text"]').should('be.disabled').should('have.value', 'Send me news, announcements, and discounts.')
 })
 
 When('I uncheck the checkbox', () => {
@@ -51,7 +51,7 @@ When('I uncheck the checkbox', () => {
 })
 
 When('I change the sign up text', () => {
-    cy.get('input[id="drip_signup_text"]').should('have.value', 'Subscribe to the newsletter').clear().type('Texty McTextface')
+    cy.get('input[id="drip_signup_text"]').should('have.value', 'Send me news, announcements, and discounts.').clear().type('Texty McTextface')
 })
 
 When('I save the settings', () => {

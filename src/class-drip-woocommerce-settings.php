@@ -82,7 +82,7 @@ class Drip_Woocommerce_Settings {
 		$settings[] = array(
 			'id'          => self::MARKETING_CONFIG_KEY,
 			'option_key'  => self::MARKETING_CONFIG_KEY,
-			'label'       => __( 'Enable Subscriber Sign Up', self::NAME ),
+			'label'       => __( 'Email Marketing', self::NAME ),
 			'description' => __( 'If checked, includes an sign up option during checkout.', self::NAME ),
 			'default'     => 'yes',
 			'type'        => 'checkbox',
@@ -91,9 +91,9 @@ class Drip_Woocommerce_Settings {
 		$settings[] = array(
 			'id'          => self::MARKETING_CONFIG_TEXT,
 			'option_key'  => self::MARKETING_CONFIG_TEXT,
-			'label'       => __( 'Sign Up Description', self::NAME ),
-			'description' => __( 'The text displayed next to subscriber sign up checkbox.', self::NAME ),
-			'default'     => __( 'Subscribe to the newsletter', self::NAME ),
+			'label'       => __( 'Default Text', self::NAME ),
+			'description' => __( 'The text displayed next to the subscription checkbox.', self::NAME ),
+			'default'     => __( 'Send me news, announcements, and discounts.', self::NAME ),
 			'type'        => 'text',
 		);
 		return $settings;
@@ -129,18 +129,18 @@ class Drip_Woocommerce_Settings {
 			),
 			self::MARKETING_CONFIG_KEY  => array(
 				'id'                => self::MARKETING_CONFIG_KEY,
-				'name'              => __( 'Enable Subscriber Sign Up', self::NAME ),
+				'name'              => __( 'Email Marketing', self::NAME ),
 				'type'              => 'checkbox',
-				'desc'              => __( 'Enable subscriber sign up during checkout process', self::NAME ),
+				'desc'              => __( 'Show a sign up option at checkout.', self::NAME ),
 				'default'           => 'yes',
 				'custom_attributes' => $drip_settings->custom_attributes(),
 			),
 			self::MARKETING_CONFIG_TEXT => array(
 				'id'                => self::MARKETING_CONFIG_TEXT,
-				'name'              => __( 'Sign Up Label', self::NAME ),
+				'name'              => __( 'Default Text', self::NAME ),
 				'type'              => 'text',
 				'desc'              => __( 'Text that will appear next to the sign up checkbox', self::NAME ),
-				'default'           => __( 'Subscribe to the newsletter', self::NAME ),
+				'default'           => __( 'Send me news, announcements, and discounts.', self::NAME ),
 				'custom_attributes' => $drip_settings->custom_attributes(),
 			),
 			'section_end'               => array(

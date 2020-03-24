@@ -46,13 +46,13 @@ class Drip_Woocommerce_Checkout_Marketing_Confirmation {
 
 		// There is a disconnect between the admin settings and the checkout page.
 		// Within the admin settings, the MARKETING_CONFIG_TEXT has a default
-		// setting of 'Subscribe to the newsletter' and tests confirm the default
+		// setting of 'Send me news, announcements, and discounts' and tests confirm the default
 		// is present. However, from the checkout page, if the text hasn't been
-		// changes, WC_Admin_Settings::get_option() returns nothing for the
+		// changed, WC_Admin_Settings::get_option() returns nothing for the
 		// Drip_Woocommerce_Settings::MARKETING_CONFIG_TEXT, so...
 		// ...we have to guard against an empty return here.
 		// phpcs:ignore WordPress.PHP.DisallowShortTernary.Found
-		$label = WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::MARKETING_CONFIG_TEXT ) ?: 'Subscribe to the newsletter';
+		$label = WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::MARKETING_CONFIG_TEXT ) ?: 'Send me news, announcements, and discounts.';
 		woocommerce_form_field(
 			self::FIELD_NAME,
 			array(
