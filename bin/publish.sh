@@ -132,6 +132,6 @@ mv tags/$VERSION/assets/icon-* assets/
 if [[ "$DRY_RUN" = "true" ]]; then
   svn status
 else
-  svn add trunk/readme.txt "tags/$VERSION"
+  svn add "tags/$VERSION"
   svn commit -m "Publish version $VERSION" --username getdrip
 fi
