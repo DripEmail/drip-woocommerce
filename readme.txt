@@ -68,12 +68,13 @@ Please send support requests to our team within Drip.
 
 == Installation ==
 
-**See [the MyDrip instructions for details](https://my.drip.com/docs/manual/woocommerce/).**
+Integrate Drip and your WooCommerce store in a few easy clicks.
 
-1. Upload the plugin files to the `/wp-content/plugins/drip` directory, or install the plugin through the WordPress plugins screen directly.
-1. Activate the plugin through the 'Plugins' screen in WordPress
-1. Create WooCommerce webhook keys.
-1. Log into your Drip account, and go to 'WooCommerce' in your integration settings to configure.
+* Install the plugin
+* Generate API keys in WooCommerce
+* Enter your API keys in Drip
+
+View detailed integration instructions in [MyDrip](https://www.drip.com/learn/docs/manual/woocommerce/integration-instructions).
 
 == Changelog ==
 
