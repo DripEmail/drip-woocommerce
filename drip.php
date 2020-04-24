@@ -13,6 +13,9 @@ Version: 0.0.5
 Author: Drip
 Author URI: https://www.drip.com/
 License: GPLv2
+
+WC requires at least: 3.0
+WC tested up to: 4.0
 */
 
 defined( 'ABSPATH' ) || die( 'Executing outside of the WordPress context.' );
