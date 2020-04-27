@@ -40,7 +40,7 @@ class Drip_Woocommerce_Checkout_Marketing_Confirmation {
 	 * Callback for woocommerce_review_order_before_submit
 	 */
 	public function callback_review_order() {
-		if ( $this->drip_not_integrated() || WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::MARKETING_CONFIG_KEY ) == 'no' ) {
+		if ( $this->drip_not_integrated() || WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::MARKETING_CONFIG_KEY ) === 'no' ) {
 			return;
 		}
 
