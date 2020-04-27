@@ -12,8 +12,6 @@ Drip empowers WooCommerce stores to build customer loyalty through deep insights
 
 == Description ==
 
-**Note: The Drip WooCommerce native plugin is in early access limited-release. If you want early access [you can request it here](https://docs.google.com/forms/d/e/1FAIpQLSd1OFURetR7Fi2l4w6urTvZQ3HCKnw6A3mf-qAkEtxEjfjZbg/viewform), and based on availability we’ll enable it inside your paid Drip account.**
-
 When WooCommerce stores integrate with Drip, a pathway to increased customer loyalty, higher LTV, and lower CAC opens up for sellers at any stage.
 
 Drip empowers WooCommerce stores to build customer loyalty so they can keep on selling for years to come. When your WooCommerce store and Drip get together, customer data can finally be turned into one-of-a-kind customer experiences that build brand loyalty and grow your sales for the long run.
