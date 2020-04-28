@@ -19,6 +19,35 @@ Feature: Checkout Accepting Marketing
      And I start to check out
     Then The marketing checkbox is present
 
+  Scenario: Marketing checkbox shows up if using default opt-in
+    Given I have Drip configured
+      And I am logged in as an admin user
+      And I have created an accepts marketing webhook
+      And I have a product
+    When I add it to a cart
+      And I start to check out
+    Then The marketing checkbox is present
+
+  Scenario: Marketing checkbox doesn't show up if opted out
+    Given I have Drip configured
+      And I am logged in as an admin user
+      And I have created an accepts marketing webhook
+      And I have a product
+      And I have opted out of showing email marketing signup at checkout
+    When I add it to a cart
+      And I start to check out
+    Then The marketing checkbox is not present
+
+  Scenario: Marketing checkbox shows up if opted in
+    Given I have Drip configured
+      And I am logged in as an admin user
+      And I have created an accepts marketing webhook
+      And I have a product
+      And I have opted into showing email marketing signup at checkout
+    When I add it to a cart
+      And I start to check out
+    Then The marketing checkbox is present
+
   Scenario: Accepting marketing during checkout
     Given I have Drip configured
       And I have created an accepts marketing webhook

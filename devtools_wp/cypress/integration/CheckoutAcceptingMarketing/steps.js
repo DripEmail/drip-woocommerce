@@ -21,6 +21,20 @@ Given('I have created an accepts marketing webhook', () => {
   })
 })
 
+Given('I have opted out of showing email marketing signup at checkout', () => {
+  cy.visit('/wp-admin/admin.php?page=wc-settings&tab=settings_drip');
+  cy.wrap(Mockclient.reset());
+  cy.get('input#drip_enable_signup[type="checkbox"]').uncheck();
+  cy.contains('Save changes').click()
+})
+
+Given('I have opted into showing email marketing signup at checkout', () => {
+  cy.visit('/wp-admin/admin.php?page=wc-settings&tab=settings_drip');
+  cy.wrap(Mockclient.reset());
+  cy.get('input#drip_enable_signup[type="checkbox"]').check();
+  cy.contains('Save changes').click()
+})
+
 Then('I start to check out', () => {
   cy.route('POST', '/?wc-ajax=update_order_review').as('updateOrderReview')
 
