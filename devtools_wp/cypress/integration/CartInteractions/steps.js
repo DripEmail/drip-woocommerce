@@ -127,7 +127,7 @@ Then('I get sent a webhook with visitor_uuid', () => {
 
     cy.wrap(validateRequests(recordedRequests)).then(function (body) {
       expect(body.action).to.eq('wc_drip_woocommerce_cart_event')
-      const event = JSON.parse(decodeBase64(body.arg))
+      const event = body.arg
       cy.wrap([
         'event_action',
         'session',
@@ -227,7 +227,7 @@ Then('I get sent a webhook with a cart session ID', () => {
     }
   )).then(function (recordedRequests) {
     const body = validateRequests(recordedRequests)
-    const event = JSON.parse(decodeBase64(body.arg))
+    const event = body.arg
     expect(event.session).to.have.lengthOf(64)
     cy.wrap(event.session).as('lastCartSession')
   })
@@ -245,7 +245,7 @@ Then('I get sent a webhook with a different cart session ID', () => {
   )).then(function (recordedRequests) {
     const body = validateRequests(recordedRequests)
     cy.wrap(this.lastCartSession).then(function(lastCartSession) {
-      const event = JSON.parse(decodeBase64(body.arg))
+      const event = body.arg
       expect(lastCartSession).to.have.lengthOf(64)
       expect(event.session).to.have.lengthOf(64)
       expect(event.session).to.not.eq(lastCartSession)
@@ -265,7 +265,7 @@ Then('I get sent a webhook with the same cart session ID', () => {
     }
   )).then(function (recordedRequests) {
     const body = validateRequests(recordedRequests)
-    const event = JSON.parse(decodeBase64(body.arg))
+    const event = body.arg
     cy.wrap(this.lastCartSession).then(function(lastCartSession) {
       expect(lastCartSession).to.have.lengthOf(64)
       expect(event.session).to.have.lengthOf(64)
@@ -299,8 +299,8 @@ const validateRequests = function (requests) {
 
 const validateRequestBody = function (body) {
   expect(body.action).to.eq('wc_drip_woocommerce_cart_event')
-  console.log(decodeBase64(body.arg))
-  const event = JSON.parse(decodeBase64(body.arg))
+  console.log(body.arg)
+  const event = body.arg
   cy.wrap([
     'event_action',
     'session',
@@ -329,36 +329,20 @@ const validateRequestBody = function (body) {
 const validateMyFairWidget = function (event, quantity = 1) {
   const product = findWidget(event.cart_data)
   expect(product.product_id.toString()).to.eq('6') // only works because we reset the entire db with each scenerio
-  expect(product.product_variant_id.toString()).to.eq('6')
-  expect(product.sku).to.eq('fair-widg-12345')
-  expect(product.name).to.eq('My Fair Widget')
+  expect(product.product_variant_id.toString()).to.eq('0')
   expect(product.quantity).to.eq(quantity)
-  expect(product.price.toString()).to.eq('10.99')
   expect(product.taxes.toString()).to.eq('0')
   expect(product.total.toString()).to.eq(`${10.99 * quantity}`)
-  expect(product.product_url).to.eq('http://localhost:3007/?product=fair-widget')
-  expect(product.image_url).contains('<img')
-  expect(product.image_url).contains('http://localhost:3007/wp-content/plugins/woocommerce/assets/images/placeholder.png')
-  expect(product.categories).to.have.lengthOf(1)
-  expect(product.categories[0]).to.eq('my fair category')
   return product
 }
 
 const validateMyFairGizmo = function (event, quantity = 1) {
   const product = findGizmo(event.cart_data)
   expect(product.product_id.toString()).to.eq('7') // only works because we reset the entire db with each scenerio
-  expect(product.product_variant_id.toString()).to.eq('7')
-  expect(product.sku).to.eq('fair-gzmo-67890')
-  expect(product.name).to.eq('My Fair Gizmo')
+  expect(product.product_variant_id.toString()).to.eq('0')
   expect(product.quantity).to.eq(quantity)
-  expect(product.price.toString()).to.eq('11.11')
   expect(product.taxes.toString()).to.eq('0')
   expect(product.total.toString()).to.eq(`${11.11 * quantity}`)
-  expect(product.product_url).to.eq('http://localhost:3007/?product=fair-gizmo')
-  expect(product.image_url).contains('<img')
-  expect(product.image_url).contains('http://localhost:3007/wp-content/plugins/woocommerce/assets/images/placeholder.png')
-  expect(product.categories).to.have.lengthOf(1)
-  expect(product.categories[0]).to.eq('my fair category')
   return product
 }
 
@@ -376,5 +360,3 @@ const findProduct = function(product_id, cart_data) {
   }
   return cart_data[Object.keys(cart_data)[1]]
 }
-
-const decodeBase64 = function(encoded_string) { return atob(encoded_string); }

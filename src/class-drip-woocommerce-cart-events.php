@@ -51,11 +51,11 @@ class Drip_Woocommerce_Cart_Events {
 		foreach ( $cart_contents as $product_id => $cart_item_info ) {
 			$product_event_data = $this->product_event_data( $cart_item_info );
 			if ( $product_event_data ) {
-				$event->cart_data[ $product_id ] = $product_event_data;
+				$event->cart_data[] = $product_event_data;
 			}
 		}
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound, WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
-		do_action( 'wc_drip_woocommerce_cart_event', base64_encode( wp_json_encode( $event ) ) );
+		do_action( 'wc_drip_woocommerce_cart_event', $event );
 
 		if ( WC()->cart->is_empty() ) {
 			$this->remove_drip_cart_session_id();
@@ -71,9 +71,9 @@ class Drip_Woocommerce_Cart_Events {
 		$event               = new Drip_Woocommerce_Cart_Event();
 		$event->event_action = self::CART_UPDATED_ACTION; // TODO: we can trap cart created events if we have to generate a new cart session id.
 		if ( $this->user_invalid() ) {
-				$event->visitor_uuid = $this->find_drip_visitor_uuid();
+			$event->visitor_uuid = $this->find_drip_visitor_uuid();
 		} else {
-				$event->customer_email = wp_get_current_user()->user_email;
+			$event->customer_email = wp_get_current_user()->user_email;
 		}
 		$event->session         = $this->drip_cart_session_id();
 		$event->grand_total     = WC()->cart->get_total( 'drip_woocommerce' );
@@ -100,17 +100,10 @@ class Drip_Woocommerce_Cart_Events {
 
 		$cart_event_product                     = new Drip_Woocommerce_Cart_Event_Product();
 		$cart_event_product->product_id         = $cart_item_info['product_id'];
-		$cart_event_product->product_variant_id = $product_key;
-		$cart_event_product->sku                = $product_data->get_sku( 'drip_woocommerce' );
-		$cart_event_product->name               = $product_data->get_name( 'drip_woocommerce' );
-		$cart_event_product->short_description  = $product_data->get_short_description( 'drip_woocommerce' );
-		$cart_event_product->price              = $product_data->get_price( 'drip_woocommerce' );
+		$cart_event_product->product_variant_id = $cart_item_info['variation_id'];
 		$cart_event_product->taxes              = $cart_item_info['line_tax'];
 		$cart_event_product->total              = $cart_item_info['line_total'];
 		$cart_event_product->quantity           = $cart_item_info['quantity'];
-		$cart_event_product->product_url        = $product_data->get_permalink();
-		$cart_event_product->image_url          = $product_data->get_image( 'woocommerce_single', array(), true );
-		$cart_event_product->categories         = $this->product_categories( $product_data );
 
 		return $cart_event_product;
 	}
