@@ -18,7 +18,7 @@ Then("the page includes a Drip JS API call", () => {
     expect(product.product_variant_id.toString()).to.eq('6')
     expect(product.sku).to.eq('fair-widg-12345')
     expect(product.name).to.eq('My Fair Widget')
-    expect(product.price.toString()).to.eq('10.99')
+    expect(product.price.toString()).to.eq('1099')
     expect(product.product_url).to.eq('http://localhost:3007/?product=fair-widget')
     expect(product.image_url).to.eq('')
     expect(product.currency).to.eq('GBP')
