@@ -37,7 +37,7 @@ class Drip_Woocommerce_View_Events {
 			'product_variant_id' => $product->get_variation_id( 'drip_woocommerce' ),
 			'sku'                => $product->get_sku( 'drip_woocommerce' ),
 			'name'               => $product->get_name( 'drip_woocommerce' ),
-			'price'              => $product->get_price( 'drip_woocommerce' ),
+			'price'              => $product->get_price( 'drip_woocommerce' ) * 100,
 			'product_url'        => $product->get_permalink(),
 			'currency'           => get_option( 'woocommerce_currency' ),
 			'categories'         => $this->product_categories( $product ),
