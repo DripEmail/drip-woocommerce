@@ -3,7 +3,7 @@ Contributors: getdrip
 Tags: woocommerce, drip, ecrm, email marketing automation
 Requires at least: 4.6
 Tested up to: 5.4
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 Requires PHP: 5.6
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -75,6 +75,10 @@ Integrate Drip and your WooCommerce store in a few easy clicks.
 View detailed integration instructions in [MyDrip](https://www.drip.com/learn/docs/manual/woocommerce/integration-instructions).
 
 == Changelog ==
+
+= 1.0.4 =
+
+* Fix bug that auto-subscribed everyone just by virtue of placing an order.
 
 = 1.0.3 =
 
