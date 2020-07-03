@@ -76,6 +76,10 @@ View detailed integration instructions in [MyDrip](https://www.drip.com/learn/do
 
 == Changelog ==
 
+= NEXT =
+
+* Allow for checkbox string to be translated. (BenceSzalai)
+
 = 1.0.4 =
 
 * Fix bug that auto-subscribed everyone just by virtue of placing an order.
