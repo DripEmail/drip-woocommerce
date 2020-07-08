@@ -11,11 +11,11 @@ defined( 'ABSPATH' ) || die( 'Executing outside of the WordPress context.' );
  * Management for plugin settings
  */
 class Drip_Woocommerce_Settings {
-	const NAME                          = 'woocommerce-settings-drip';
-	const ACCOUNT_ID_KEY                = 'account_id';
-	const MARKETING_CONFIG_KEY          = 'drip_enable_signup';
-	const MARKETING_CONFIG_TEXT         = 'drip_signup_text';
-	const DEFAULT_MARKETING_CONFIG_KEY  = 'drip_enable_signup_default';
+	const NAME                         = 'woocommerce-settings-drip';
+	const ACCOUNT_ID_KEY               = 'account_id';
+	const MARKETING_CONFIG_KEY         = 'drip_enable_signup';
+	const MARKETING_CONFIG_TEXT        = 'drip_signup_text';
+	const DEFAULT_MARKETING_CONFIG_KEY = 'drip_enable_signup_default';
 
 	/**
 	 * Bootstraps the class and hooks required actions & filters.
@@ -124,20 +124,20 @@ class Drip_Woocommerce_Settings {
 	public static function get_settings() {
 		$drip_settings = new Drip_Woocommerce_Settings();
 		$settings      = array(
-			'section_title'             => array(
+			'section_title'                    => array(
 				'id'   => 'wc_settings_drip_section_title',
 				'name' => __( 'Drip', self::NAME ),
 				'type' => 'title',
 				'desc' => '',
 			),
-			self::ACCOUNT_ID_KEY        => array(
+			self::ACCOUNT_ID_KEY               => array(
 				'id'                => self::ACCOUNT_ID_KEY,
 				'name'              => __( 'Account ID', self::NAME ),
 				'type'              => 'number',
 				'desc'              => __( 'Drip Account ID is populated when your store is successfully connected to Drip.', self::NAME ),
 				'custom_attributes' => array( 'readonly' => 'readonly' ),
 			),
-			self::MARKETING_CONFIG_KEY  => array(
+			self::MARKETING_CONFIG_KEY         => array(
 				'id'                => self::MARKETING_CONFIG_KEY,
 				'name'              => __( 'Email Marketing', self::NAME ),
 				'type'              => 'checkbox',
@@ -145,7 +145,7 @@ class Drip_Woocommerce_Settings {
 				'default'           => 'yes',
 				'custom_attributes' => $drip_settings->custom_attributes(),
 			),
-			self::DEFAULT_MARKETING_CONFIG_KEY  => array(
+			self::DEFAULT_MARKETING_CONFIG_KEY => array(
 				'id'                => self::DEFAULT_MARKETING_CONFIG_KEY,
 				'name'              => __( 'Email Marketing checked by default', self::NAME ),
 				'type'              => 'checkbox',
@@ -154,7 +154,7 @@ class Drip_Woocommerce_Settings {
 				'custom_attributes' => $drip_settings->custom_attributes(),
 			),
 
-			self::MARKETING_CONFIG_TEXT => array(
+			self::MARKETING_CONFIG_TEXT        => array(
 				'id'                => self::MARKETING_CONFIG_TEXT,
 				'name'              => __( 'Default Text', self::NAME ),
 				'type'              => 'text',
@@ -162,7 +162,7 @@ class Drip_Woocommerce_Settings {
 				'default'           => __( 'Send me news, announcements, and discounts.', self::NAME ),
 				'custom_attributes' => $drip_settings->custom_attributes(),
 			),
-			'section_end'               => array(
+			'section_end'                      => array(
 				'type' => 'sectionend',
 				'id'   => 'wc_settings_drip_section_end',
 			),
