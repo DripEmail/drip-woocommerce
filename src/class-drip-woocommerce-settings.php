@@ -11,10 +11,11 @@ defined( 'ABSPATH' ) || die( 'Executing outside of the WordPress context.' );
  * Management for plugin settings
  */
 class Drip_Woocommerce_Settings {
-	const NAME                  = 'woocommerce-settings-drip';
-	const ACCOUNT_ID_KEY        = 'account_id';
-	const MARKETING_CONFIG_KEY  = 'drip_enable_signup';
-	const MARKETING_CONFIG_TEXT = 'drip_signup_text';
+	const NAME                          = 'woocommerce-settings-drip';
+	const ACCOUNT_ID_KEY                = 'account_id';
+	const MARKETING_CONFIG_KEY          = 'drip_enable_signup';
+	const MARKETING_CONFIG_TEXT         = 'drip_signup_text';
+	const DEFAULT_MARKETING_CONFIG_KEY  = 'drip_enable_signup_default';
 
 	/**
 	 * Bootstraps the class and hooks required actions & filters.
@@ -89,6 +90,15 @@ class Drip_Woocommerce_Settings {
 		);
 
 		$settings[] = array(
+			'id'          => self::DEFAULT_MARKETING_CONFIG_KEY,
+			'option_key'  => self::DEFAULT_MARKETING_CONFIG_KEY,
+			'label'       => __( 'Email Marketing checked by default', self::NAME ),
+			'description' => __( 'If checked, includes an sign up option during checkout that is checked by default.', self::NAME ),
+			'default'     => 'no',
+			'type'        => 'checkbox',
+		);
+
+		$settings[] = array(
 			'id'          => self::MARKETING_CONFIG_TEXT,
 			'option_key'  => self::MARKETING_CONFIG_TEXT,
 			'label'       => __( 'Default Text', self::NAME ),
@@ -135,6 +145,15 @@ class Drip_Woocommerce_Settings {
 				'default'           => 'yes',
 				'custom_attributes' => $drip_settings->custom_attributes(),
 			),
+			self::DEFAULT_MARKETING_CONFIG_KEY  => array(
+				'id'                => self::DEFAULT_MARKETING_CONFIG_KEY,
+				'name'              => __( 'Email Marketing checked by default', self::NAME ),
+				'type'              => 'checkbox',
+				'desc'              => __( 'Show a sign up option at checkout, checked by default.', self::NAME ),
+				'default'           => 'no',
+				'custom_attributes' => $drip_settings->custom_attributes(),
+			),
+
 			self::MARKETING_CONFIG_TEXT => array(
 				'id'                => self::MARKETING_CONFIG_TEXT,
 				'name'              => __( 'Default Text', self::NAME ),

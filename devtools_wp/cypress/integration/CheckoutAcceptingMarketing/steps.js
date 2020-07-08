@@ -35,6 +35,13 @@ Given('I have opted into showing email marketing signup at checkout', () => {
   cy.contains('Save changes').click()
 })
 
+Given('I have opted into showing email marketing signup by default at checkout', () => {
+  cy.visit('/wp-admin/admin.php?page=wc-settings&tab=settings_drip');
+  cy.wrap(Mockclient.reset());
+  cy.get('input#drip_enable_signup_default[type="checkbox"]').check();
+  cy.contains('Save changes').click()
+})
+
 Then('I start to check out', () => {
   cy.route('POST', '/?wc-ajax=update_order_review').as('updateOrderReview')
 
@@ -92,8 +99,14 @@ Then('The marketing checkbox is not present', () => {
   cy.get('input#drip_woocommerce_accepts_marketing[type="checkbox"]').should('have.length', 0)
 })
 
-Then('The marketing checkbox is present', () => {
+Then('The marketing checkbox is present and unchecked', () => {
   cy.get('input#drip_woocommerce_accepts_marketing[type="checkbox"]').should('have.length', 1)
+  cy.get('input#drip_woocommerce_accepts_marketing[type="checkbox"]').should("not.be.checked")
+})
+
+Then('The marketing checkbox is present and checked', () => {
+  cy.get('input#drip_woocommerce_accepts_marketing[type="checkbox"]').should('have.length', 1)
+  cy.get('input#drip_woocommerce_accepts_marketing[type="checkbox"]').should("be.checked")
 })
 
 const validateRequests = function (requests) {
