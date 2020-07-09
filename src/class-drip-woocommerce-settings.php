@@ -147,9 +147,9 @@ class Drip_Woocommerce_Settings {
 			),
 			self::DEFAULT_MARKETING_CONFIG_KEY => array(
 				'id'                => self::DEFAULT_MARKETING_CONFIG_KEY,
-				'name'              => __( 'Email Marketing checked by default', self::NAME ),
+				'name'              => __( 'Pre-Select Email Marketing Checkbox', self::NAME ),
 				'type'              => 'checkbox',
-				'desc'              => __( 'Show a sign up option at checkout, checked by default.', self::NAME ),
+				'desc'              => __( '<a href="https://my.drip.com/search?query=gdpr" target="_blank">review GDPR</a>', self::NAME ),
 				'default'           => 'no',
 				'custom_attributes' => $drip_settings->custom_attributes(),
 			),
