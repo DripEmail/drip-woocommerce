@@ -3,7 +3,7 @@ Contributors: getdrip
 Tags: woocommerce, drip, ecrm, email marketing automation
 Requires at least: 4.6
 Tested up to: 5.4
-Stable tag: 1.0.5
+Stable tag: 1.1.0
 Requires PHP: 5.6
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -77,7 +77,7 @@ View detailed integration instructions in [MyDrip](https://www.drip.com/learn/do
 == Changelog ==
 = NEXT =
 
-= 1.0.5 =
+= 1.1.0 =
 
 * Add option to have Email Marketing checkbox selected by default
 * Allow for checkbox string to be translated. (BenceSzalai)
