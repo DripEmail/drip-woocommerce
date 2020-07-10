@@ -40,7 +40,7 @@ class Drip_Woocommerce_Checkout_Marketing_Confirmation {
 	 * Callback for woocommerce_review_order_before_submit
 	 */
 	public function callback_review_order() {
-		if ( $this->drip_not_integrated() || WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::MARKETING_CONFIG_KEY ) === 'no' ) {
+		if ( $this->drip_not_integrated() || ( WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::MARKETING_CONFIG_KEY ) === 'no' && WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::DEFAULT_MARKETING_CONFIG_KEY ) === 'no' ) ) {
 			return;
 		}
 
@@ -52,13 +52,15 @@ class Drip_Woocommerce_Checkout_Marketing_Confirmation {
 		// Drip_Woocommerce_Settings::MARKETING_CONFIG_TEXT, so...
 		// ...we have to guard against an empty return here.
 		// phpcs:ignore WordPress.PHP.DisallowShortTernary.Found
-		$label = WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::MARKETING_CONFIG_TEXT ) ?: 'Send me news, announcements, and discounts.';
+		$label   = WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::MARKETING_CONFIG_TEXT ) ?: 'Send me news, announcements, and discounts.';
+		$checked = WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::DEFAULT_MARKETING_CONFIG_KEY ) === 'yes' ? 1 : 0;
 		woocommerce_form_field(
 			self::FIELD_NAME,
 			array(
 				'type'  => 'checkbox',
 				'label' => $label,
-			)
+			),
+			$checked
 		);
 	}
 
