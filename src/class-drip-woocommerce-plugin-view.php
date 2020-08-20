@@ -51,6 +51,6 @@ class Drip_Woocommerce_Plugin_View {
 		if ( ! empty( $account_id ) ) {
 			$account_segment = "${account_id}/";
 		}
-		return "<a href=\"https://www.getdrip.com/${$account_segment}integrations/drip_woocommerce\">Integration Settings</a>";
+		return "<a href=\"https://www.getdrip.com/${account_segment}integrations/drip_woocommerce\">Integration Settings</a>";
 	}
 }
