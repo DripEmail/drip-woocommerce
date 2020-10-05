@@ -32,6 +32,7 @@ class Drip_Woocommerce_View_Events {
 	public function drip_woocommerce_viewed_product() {
 		wp_register_script( 'Drip product view tracking', plugin_dir_url( __FILE__ ) . 'product_view_tracking.js', array(), '1', true );
 		$product            = wc_get_product();
+		$image_id = $product->get_image_id();
 		$product_attributes = array(
 			'product_id'         => $product->get_id( 'drip_woocommerce' ),
 			'product_variant_id' => $product->get_variation_id( 'drip_woocommerce' ),
@@ -41,7 +42,7 @@ class Drip_Woocommerce_View_Events {
 			'product_url'        => $product->get_permalink(),
 			'currency'           => get_option( 'woocommerce_currency' ),
 			'categories'         => $this->product_categories( $product ),
-			'image_id'           => $product->get_image_id(),
+			'image_id'           => $image_id,
 			'image_url'          => wp_get_attachment_image_url( $image_id ),
 		);
 
