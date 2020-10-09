@@ -3,7 +3,7 @@ Contributors: getdrip
 Tags: woocommerce, drip, ecrm, email marketing automation
 Requires at least: 4.6
 Tested up to: 5.4
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 Requires PHP: 5.6
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -76,6 +76,10 @@ View detailed integration instructions in [MyDrip](https://www.drip.com/learn/do
 
 == Changelog ==
 = NEXT =
+
+= 1.1.1 =
+
+* Fix bug that prevented product image_urls from appearing in "Viewed a product" events
 
 = 1.1.0 =
 
