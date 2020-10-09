@@ -32,7 +32,7 @@ Then('I add a widget to my cart', () => {
       expect(call).to.have.lengthOf(2)
       expect(call[0]).to.eq("identify")
       const identify_data = call[1]
-      expect(Object.keys(identify_data)).to.have.lengthOf(1)
+      expect(Object.keys(identify_data)).to.have.lengthOf(2)
       expect(identify_data.email).to.eq('eliza.doolittle@example.com')
     })
   })
