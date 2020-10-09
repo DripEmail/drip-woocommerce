@@ -39,3 +39,13 @@ rm -rf db_data/
 ```
 
 Then run `setup.sh` to bring a clean instance back up.
+
+## Releasing a new plugin version
+
+Update the version in `drip.php` and `readme.txt`. Fill in the changelog.
+
+Run `bin/release.sh` to create and release new tag on github
+
+Ensure you have a local copy of `https://plugins.svn.wordpress.org/drip/`. `svn co https://plugins.svn.wordpress.org/drip/` will fetch it.
+
+Run `bin/publish.sh -v VERSION -r PATH/TO/SVN`, e.g. `bin/publish.sh -v 1.1.1 -r /Users/iannance/code/svn/drip`
