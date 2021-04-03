@@ -34,8 +34,8 @@ class Drip_Woocommerce_View_Events {
 		$product            = wc_get_product();
 		$image_id           = $product->get_image_id();
 		$product_attributes = array(
-			'product_id'         => $product->get_id( 'drip_woocommerce' ),
-			'product_variant_id' => $product->get_variation_id( 'drip_woocommerce' ),
+			'product_id'         => $product->get_id(),
+			'product_variant_id' => $product->get_variation_id(),
 			'sku'                => $product->get_sku( 'drip_woocommerce' ),
 			'name'               => $product->get_name( 'drip_woocommerce' ),
 			'price'              => $product->get_price( 'drip_woocommerce' ) * 100,
