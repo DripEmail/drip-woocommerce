@@ -82,6 +82,7 @@ class Drip_Woocommerce_Cart_Events {
 		$event->total_fees      = WC()->cart->get_fee_total( 'drip_woocommerce' );
 		$event->total_shipping  = WC()->cart->get_shipping_total( 'drip_woocommerce' );
 		$event->currency        = get_option( 'woocommerce_currency' );
+		$event->occurred_at     = $this->current_time();
 		return $event;
 	}
 
@@ -183,5 +184,15 @@ class Drip_Woocommerce_Cart_Events {
 		$parser = new Drip_Woocommerce_Cookie_Parser( wp_kses_data( wp_unslash( $_COOKIE[ "_drip_client_{$account_id}" ] ) ) );
 
 		return $parser->get_vid();
+	}
+
+	/**
+	 * Retrieve the current date & time in ISO8601 format
+	 **/
+	private function current_time()
+	{
+		$time_obj = new DateTime('NOW');
+
+		return $time_obj->format('c');
 	}
 }
