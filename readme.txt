@@ -77,6 +77,8 @@ View detailed integration instructions in [MyDrip](https://www.drip.com/learn/do
 == Changelog ==
 = NEXT =
 
+* Add occurred_at timestamp to cart events to avoid timing issues when there are queue backups or other issues.
+
 = 1.1.1 =
 
 * Fix bug that prevented product image_urls from appearing in "Viewed a product" events
