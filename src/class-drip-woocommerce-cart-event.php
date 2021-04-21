@@ -87,4 +87,11 @@ class Drip_Woocommerce_Cart_Event {
 	 * @var array
 	 */
 	public $cart_data = array();
+
+	/**
+	 * Occurred at (timestamp of the event)
+	 *
+	 * @var string
+	 */
+	public $occurred_at;
 }
