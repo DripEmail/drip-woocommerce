@@ -3,7 +3,7 @@ Contributors: getdrip
 Tags: woocommerce, drip, ecrm, email marketing automation
 Requires at least: 4.6
 Tested up to: 5.7
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 Requires PHP: 5.6
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -76,6 +76,10 @@ View detailed integration instructions in [MyDrip](https://www.drip.com/learn/do
 
 == Changelog ==
 = NEXT =
+
+* Your change here!
+
+= 1.1.2 =
 
 * Add occurred_at timestamp to cart events to avoid timing issues when there are queue backups or other issues.
 * Fixed bug in viewed a product snippet insertion where we were adding context params when unneeded. (SumoTTo)
