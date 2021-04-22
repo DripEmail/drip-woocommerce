@@ -3,6 +3,8 @@ import { mockServerClient } from "mockserver-client"
 
 const Mockclient = mockServerClient("localhost", 1080)
 
+const CheckoutPageId = 11
+
 Then('I add a widget to my cart', () => {
     // This is the product slug
     cy.visit('/?product=fair-widget')
@@ -12,7 +14,7 @@ Then('I add a widget to my cart', () => {
   })
 
   Then('I checkout', () => {
-      cy.visit('/?page_id=5')
+      cy.visit(`/?page_id=${CheckoutPageId}`)
       cy.get('#billing_first_name').clear({force: true}).type('Eliza')
       cy.get('#billing_last_name').clear({force: true}).type('Doolittle')
       cy.get('#billing_address_1').clear({force: true}).type('8 Albert Street')

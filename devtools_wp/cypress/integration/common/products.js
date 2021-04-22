@@ -12,6 +12,6 @@ Given('I have a product', () => {
     'regular_price': 10.99,
     'sku': 'fair-widg-12345',
     'categories': '[{"id":16}]',
-    'images': '[{"id":5}]'
+    'images': '[{"id":4}]'
   })
 })
