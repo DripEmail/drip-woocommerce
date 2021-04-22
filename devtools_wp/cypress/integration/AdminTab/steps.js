@@ -60,7 +60,7 @@ When('I save the settings', () => {
 
 When('I navigate away and return', () => {
     cy.visit('/')
-    cy.contains('Site Admin').wait(300)
+    cy.contains('Welcome to WordPress').wait(300)
     cy.visit('/wp-admin/admin.php?page=wc-settings&tab=settings_drip')
     cy.contains('Text that will appear next to the sign up checkbox')
 })
