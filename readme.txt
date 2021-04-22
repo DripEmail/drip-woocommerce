@@ -79,6 +79,7 @@ View detailed integration instructions in [MyDrip](https://www.drip.com/learn/do
 
 * Add occurred_at timestamp to cart events to avoid timing issues when there are queue backups or other issues.
 * Fixed bug in viewed a product snippet insertion where we were adding context params when unneeded. (SumoTTo)
+* Changed context param to be 'edit' instead of a custom value in a number of places.
 
 = 1.1.1 =
 
