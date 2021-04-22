@@ -5,15 +5,12 @@
   "license": "MIT",
   "dependencies": {
     "chai-string": "^1.5.0",
-    "cypress": "^4.1.0",
+    "cypress": "^7.1.0",
     "cypress-cucumber-preprocessor": "^2.0.1",
     "cypress-pipe": "^1.7.0",
     "mockserver-client": "5.7.0"
   },
   "cypress-cucumber-preprocessor": {
     "nonGlobalStepDefinitions": true
-  },
-  "devDependencies": {
-    "cypress-plugin-retries": "^1.5.2"
   }
 }
