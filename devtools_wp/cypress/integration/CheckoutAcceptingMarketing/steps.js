@@ -3,6 +3,8 @@ import { mockServerClient } from "mockserver-client"
 
 const Mockclient = mockServerClient("localhost", 1080)
 
+const CheckoutPageId = 11
+
 Given('I have created an accepts marketing webhook', () => {
   cy.wrap(Mockclient.mockAnyResponse({
     "httpRequest": {
@@ -43,11 +45,7 @@ Given('I have opted into showing email marketing signup by default at checkout',
 })
 
 Then('I start to check out', () => {
-  cy.route('POST', '/?wc-ajax=update_order_review').as('updateOrderReview')
-
-  cy.contains('My Fair Checkout').click()
-
-  cy.wait('@updateOrderReview');
+  cy.visit(`/?page_id=${CheckoutPageId}`).wait(300)
 
   cy.get('input#billing_first_name').type('Oliver', { force: true })
   cy.get('input#billing_last_name').type('Smith', { force: true })

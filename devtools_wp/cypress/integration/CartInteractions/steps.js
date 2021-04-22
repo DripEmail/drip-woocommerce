@@ -3,6 +3,11 @@ import { mockServerClient } from "mockserver-client"
 
 const Mockclient = mockServerClient("localhost", 1080)
 
+// These IDs can change across versions of WooCommerce.
+// We should find a more robust way of handling this.
+const CartPageId = 10
+const ProductId = 12
+
 Given('I have a second product', () => {
   cy.wpcliCreateProduct({
     'name': 'My Fair Gizmo',
@@ -58,18 +63,18 @@ Given('I have been cookied', () => {
 })
 
 Then('I remove it from the cart', () => {
-  cy.visit('http://localhost:3007/?page_id=4') // using the page SLUG won't work here
+  cy.visit(`http://localhost:3007/?page_id=${CartPageId}`) // using the page SLUG won't work here
   cy.wrap(Mockclient.reset())
   cy.contains("Proceed to checkout")
-  cy.get('a.remove[data-product_id="6"]').click()
+  cy.get(`a.remove[data-product_id="${ProductId}"]`).click()
   cy.contains("Your cart is currently empty.")
 })
 
 Then ('I remove the widget from the cart', () => {
-  cy.visit('http://localhost:3007/?page_id=4') // using the page SLUG won't work here
+  cy.visit(`http://localhost:3007/?page_id=${CartPageId}`) // using the page SLUG won't work here
   cy.wrap(Mockclient.reset())
   cy.contains("Proceed to checkout")
-  cy.get('a.remove[data-product_id="6"]').click()
+  cy.get(`a.remove[data-product_id="${ProductId}"]`).click()
   cy.contains(/.*My Fair Widget.* removed\./)
 })
 
@@ -81,7 +86,7 @@ Then('I restore it to the cart', () => {
 })
 
 Then('I increase the quantity in the cart', () => {
-  cy.visit('http://localhost:3007/?page_id=4')
+  cy.visit(`http://localhost:3007/?page_id=${CartPageId}`)
   cy.contains("Update cart")
   cy.get('input[title="Qty"]').first().clear().type('9001')
   cy.wrap(Mockclient.reset())
@@ -90,7 +95,7 @@ Then('I increase the quantity in the cart', () => {
 })
 
 Then('I decrease the quantity in the cart to zero', () => {
-  cy.visit('http://localhost:3007/?page_id=4')
+  cy.visit(`http://localhost:3007/?page_id=${CartPageId}`)
   cy.contains("Update cart")
   cy.get('input[title="Qty"]').first().clear().type('0')
   cy.wrap(Mockclient.reset())
@@ -328,7 +333,7 @@ const validateRequestBody = function (body) {
 
 const validateMyFairWidget = function (event, quantity = 1) {
   const product = findWidget(event.cart_data)
-  expect(product.product_id.toString()).to.eq('6') // only works because we reset the entire db with each scenerio
+  expect(product.product_id.toString()).to.eq(ProductId.toString()) // only works because we reset the entire db with each scenerio
   expect(product.product_variant_id.toString()).to.eq('0')
   expect(product.quantity).to.eq(quantity)
   expect(product.taxes.toString()).to.eq('0')
@@ -347,7 +352,7 @@ const validateMyFairGizmo = function (event, quantity = 1) {
 }
 
 const findWidget = function(cart_data) {
-  return findProduct(6, cart_data)
+  return findProduct(ProductId, cart_data)
 }
 
 const findGizmo = function(cart_data) {
