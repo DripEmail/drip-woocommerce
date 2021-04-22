@@ -76,11 +76,11 @@ class Drip_Woocommerce_Cart_Events {
 			$event->customer_email = wp_get_current_user()->user_email;
 		}
 		$event->session         = $this->drip_cart_session_id();
-		$event->grand_total     = WC()->cart->get_total( 'drip_woocommerce' );
-		$event->total_discounts = WC()->cart->get_discount_total( 'drip_woocommerce' );
-		$event->total_taxes     = WC()->cart->get_total_tax( 'drip_woocommerce' );
-		$event->total_fees      = WC()->cart->get_fee_total( 'drip_woocommerce' );
-		$event->total_shipping  = WC()->cart->get_shipping_total( 'drip_woocommerce' );
+		$event->grand_total     = WC()->cart->get_total( 'edit' );
+		$event->total_discounts = WC()->cart->get_discount_total( 'edit' );
+		$event->total_taxes     = WC()->cart->get_total_tax( 'edit' );
+		$event->total_fees      = WC()->cart->get_fee_total( 'edit' );
+		$event->total_shipping  = WC()->cart->get_shipping_total( 'edit' );
 		$event->currency        = get_option( 'woocommerce_currency' );
 		$event->occurred_at     = $this->current_time();
 		return $event;

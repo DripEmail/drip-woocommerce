@@ -28,9 +28,9 @@ class Drip_Woocommerce_Customer_Identify {
 			return; }
 
 		$order = wc_get_order( $order_id );
-		if ( $order && $order->get_billing_email( 'drip_woocommerce' ) ) {
+		if ( $order && $order->get_billing_email( 'edit' ) ) {
 			$dwci = new Drip_Woocommerce_Customer_Identify();
-			$dwci->render( $order->get_billing_email( 'drip_woocommerce' ) );
+			$dwci->render( $order->get_billing_email( 'edit' ) );
 		}
 	}
 

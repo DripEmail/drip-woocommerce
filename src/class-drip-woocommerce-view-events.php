@@ -36,9 +36,9 @@ class Drip_Woocommerce_View_Events {
 		$product_attributes = array(
 			'product_id'         => $product->get_id(),
 			'product_variant_id' => $product->get_id(),
-			'sku'                => $product->get_sku( 'drip_woocommerce' ),
-			'name'               => $product->get_name( 'drip_woocommerce' ),
-			'price'              => $product->get_price( 'drip_woocommerce' ) * 100,
+			'sku'                => $product->get_sku( 'edit' ),
+			'name'               => $product->get_name( 'edit' ),
+			'price'              => $product->get_price( 'edit' ) * 100,
 			'product_url'        => $product->get_permalink(),
 			'currency'           => get_option( 'woocommerce_currency' ),
 			'categories'         => $this->product_categories( $product ),
