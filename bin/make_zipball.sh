@@ -10,8 +10,8 @@ if [[ ! -z "$(git status --porcelain)" ]]; then
 fi
 
 branch=$(git rev-parse --abbrev-ref HEAD)
-if [[ "$branch" != "master" ]]; then
-  >&2 echo "WARNING: you are not on the master branch"
+if [[ "$branch" != "main" ]]; then
+  >&2 echo "WARNING: you are not on the main branch"
 fi
 
 version=$(cat drip.php | grep -e '^Version: ' | awk '{print $2}')
