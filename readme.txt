@@ -32,7 +32,7 @@ Yes, we offer a free 14-day trial for new users. Sign up for a free trial here: 
 
 === How much does Drip cost? ===
 
-Plans start at $19/mo. Find your monthly cost on our pricing page: https://www.drip.com/pricing
+Plans start at $39/mo. Find your monthly cost on our pricing page: https://www.drip.com/pricing
 
 === How do I install the Drip for WooCommerce plugin? ===
 
