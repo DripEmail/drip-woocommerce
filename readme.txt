@@ -12,11 +12,11 @@ Drive more revenue from each and every customer with perfectly personalized emai
 
 == Description ==
 
-Drip is an email and SMS marketing automation platform for growing ecommerce brands who want to take their email marketing to the next level.
+Drip is an email marketing automation platform for growing ecommerce brands who want to take their email marketing to the next level.
 
-Unleash the power of your WooCommerce data to deliver perfectly personalized email and SMS marketing strategies that will grow your revenue—like targeting customers on what they buy, browse, and click across your store.
+Unleash the power of your WooCommerce data to deliver perfectly personalized email marketing strategies that will grow your revenue—like targeting customers on what they buy, browse, and click across your store.
 
-With our pre-built welcome series, abandoned cart, and post-purchase playbooks, you can run the latest and greatest ecommerce email and SMS marketing campaigns in just a few clicks (without needing a developer!).
+With our pre-built welcome series, abandoned cart, and post-purchase playbooks, you can run the latest and greatest ecommerce email marketing campaigns in just a few clicks (without needing a developer!).
 
 Want to email people who bought a pair of shorts last summer? Or who viewed that hat that just went on sale? No problem!
 
