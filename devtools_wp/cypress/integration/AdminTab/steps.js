@@ -6,7 +6,7 @@ const Mockclient = mockServerClient("localhost", 1080)
 const CheckoutPageId = 11
 
 When('I navigate to the Woocommerce Settings page', () => {
-    cy.visit('/wp-admin/admin.php?page=wc-settings')
+    cy.visit('wp-admin/admin.php?page=wc-settings')
     cy.contains('Save changes')
 })
 
