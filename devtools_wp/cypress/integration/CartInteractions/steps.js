@@ -2,6 +2,9 @@ import { Given, When, Then } from "cypress-cucumber-preprocessor/steps"
 import { mockServerClient } from "mockserver-client"
 
 const Mockclient = mockServerClient("localhost", 1080)
+
+// These IDs can change across versions of WooCommerce.
+// We should find a more robust way of handling this.
 const CartPageId = 6
 const ProductId = 13
 
