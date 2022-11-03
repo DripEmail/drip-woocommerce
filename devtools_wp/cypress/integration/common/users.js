@@ -15,6 +15,7 @@ Given('I have a logged in user', () => {
   cy.get('#user_login').clear().type('my_fair_user')
   cy.get('#user_pass').clear().type('123!@#abc')
   cy.get('#wp-submit[value="Log In"]').click()
+  cy.visit('/')
   cy.contains("Hello world!")
 })
 
@@ -25,5 +26,6 @@ Given('I am logged in as an admin user', () => {
   cy.get('#user_login').clear().type('drip')
   cy.get('#user_pass').clear().type('abc1234567890')
   cy.get('#wp-submit[value="Log In"]').click()
+  cy.visit('/')
   cy.contains("Hello world!")
 })

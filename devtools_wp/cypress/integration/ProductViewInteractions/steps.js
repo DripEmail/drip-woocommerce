@@ -14,13 +14,13 @@ Then("the page includes a Drip JS API call", () => {
     expect(call[1]).to.eq("Viewed a product")
 
     const product = call[2]
-    expect(product.product_id.toString()).to.eq('10') // only works because we reset the entire db with each scenerio
-    expect(product.product_variant_id.toString()).to.eq('10')
+    expect(product.product_id.toString()).to.eq('13') // only works because we reset the entire db with each scenerio
+    expect(product.product_variant_id.toString()).to.eq('13')
     expect(product.sku).to.eq('fair-widg-12345')
     expect(product.name).to.eq('My Fair Widget')
     expect(product.price.toString()).to.eq('1099')
     expect(product.product_url).to.eq('http://localhost:3007/?product=fair-widget')
-    expect(product.currency).to.eq('USD')
+    expect(product.currency).to.eq('GBP')
     expect(product.categories).to.eq('my fair category')
   })
 })

@@ -2,7 +2,7 @@
 Contributors: getdrip
 Tags: ecommerce, emailmarketing, marketingautomation, emailmarketingautomation, woocommerce, drip
 Requires at least: 4.6
-Tested up to: 5.8
+Tested up to: 6.0.3
 Stable tag: 1.1.2
 Requires PHP: 5.6
 License: GPLv2

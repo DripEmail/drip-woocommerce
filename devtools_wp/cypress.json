@@ -1,7 +1,7 @@
 {
   "ignoreTestFiles": "*.js",
   "baseUrl": "http://localhost:3007",
-
+  "chromeWebSecurity": false,
   "defaultCommandTimeout": 15000,
   "pageLoadTimeout": 100000,
   "requestTimeout": 15000,
