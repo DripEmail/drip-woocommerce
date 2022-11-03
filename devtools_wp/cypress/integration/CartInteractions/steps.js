@@ -66,7 +66,7 @@ Given('I have been cookied', () => {
 
 Then('I remove it from the cart', () => {
   cy.visit(`http://localhost:3007/?page_id=${CartPageId}`)
-  cy.get('.remove').click()
+  cy.get('a.remove').click()
   cy.wrap(Mockclient.reset())
   cy.contains("Proceed to checkout")
   cy.contains("Your cart is currently empty.")
