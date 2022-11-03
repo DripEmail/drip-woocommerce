@@ -150,7 +150,7 @@ Then('I get sent a webhook with visitor_uuid', () => {
         expect(event[item], `body.arg[${item}]`).to.not.be.null;
       })
       expect(event.event_action).to.eq('updated')
-      //expect(event.visitor_uuid).to.eq('8f081a6c93ca47bab5a33eed8f1adab6')
+      expect(event.visitor_uuid).to.eq('8f081a6c93ca47bab5a33eed8f1adab6')
       expect(Number(event.total_discounts)).to.eq(0)
       expect(Number(event.total_taxes)).to.eq(0)
       expect(Number(event.total_fees)).to.eq(0)
