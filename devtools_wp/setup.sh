@@ -15,7 +15,7 @@ cd /var/www/html/ && \
 /usr/local/bin/wp core install --url="http://localhost:$port" --title="drip_woocommerce_test" --admin_user="drip" --admin_email="drip@example.com" --admin_password="abc1234567890" --skip-email && \
 /usr/local/bin/wp plugin activate woocommerce && \
 /usr/local/bin/wp plugin activate drip; \
-/usr/local/bin/wp media import https://iconsetc.com/icons-watermarks/simple-black/foundation/foundation_widget/foundation_widget_simple-black_512x512.png
+/usr/local/bin/wp media import https://cdn3.iconfinder.com/data/icons/nature-emoji/50/Forest-512.png
 CART_PAGE_ID=\$(/usr/local/bin/wp post create --post_type=page --post_author="drip" --post_title="My Fair Cart" --post_name="My Fair Cart" --post_content="[woocommerce_cart]" --post_status="publish" --porcelain) && \
 /usr/local/bin/wp option set woocommerce_cart_page_id \$CART_PAGE_ID --autoload='yes'; \
 CHKOUT_PAGE_ID=\$(/usr/local/bin/wp post create --post_type=page --post_author="drip" --post_title="My Fair Checkout" --post_name="My Fair Checkout" --post_content="[woocommerce_checkout]" --post_status="publish" --porcelain) && \
@@ -54,6 +54,9 @@ docker-compose exec -T -u root web /bin/bash -c "chown www-data wp-content"
 docker-compose exec -T -u www-data web /bin/bash -c "$woocommerce_setup_script"
 docker-compose exec -T -u root web /bin/bash -c "$(cat install-composer.sh)"
 docker-compose exec -T -u root web /bin/bash -c "$update_bashrc_script"
+docker-compose exec -T -u root web /bin/bash -c "$
+$composer config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+"
 docker-compose exec -T -u root web /bin/bash -c "
   $composer global require 'squizlabs/php_codesniffer=*' && \
     $composer require --dev \
@@ -67,4 +70,5 @@ docker-compose exec -T -u root web /bin/bash -c "
 
 # echo "Backing up database for later reset"
 mkdir -p db_data
-docker-compose exec -e MYSQL_PWD=woocommerce db mysqldump -u woocommerce woocommerce > db_data/dump.sql
+touch db_data/dump.sql
+docker-compose exec -e MYSQL_PWD=woocommerce db mysqldump --no-tablespaces -u woocommerce woocommerce > db_data/dump.sql

@@ -3,7 +3,7 @@ import { mockServerClient } from "mockserver-client"
 
 const Mockclient = mockServerClient("localhost", 1080)
 
-const CheckoutPageId = 11
+const CheckoutPageId = 7
 
 Given('I have created an accepts marketing webhook', () => {
   cy.wrap(Mockclient.mockAnyResponse({
@@ -53,6 +53,7 @@ Then('I start to check out', () => {
   cy.get('input#billing_city').type('Feltham', { force: true })
   cy.get('input#billing_postcode').type('TW13 6LL', { force: true })
   cy.get('input#billing_phone').type('123-456-7890', { force: true })
+  
 })
 
 Then('I accept marketing', () => {
@@ -64,7 +65,7 @@ Then('I accept marketing', () => {
 Then('I place order', () => {
   cy.wrap(Mockclient.reset())
   cy.contains('Place order').click({ force: true })
-  cy.contains('Order received').wait(300)
+  cy.contains('Order details').wait(300)
 })
 
 Then('Drip receives a subscriber event', () => {
@@ -112,8 +113,10 @@ const validateRequests = function (requests) {
   const request = requests[0]
   expect(Object.keys(request.headers)).contains('User-Agent')
   expect(request.headers['User-Agent'][0]).match(/.*WooCommerce\/\d+\.\d+\.\d+.*Hookshot.*\(WordPress\/\d+\.\d+\.\d+\)/)
-  const body = JSON.parse(request.body.string)
+  
+  const body = request.body.json
   expect(body.action).to.eq('wc_drip_woocommerce_subscriber_updated')
   expect(body.arg).to.not.be.null
+
   return body.arg
 }

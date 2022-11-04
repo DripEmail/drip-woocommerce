@@ -3,10 +3,8 @@ import { mockServerClient } from "mockserver-client"
 
 const Mockclient = mockServerClient("localhost", 1080)
 
-const CheckoutPageId = 11
-
 When('I navigate to the Woocommerce Settings page', () => {
-    cy.visit('/wp-admin/admin.php?page=wc-settings')
+    cy.visit('wp-admin/admin.php?page=wc-settings')
     cy.contains('Save changes')
 })
 
@@ -72,6 +70,6 @@ Then('the settings should be persisted', () => {
 })
 
 Then('the custom text appears on the checkout page', () => {
-    cy.visit(`/?page_id=${CheckoutPageId}`).wait(300)
+    cy.contains('a','Checkout').click()
     cy.contains('Texty McTextface').should('have.length', 1)
 })
