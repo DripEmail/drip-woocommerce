@@ -31,9 +31,9 @@ class Drip_Woocommerce_View_Events {
 	 */
 	public function drip_woocommerce_viewed_product() {
 		wp_register_script( 'Drip product view tracking', plugin_dir_url( __FILE__ ) . 'product_view_tracking.js', array(), '1', true );
-		$product            				= wc_get_product();
-		$image_id           				= $product->get_image_id();
-		$product_price      				= $product->get_price();
+		$product                    = wc_get_product();
+		$image_id                   = $product->get_image_id();
+		$product_price              = $product->get_price();
 		$adjusted_product_price     = 0;
 		if (!empty($product_price)) {
 			$adjusted_product_price = ($product_price * 100);
