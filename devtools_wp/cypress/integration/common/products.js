@@ -14,3 +14,17 @@ Given('I have a product', () => {
     'categories': '[{"id":16}]'
   })
 })
+
+Given('I have a null-price product', () => {
+  cy.wpcliCreateProductCategory({
+    'porcelain': '',
+    'name': 'my fair category'
+  })
+
+  cy.wpcliCreateProduct({
+    'name': 'My Fair Widget Null',
+    'slug': 'fair-widget-null',
+    'sku': 'fair-widg-12345-null',
+    'categories': '[{"id":16}]'
+  })
+})

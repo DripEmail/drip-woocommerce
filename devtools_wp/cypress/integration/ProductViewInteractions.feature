@@ -6,3 +6,8 @@ Feature: Product View Interactions
     Given I have a product
     When I view a product
     Then the page includes a Drip JS API call
+
+  Scenario: I view a null-price product page
+    Given I have a null-price product
+    When I view a null-price product
+    Then the page includes a null-price Drip JS API call
