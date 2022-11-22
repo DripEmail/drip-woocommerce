@@ -31,14 +31,19 @@ class Drip_Woocommerce_View_Events {
 	 */
 	public function drip_woocommerce_viewed_product() {
 		wp_register_script( 'Drip product view tracking', plugin_dir_url( __FILE__ ) . 'product_view_tracking.js', array(), '1', true );
-		$product            = wc_get_product();
-		$image_id           = $product->get_image_id();
+		$product                    = wc_get_product();
+		$image_id                   = $product->get_image_id();
+		$product_price              = $product->get_price();
+		$adjusted_product_price     = 0;
+		if (!empty($product_price)) {
+			$adjusted_product_price = ($product_price * 100);
+		}
 		$product_attributes = array(
 			'product_id'         => $product->get_id(),
 			'product_variant_id' => $product->get_id(),
 			'sku'                => $product->get_sku( 'edit' ),
 			'name'               => $product->get_name( 'edit' ),
-			'price'              => $product->get_price( 'edit' ) * 100,
+			'price'              => $adjusted_product_price,
 			'product_url'        => $product->get_permalink(),
 			'currency'           => get_option( 'woocommerce_currency' ),
 			'categories'         => $this->product_categories( $product ),
