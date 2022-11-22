@@ -65,6 +65,10 @@ View detailed integration instructions in [MyDrip](https://www.drip.com/learn/do
 
 * Your change here!
 
+= 1.1.3 =
+
+* Fix a bug that caused an error when viewing a product with an empty price
+
 = 1.1.2 =
 
 * Add occurred_at timestamp to cart events to avoid timing issues when there are queue backups or other issues.
