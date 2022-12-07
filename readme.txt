@@ -14,27 +14,27 @@ Build long-lasting relationships with perfectly personalized email and onsite ma
 
 Drip is the customer-first marketing automation platform designed for ecommerce brands. Sync your WooCommerce store with Drip and experience:
 
-The easiest (most powerful) WooCommerce integration ever.
+### The easiest (most powerful) WooCommerce integration ever.
 
 Get up and running in minutes with our seamless WooCommerce integration. Get your WooCommerce data while it’s hot, then use it to fuel email and onsite marketing strategies that work.
 
-The kind of segmentation that WooCommerce success stories are made of.
+### The kind of segmentation that WooCommerce success stories are made of.
 
 Tap into dynamic, money-making segmentation that lets you hyper-customize audiences, deliver better shopping experiences, and connect with customers like never before.
 
-Proven pre-built workflows that run the ecomm show.
+### Proven pre-built workflows that run the ecomm show.
 
 Access pre-built workflows designed around industry best practices and high-converting logic. Take things a step further and split test up to five paths at a time until the engagement sticks.
 
-Automation that takes “schedule emails” off your to-do list.
+### Automation that takes “schedule emails” off your to-do list.
 
 Save yourself time with our easy yet powerful automations. Reach people at the right moment, with just the right message to bump click-through-rates and boost sales.
 
-Emails so easy to build you’ll wish we had met sooner.
+### Emails so easy to build you’ll wish we had met sooner.
 
 Pick a template, add your branding using our oh-so-easy visual email builder, and send high-converting email campaigns in minutes.
 
-Popups + onsite personalization that work.
+### Popups + onsite personalization that work.
 
 Collect zero-party data on your site and use it to turn visitors → subscribers → customers. 
 
@@ -42,7 +42,7 @@ Collect zero-party data on your site and use it to turn visitors → subscribers
 
 - Prevent cart abandonment, promote products and offers, and upsell directly on your site. 
 
-A customer support #DreamTeam.
+### A customer support #DreamTeam.
 
 When you sign up for Drip, you can expect:
     - Tailored solutions that yield real results.
@@ -57,15 +57,15 @@ Install the Drip for WooCommerce plugin. See why thousands of ecommerce brands a
 
 === Do you offer a free trial? ===
 
-Yes, we offer a free 14-day trial for new users. Sign up for a free trial here: https://www.getdrip.com/signup/basic 
+Yes, we offer a free 14-day trial for new users. Sign up for a free trial here: [https://www.getdrip.com/signup/basic](https://www.getdrip.com/signup/basic) 
 
 === How much does Drip cost? ===
 
-Plans start at $39/mo. Find your monthly cost on our pricing page: https://www.drip.com/pricing 
+Plans start at $39/mo. Find your monthly cost on our pricing page: [https://www.drip.com/pricing](https://www.drip.com/pricing)
 
 === How do I install the Drip for WooCommerce plugin? ===
 
-Find installation instructions in our User Manual: https://my.drip.com/docs/manual/woocommerce/integration-instructions/
+Find installation instructions in our User Manual: [https://my.drip.com/docs/manual/woocommerce/integration-instructions/](https://my.drip.com/docs/manual/woocommerce/integration-instructions/)
 
 === Do you offer support? How do I contact them? ===
 
