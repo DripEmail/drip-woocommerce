@@ -38,8 +38,9 @@ Popups + onsite personalization that work.
 
 Collect zero-party data on your site and use it to turn visitors → subscribers → customers. 
 
-    - Grow your list with non-intrusive multi-step campaigns, quizzes, and gamification. 
-    - Prevent cart abandonment, promote products and offers, and upsell directly on your site. 
+- Grow your list with non-intrusive multi-step campaigns, quizzes, and gamification. 
+
+- Prevent cart abandonment, promote products and offers, and upsell directly on your site. 
 
 A customer support #DreamTeam.
 
