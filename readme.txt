@@ -137,14 +137,10 @@ The philosophy behind this plugin is to do as little as possible in it, and as m
 = 0.0.1 =
 * Initial release
 
-== Development ==
-
-The philosophy behind this plugin is to do as little as possible in it, and as much as possible in a microservice run by Drip. This allows us to ship fixes for our customers without their having to upgrade a plugin. So often a bug will need to be fixed in the microservice rather than in this plugin. If you do indeed find a bug in the plugin, feel free to submit [a Pull Request in our GitHub repo](https://github.com/DripEmail/drip-woocommerce/).
-
 == Screenshots ==
 
-1. Product Recommendations
-2. Segmentation
+1. Dynamic Segmentation
+2. Ecommerce Templates
 3. Email Builder
-4. Ecommerce Playbooks
-5. Insights and Guidance
+4. Multi-Channel Automation
+5. Onsite Marketing
