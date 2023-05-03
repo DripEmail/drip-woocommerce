@@ -1,64 +1,73 @@
-=== Drip for WooCommerce ===
+=== Drip - Marketing Automation for WooCommerce ===
 Contributors: getdrip
 Tags: ecommerce, emailmarketing, marketingautomation, emailmarketingautomation, woocommerce, drip
 Requires at least: 4.6
 Tested up to: 6.0.3
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 Requires PHP: 5.6
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Drive more revenue from each and every customer with perfectly personalized email and SMS marketing automation.
+Build long-lasting relationships with perfectly personalized email and onsite marketing automation.
 
 == Description ==
 
-Drip is an email and SMS marketing automation platform for growing ecommerce brands who want to take their email marketing to the next level.
+Drip is a marketing automation platform that helps WooCommerce stores drive repeat purchases and brand loyalty. Sync your WooCommerce store with Drip and experience all of these loyalty-driving benefits:
 
-Unleash the power of your WooCommerce data to deliver perfectly personalized email and SMS marketing strategies that will grow your revenue—like targeting customers on what they buy, browse, and click across your store.
+- Target people based on purchase history, purchase frequency, and products viewed.
+- Insert products from your store directly into visual emails.
+- Activate ecommerce workflows like abandoned cart, win-back, welcome series, and more.
+- Understand the true impact of your email strategy with revenue reporting.
 
-With our pre-built welcome series, abandoned cart, and post-purchase playbooks, you can run the latest and greatest ecommerce email and SMS marketing campaigns in just a few clicks (without needing a developer!).
+### Intuitive email builder for highly-deliverable email campaigns.
 
-Want to email people who bought a pair of shorts last summer? Or who viewed that hat that just went on sale? No problem!
+Build on-brand emails that stand out in every inbox. Use Drip’s point-and-click email builder to add your store products directly into emails, promote top-sellers to newcomers, and send dynamic content like cart URLs.
 
-With Drip’s segmentation, you can target the right audience and feel confident that you’re sending content they want to receive.
+### Visual workflow builder that runs multi-channel automations.
 
-Install the Drip for WooCommerce plugin to see why thousands of ecommerce brands across the globe trust Drip to build personal and profitable relationships with their customers.
+Customize our WooCommerce-ready workflow templates to match your brand and set them into motion. Automate marketing campaigns across email, Onsite, and social media channels using data from your WooCommerce store.
+
+### Deliver spot-on messages with dynamic segmentation.
+
+Drip’s powerful segmentation combines store, visitor, and marketing data so you can create dynamic segments and connect with your (potential) customers like never before.
+
+### Best-in-class forms, popups, and quizzes to collect emails and zero-party data.
+
+Design onsite journeys that guide first-time visitors toward becoming potential customers. Then convert them into actual customers who turn into repeat fans for life. Enjoy flexibility and customization beyond comparison with our drag-and-drop campaign builder.
+
+### Free migration + unmatched customer support.
+
+Drip’s support team is here for you from day 1 to 1,001.
+
+When you’re ready to make the switch, we’ll migrate all the important stuff from your old platform to Drip, offer personalized advice on how to up your email marketing game, and so much more—at no additional cost.
+
+Install the official Drip for WooCommerce plugin. See why thousands of ecommerce brands across the globe trust Drip to drive repeat purchases and brand loyalty on autopilot.
 
 == FAQs ==
 
 === Do you offer a free trial? ===
 
-Yes, we offer a free 14-day trial for new users. Sign up for a free trial here: https://www.getdrip.com/signup/basic
+Yes, we offer a free 14-day trial for new users. Sign up for a free trial today (no credit card needed): [https://www.getdrip.com/signup/basic](https://www.getdrip.com/signup/basic) 
 
 === How much does Drip cost? ===
 
-Plans start at $19/mo. Find your monthly cost on our pricing page: https://www.drip.com/pricing
+Our plans start at $39/mo. We offer free migration on all plans. Find your monthly cost on our pricing page: [https://www.drip.com/pricing](https://www.drip.com/pricing)
 
 === How do I install the Drip for WooCommerce plugin? ===
 
-Find installation instructions in our User Manual: https://my.drip.com/docs/manual/woocommerce/integration-instructions/
+Find installation instructions in our help center: [https://help.drip.com/hc/en-us/articles/4424695659277-Integration-Instructions](https://help.drip.com/hc/en-us/articles/4424695659277-Integration-Instructions)
 
-=== Do you offer support? How do I contact them? ===
+=== How can I contact Drip support? ===
 
-Our support team is available via email between 9 am - 5 pm CT Monday through Friday at support@drip.com. We offer live chat during that time for customers on the $99/mo+ plan.
+Our Support Team is available via email between 9 am – 5 pm CST and 8 am – 8 pm CET Monday through Friday at support@drip.com.
 
 === Are there technical requirements for the plugin? ===
 
-Make sure you're running the latest version of WooCommerce before installing the integration.
+Make sure you are running the latest version of WooCommerce before installing the integration.
 
-== Support ==
+=== Development ===
 
-Please send support requests to our team within Drip.
-
-== Installation ==
-
-Integrate Drip and your WooCommerce store in a few easy clicks.
-
-* Install the plugin
-* Generate API keys in WooCommerce
-* Enter your API keys in Drip
-
-View detailed integration instructions in [MyDrip](https://www.drip.com/learn/docs/manual/woocommerce/integration-instructions).
+The philosophy behind this plugin is to do as little as possible in it, and as much as possible in a microservice run by Drip. This allows us to ship fixes for our customers without their having to upgrade a plugin. So often a bug will need to be fixed in the microservice rather than in this plugin. If you do indeed find a bug in the plugin, feel free to submit a [Pull Request in our GitHub repo](https://github.com/DripEmail/drip-woocommerce/).
 
 == Changelog ==
 = NEXT =
@@ -128,14 +137,10 @@ View detailed integration instructions in [MyDrip](https://www.drip.com/learn/do
 = 0.0.1 =
 * Initial release
 
-== Development ==
-
-The philosophy behind this plugin is to do as little as possible in it, and as much as possible in a microservice run by Drip. This allows us to ship fixes for our customers without their having to upgrade a plugin. So often a bug will need to be fixed in the microservice rather than in this plugin. If you do indeed find a bug in the plugin, feel free to submit [a Pull Request in our GitHub repo](https://github.com/DripEmail/drip-woocommerce/).
-
 == Screenshots ==
 
-1. Product Recommendations
-2. Segmentation
+1. Dynamic Segmentation
+2. Ecommerce Templates
 3. Email Builder
-4. Ecommerce Playbooks
-5. Insights and Guidance
+4. Multi-Channel Automation
+5. Onsite Marketing
