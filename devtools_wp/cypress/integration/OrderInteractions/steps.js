@@ -24,11 +24,11 @@ Then('I add a widget to my cart', () => {
   })
 
   Then("the page includes a Drip JS API call", () => {
-    cy.get('script[src="http://localhost:3007/wp-content/plugins/drip/src/customer_identify.js?ver=6.0.3"]').should('have.length', 1)
+    cy.get('script[src="http://localhost:3007/wp-content/plugins/drip/src/customer_identify.js?ver=6.2.2"]').should('have.length', 1)
 
-    cy.window().then(function(win) {
-      expect(win._dcq).to.have.lengthOf(1)
-      const call = win._dcq[0]
+    cy.window().then(function(window) {
+      expect(window._dcq).to.have.lengthOf(1)
+      const call = window._dcq[0]
       expect(call).to.have.lengthOf(2)
       expect(call[0]).to.eq("identify")
       const identify_data = call[1]
@@ -38,9 +38,9 @@ Then('I add a widget to my cart', () => {
   })
 
   Then("the page does not make Drip JS API call", () => {
-    cy.get('script[src="http://localhost:3007/wp-content/plugins/drip/src/customer_identify.js?ver=6.0.3"]').should('have.length', 0)
+    cy.get('script[src="http://localhost:3007/wp-content/plugins/drip/src/customer_identify.js?ver=6.2.2"]').should('have.length', 0)
 
-    cy.window().then(function(win) {
-      expect(Object.keys(win)).to.not.include('_dcq')
+    cy.window().then(function(window) {
+      expect(Object.keys(window)).to.not.include('_dcq')
     })
   })
