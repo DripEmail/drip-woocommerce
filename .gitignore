@@ -3,3 +3,5 @@
 /devtools_wp/db_data/
 /devtools_wp/cypress/screenshots/
 /dist
+
+.DS_Store

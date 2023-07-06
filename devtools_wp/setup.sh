@@ -13,6 +13,7 @@ docker-compose exec -T db /bin/bash -c 'while ! mysql --protocol TCP -u"$MYSQL_U
 woocommerce_setup_script=$(cat <<SCRIPT
 cd /var/www/html/ && \
 /usr/local/bin/wp core install --url="http://localhost:$port" --title="drip_woocommerce_test" --admin_user="drip" --admin_email="drip@example.com" --admin_password="abc1234567890" --skip-email && \
+/usr/local/bin/wp option set woocommerce_feature_custom_order_tables_enabled yes && \
 /usr/local/bin/wp plugin activate woocommerce && \
 /usr/local/bin/wp plugin activate drip; \
 /usr/local/bin/wp media import https://cdn3.iconfinder.com/data/icons/nature-emoji/50/Forest-512.png
@@ -21,6 +22,7 @@ CART_PAGE_ID=\$(/usr/local/bin/wp post create --post_type=page --post_author="dr
 CHKOUT_PAGE_ID=\$(/usr/local/bin/wp post create --post_type=page --post_author="drip" --post_title="My Fair Checkout" --post_name="My Fair Checkout" --post_content="[woocommerce_checkout]" --post_status="publish" --porcelain) && \
 /usr/local/bin/wp option set woocommerce_checkout_page_id \$CHKOUT_PAGE_ID --autoload='yes'; \
 /usr/local/bin/wp option set woocommerce_cod_settings '{"enabled":"yes","title":"Cash on delivery","description":"Pay with cash upon delivery.","instructions":"Pay with cash upon delivery.","enable_for_methods":"","enable_for_virtual":"yes"}' --autoload='yes' --format='json'; \
+/usr/local/bin/wp wc update; \
 if ! grep -q drip_woo_test_force_mocks wp-includes/functions.php; then
 cat << "EOF" >> wp-includes/functions.php
 function drip_woo_test_force_mocks(\$is_external, \$host) {
