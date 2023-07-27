@@ -27,14 +27,14 @@ class Drip_Woocommerce_Cart_Events {
 	}
 
 	/**
-	 * Ensures that actions will be registered after WordPress has fully loaded
+	 * Set up cart actions ensuring that actions will be registered after WordPress has fully loaded
 	 */
 	public function setup_cart_actions() {
 		add_action('wp_loaded', array($this, 'register_cart_actions'));
 	}
 	
 	/**
-	 * Set up cart action callbacks
+	 * Register cart action callbacks
 	 */
 	public function register_cart_actions() {
 		add_action('woocommerce_after_cart_item_quantity_update', array($this, 'drip_woocommerce_cart_updated'), 10, 0);
