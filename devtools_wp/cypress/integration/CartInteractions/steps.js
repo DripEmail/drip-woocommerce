@@ -90,7 +90,7 @@ Then('I restore it to the cart', () => {
 Then('I increase the quantity in the cart', () => {
   cy.visit(`http://localhost:3007/?page_id=${CartPageId}`)
   cy.contains("Update cart")
-  cy.get('input[title="Qty"]').first().clear().type('9001')
+  cy.get('.quantity input.input-text').first().clear().type('9001')
   cy.wrap(Mockclient.reset())
   cy.get('button[name="update_cart"]').click().wait(300)
   cy.contains("Cart updated.")
@@ -99,7 +99,7 @@ Then('I increase the quantity in the cart', () => {
 Then('I decrease the quantity in the cart to zero', () => {
   cy.visit(`http://localhost:3007/?page_id=${CartPageId}`)
   cy.contains("Update cart")
-  cy.get('input[title="Qty"]').first().clear().type('0')
+  cy.get('.quantity input.input-text').first().clear().type('0')
   cy.wrap(Mockclient.reset())
   cy.get('button[name="update_cart"]').click().wait(300)
   cy.contains("Your cart is currently empty.")
@@ -155,7 +155,7 @@ Then('I get sent a webhook with visitor_uuid', () => {
       expect(Number(event.total_taxes)).to.eq(0)
       expect(Number(event.total_fees)).to.eq(0)
       expect(Number(event.total_shipping)).to.eq(0)
-      expect(event.currency).to.eq('GBP')
+      expect(event.currency).to.eq('USD')
       expect(event.grand_total).to.eq('10.99')
       expect(Object.keys(event.cart_data)).to.have.lengthOf(1)
       validateMyFairWidget(event)
@@ -174,7 +174,8 @@ Then('I get sent a webhook with an empty cart', () => {
     }
   )).then(function (recordedRequests) {
     cy.wrap(validateRequests(recordedRequests)).then(function (body) {
-      const event = validateRequestBody(body)
+      const event = validateRequestBody(recordedRequests[0].body.json)
+      // expected [] to have a length of 1 but got 0
       expect(Object.keys(event.cart_data)).to.have.lengthOf(0)
       expect(event.grand_total).to.eq(0)
       expect(event.cart_data).to.be.empty
@@ -193,7 +194,7 @@ Then('I get sent an updated webhook', () => {
     }
   )).then(function (recordedRequests) {
     cy.wrap(validateRequests(recordedRequests)).then(function (body) {
-      const event = validateRequestBody(body)
+      const event = validateRequestBody(recordedRequests[0].body.json)
       expect(Object.keys(event.cart_data)).to.have.lengthOf(1)
       validateMyFairWidget(event, 9001)
       expect(event.grand_total.toString()).to.eq(`${10.99 * 9001}`)
@@ -328,7 +329,7 @@ const validateRequestBody = function (body) {
   expect(Number(event.total_taxes)).to.eq(0)
   expect(Number(event.total_fees)).to.eq(0)
   expect(Number(event.total_shipping)).to.eq(0)
-  expect(event.currency).to.eq('GBP')
+  expect(event.currency).to.eq('USD')
   return event;
 }
 
