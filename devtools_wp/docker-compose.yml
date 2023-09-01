@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  web:
+  web-woodev:
     build: .
     ports:
     - 3007:80
@@ -14,6 +14,10 @@ services:
         source: './..'
         target: /var/www/html/wp-content/plugins/drip
         consistency: cached
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.woodev.rule=Host(`woodev.drip.local`)"
+      - "traefik.docker.network=drip"
   db:
     image: mysql:8.0.31
     environment:
