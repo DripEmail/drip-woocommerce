@@ -2,13 +2,14 @@ version: '3.7'
 services:
   web-woodev:
     build: .
-    ports:
-    - 3007:80
     environment:
       - WORDPRESS_DB_HOST=db
       - WORDPRESS_DB_NAME=woocommerce
       - WORDPRESS_DB_USER=woocommerce
       - WORDPRESS_DB_PASSWORD=woocommerce
+    networks:
+      - drip
+      - woodev
     volumes:
       - type: bind
         source: './..'
@@ -26,9 +27,18 @@ services:
       - MYSQL_PASSWORD=woocommerce
       - MYSQL_RANDOM_ROOT_PASSWORD=true
     tmpfs: /var/lib/mysql
+    networks:
+      - woodev
   mock:
     image: mockserver/mockserver:mockserver-5.14.0
     # We need to use port 8080 for WP webhooks to work.
     command: ["-logLevel", "INFO", "-serverPort", "8080"]
     ports:
     - 1080:8080
+
+networks:
+  drip:
+    external: true
+  woodev:
+    name: woodev
+    driver: bridge
