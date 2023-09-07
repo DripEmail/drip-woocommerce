@@ -16,8 +16,9 @@ cd /var/www/html/ && \
 /usr/local/bin/wp option set woocommerce_feature_custom_order_tables_enabled yes && \
 /usr/local/bin/wp plugin activate woocommerce && \
 /usr/local/bin/wp plugin activate drip; \
-/usr/local/bin/wp media import https://cdn3.iconfinder.com/data/icons/nature-emoji/50/Forest-512.png
-/usr/local/bin/wp wc product create --name="Example Product" --type=simple --sku=ex-prod --regular_price=20 --user=1 --images='[{"id":10}]'
+/usr/local/bin/wp media import https://cdn3.iconfinder.com/data/icons/nature-emoji/50/Forest-512.png; \
+/usr/local/bin/wp rewrite structure '/%postname%/'; \
+/usr/local/bin/wp wc product create --name="Example Product" --type=simple --sku=ex-prod --regular_price=20 --user=1 --images='[{"id":10}]'; \
 CART_PAGE_ID=\$(/usr/local/bin/wp post create --post_type=page --post_author="drip" --post_title="My Fair Cart" --post_name="My Fair Cart" --post_content="[woocommerce_cart]" --post_status="publish" --porcelain) && \
 /usr/local/bin/wp option set woocommerce_cart_page_id \$CART_PAGE_ID --autoload='yes'; \
 CHKOUT_PAGE_ID=\$(/usr/local/bin/wp post create --post_type=page --post_author="drip" --post_title="My Fair Checkout" --post_name="My Fair Checkout" --post_content="[woocommerce_checkout]" --post_status="publish" --porcelain) && \
@@ -55,6 +56,7 @@ SCRIPT
 
 docker-compose exec -T -u root web-woodev /bin/bash -c "chown www-data wp-content"
 docker-compose exec -T -u www-data web-woodev /bin/bash -c "$woocommerce_setup_script"
+docker cp composer.json $(docker ps -a | grep devtools_wp-web-woodev | awk '{print $1}'):/var/www/html/composer.json
 docker-compose exec -T -u root web-woodev /bin/bash -c "$(cat install-composer.sh)"
 docker-compose exec -T -u root web-woodev /bin/bash -c "$update_bashrc_script"
 docker-compose exec -T -u root web-woodev /bin/bash -c "$
