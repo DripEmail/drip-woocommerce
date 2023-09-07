@@ -22,12 +22,20 @@ class Drip_Woocommerce_View_Events {
 	/**
 	 * Start processing view actions
 	 */
-	public function setup_view_actions() {
-		add_action( 'woocommerce_after_single_product', array( $this, 'drip_woocommerce_viewed_product' ), 10 );
+	public function setup_view_actions()
+	{
+			add_action('wp_enqueue_scripts', array($this, 'conditionally_enqueue_scripts'));
+	}
+
+	public function conditionally_enqueue_scripts()
+	{
+			if (is_product()) {
+					$this->drip_woocommerce_viewed_product();
+			}
 	}
 
 	/**
-	 * Handler for woocommerce_after_single_product action
+	 * Handler for product viewed action
 	 */
 	public function drip_woocommerce_viewed_product() {
 		wp_register_script( 'Drip product view tracking', plugin_dir_url( __FILE__ ) . 'product_view_tracking.js', array(), '1', true );
