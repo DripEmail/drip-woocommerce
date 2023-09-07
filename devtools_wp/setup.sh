@@ -17,7 +17,7 @@ cd /var/www/html/ && \
 /usr/local/bin/wp plugin activate woocommerce && \
 /usr/local/bin/wp plugin activate drip; \
 /usr/local/bin/wp media import https://cdn3.iconfinder.com/data/icons/nature-emoji/50/Forest-512.png
-/usr/local/bin/wp wc product create --name="Example Product" --type=simple --sku=ex-prod --regular_price=20 --user=1 --images='[{"id":1}]'
+/usr/local/bin/wp wc product create --name="Example Product" --type=simple --sku=ex-prod --regular_price=20 --user=1 --images='[{"id":10}]'
 CART_PAGE_ID=\$(/usr/local/bin/wp post create --post_type=page --post_author="drip" --post_title="My Fair Cart" --post_name="My Fair Cart" --post_content="[woocommerce_cart]" --post_status="publish" --porcelain) && \
 /usr/local/bin/wp option set woocommerce_cart_page_id \$CART_PAGE_ID --autoload='yes'; \
 CHKOUT_PAGE_ID=\$(/usr/local/bin/wp post create --post_type=page --post_author="drip" --post_title="My Fair Checkout" --post_name="My Fair Checkout" --post_content="[woocommerce_checkout]" --post_status="publish" --porcelain) && \
