@@ -3,7 +3,7 @@ Contributors: getdrip
 Tags: ecommerce, emailmarketing, marketingautomation, emailmarketingautomation, woocommerce, drip
 Requires at least: 4.6
 Tested up to: 6.2.2
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 Requires PHP: 5.6
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -47,7 +47,7 @@ Install the official Drip for WooCommerce plugin. See why thousands of ecommerce
 
 === Do you offer a free trial? ===
 
-Yes, we offer a free 14-day trial for new users. Sign up for a free trial today (no credit card needed): [https://www.getdrip.com/signup/basic](https://www.getdrip.com/signup/basic) 
+Yes, we offer a free 14-day trial for new users. Sign up for a free trial today (no credit card needed): [https://www.getdrip.com/signup/basic](https://www.getdrip.com/signup/basic)
 
 === How much does Drip cost? ===
 
@@ -73,6 +73,11 @@ The philosophy behind this plugin is to do as little as possible in it, and as m
 = NEXT =
 
 * Your change here!
+
+= 1.1.6 =
+
+* Use a more robust method for detecting product view events
+
 = 1.1.5 =
 
 * Fix bug when calling get_cart function before WP finishes loading
