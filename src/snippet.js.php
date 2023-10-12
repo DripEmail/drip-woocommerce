@@ -7,6 +7,8 @@
 
 defined( 'ABSPATH' ) || die( 'Executing outside of the WordPress context.' );
 
+$script_type = apply_filters('drip_set_snippet_script_type', 'text/javascript');
+$script_additional_attributes = apply_filters('drip_set_snippet_script_additional_attributes', array());
 ?>
 
 <!-- Drip Code -->
@@ -17,8 +19,18 @@ defined( 'ABSPATH' ) || die( 'Executing outside of the WordPress context.' );
 
 	(function() {
 		var dc = document.createElement('script');
-		dc.type = 'text/javascript'; dc.async = true;
+		dc.type = '<?php echo esc_js( $script_type ); ?>'; 
+		dc.async = true;
 		dc.src = '//tag.getdrip.com/<?php echo esc_js( $account_id ); ?>.js';
+		<?php
+		if(is_array($script_additional_attributes)) {
+			foreach($script_additional_attributes as $attname => $attval) {
+				?>
+				dc.setAttribute("<?php echo esc_js( $attname ); ?>", "<?php echo esc_js( $attval ); ?>");
+				<?php
+			}
+		}
+		?>
 		var s = document.getElementsByTagName('script')[0];
 		s.parentNode.insertBefore(dc, s);
 	})();

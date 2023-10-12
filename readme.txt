@@ -2,8 +2,8 @@
 Contributors: getdrip
 Tags: ecommerce, emailmarketing, marketingautomation, emailmarketingautomation, woocommerce, drip
 Requires at least: 4.6
-Tested up to: 6.2.2
-Stable tag: 1.1.6
+Tested up to: 6.3.1
+Stable tag: 1.1.7
 Requires PHP: 5.6
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -73,6 +73,10 @@ The philosophy behind this plugin is to do as little as possible in it, and as m
 = NEXT =
 
 * Your change here!
+
+= 1.1.7 =
+
+* Implement `drip_set_snippet_script_type` and `drip_set_snippet_script_additional_attributes` filters to add custom attributes in Drip's JS Snippet
 
 = 1.1.6 =
 

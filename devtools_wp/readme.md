@@ -12,7 +12,7 @@ $ npm --version
 ```bash
 $ npm install
 ```
- - Spin up Docker and Magento, run setup.sh in the devtools_m1 directory
+ - Spin up Docker and Magento, run setup.sh in the devtools_wp directory
  ```aidl
 ./setup.sh
 ```
