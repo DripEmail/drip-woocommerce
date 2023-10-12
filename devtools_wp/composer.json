@@ -1,0 +1,10 @@
+{
+  "name": "drip/devtoolswp",
+  "type": "project",
+  "authors": [
+      {
+          "name": "Drip"
+      }
+  ],
+  "require": {}
+}
