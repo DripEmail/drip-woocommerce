@@ -1,4 +1,4 @@
-version: '3.7'
+name: drip-woocommerce
 services:
   web:
     build: .
@@ -21,7 +21,10 @@ services:
       - MYSQL_USER=woocommerce
       - MYSQL_PASSWORD=woocommerce
       - MYSQL_RANDOM_ROOT_PASSWORD=true
-    tmpfs: /var/lib/mysql
+    ports:
+    - 3307:3306
+    volumes: 
+      - ./db_data/mysql:/var/lib/mysql
   mock:
     image: mockserver/mockserver:mockserver-5.14.0
     # We need to use port 8080 for WP webhooks to work.

@@ -15,7 +15,7 @@ Author URI: https://www.drip.com/
 License: GPLv2
 
 WC requires at least: 3.0
-WC tested up to: 8.2.0
+WC tested up to: 9.3.1
 */
 
 defined( 'ABSPATH' ) || die( 'Executing outside of the WordPress context.' );
