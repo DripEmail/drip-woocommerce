@@ -24,7 +24,7 @@ Then('I add a widget to my cart', () => {
   })
 
   Then("the page includes a Drip JS API call", () => {
-    cy.get('script[src="http://localhost:3007/wp-content/plugins/drip/src/customer_identify.js?ver=8.2.0"]').should('have.length', 1)
+    cy.get('script[src="http://localhost:3007/wp-content/plugins/drip/src/customer_identify.js?ver=9.3.1"]').should('have.length', 1)
 
     cy.window().then(function(window) {
       expect(window._dcq).to.have.lengthOf(1)
@@ -38,7 +38,7 @@ Then('I add a widget to my cart', () => {
   })
 
   Then("the page does not make Drip JS API call", () => {
-    cy.get('script[src="http://localhost:3007/wp-content/plugins/drip/src/customer_identify.js?ver=8.2.0"]').should('have.length', 0)
+    cy.get('script[src="http://localhost:3007/wp-content/plugins/drip/src/customer_identify.js?ver=9.3.1"]').should('have.length', 0)
 
     cy.window().then(function(window) {
       expect(Object.keys(window)).to.not.include('_dcq')
