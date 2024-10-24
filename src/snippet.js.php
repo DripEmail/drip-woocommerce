@@ -21,7 +21,7 @@ $script_additional_attributes = apply_filters('drip_set_snippet_script_additiona
 		var dc = document.createElement('script');
 		dc.type = '<?php echo esc_js( $script_type ); ?>'; 
 		dc.async = true;
-		dc.src = '//tag.getdrip.com/<?php echo esc_js( $account_id ); ?>.js';
+		dc.src = 'https://tag.getdrip.com/<?php echo esc_js( $account_id ); ?>.js';
 		<?php
 		if(is_array($script_additional_attributes)) {
 			foreach($script_additional_attributes as $attname => $attval) {

@@ -49,8 +49,8 @@ class Drip_Woocommerce_Plugin_View {
 		$account_id      = WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::ACCOUNT_ID_KEY );
 		$account_segment = '';
 		if ( ! empty( $account_id ) ) {
-			$account_segment = "${account_id}/";
+			$account_segment = "{$account_id}/";
 		}
-		return "<a href=\"https://www.getdrip.com/${account_segment}integrations/drip_woocommerce\">Integration Settings</a>";
+		return "<a href=\"https://www.getdrip.com/{$account_segment}integrations/drip_woocommerce\">Integration Settings</a>";
 	}
 }
