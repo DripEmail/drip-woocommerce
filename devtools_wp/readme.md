@@ -19,6 +19,10 @@ $ npm install
 
 You can access the test site at http://localhost:3007/
 
+## Multiple Stores Setup
+
+Follow [this](https://woocommerce.com/posts/woocommerce-multiple-stores/) guide once the container is up and running.
+
 ## Running the tests
 
 To start the cypress test runner ...
