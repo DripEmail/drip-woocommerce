@@ -9,16 +9,31 @@
 Plugin Name: Drip for WooCommerce
 Plugin URI: https://github.com/DripEmail/drip-woocommerce
 Description: A WordPress plugin to connect to Drip's WooCommerce integration
-Version: 1.1.8
+Version: 1.1.9
 Author: Drip
 Author URI: https://www.drip.com/
 License: GPLv2
 
 WC requires at least: 3.0
-WC tested up to: 10.1.1
+WC tested up to: 10.4.3
 */
 
 defined( 'ABSPATH' ) || die( 'Executing outside of the WordPress context.' );
+
+/**
+ * Check if WooCommerce is active (per-site or network-activated in multisite)
+ *
+ * @return bool
+ */
+function drip_woocommerce_is_woocommerce_active() {
+	$active_plugins = (array) get_option( 'active_plugins', array() );
+	if ( is_multisite() ) {
+		$network_plugins = array_keys( (array) get_site_option( 'active_sitewide_plugins', array() ) );
+		$active_plugins  = array_merge( $active_plugins, $network_plugins );
+	}
+
+	return in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', $active_plugins ), true );
+}
 
 // Enable HPOS compatibility.
 add_action( 'before_woocommerce_init', function() {
@@ -27,8 +42,7 @@ add_action( 'before_woocommerce_init', function() {
 	}
 } );
 
-// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ) ) {
+if ( drip_woocommerce_is_woocommerce_active() ) {
 	require_once __DIR__ . '/src/class-drip-woocommerce-settings.php';
 	require_once __DIR__ . '/src/class-drip-woocommerce-snippet.php';
 	require_once __DIR__ . '/src/class-drip-woocommerce-cart-events.php';
