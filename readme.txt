@@ -3,7 +3,7 @@ Contributors: getdrip
 Tags: ecommerce, emailmarketing, marketingautomation, emailmarketingautomation, woocommerce, drip
 Requires at least: 4.6
 Tested up to: 6.8.2
-Stable tag: 1.1.9
+Stable tag: 1.1.10
 Requires PHP: 5.6
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -73,6 +73,10 @@ The philosophy behind this plugin is to do as little as possible in it, and as m
 = NEXT =
 
 * Your change here!
+
+= 1.1.10 =
+
+* Show the email marketing sign up option on the block-based Checkout, which previously only rendered on the [woocommerce_checkout] shortcode
 
 = 1.1.9 =
 
