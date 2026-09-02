@@ -14,7 +14,6 @@ class Drip_Woocommerce_Checkout_Marketing_Confirmation {
 	const FIELD_NAME = 'drip_woocommerce_accepts_marketing';
 	const BLOCK_FIELD_ID = 'drip-woocommerce/accepts-marketing';
 	const BLOCK_FIELD_META_PREFIX = '_wc_other/';
-	const DEFAULT_LABEL = 'Send me news, announcements, and discounts.';
 
 	/**
 	 * Set up component
@@ -64,8 +63,12 @@ class Drip_Woocommerce_Checkout_Marketing_Confirmation {
 	 * @return string
 	 */
 	private function signup_label() {
-		// phpcs:ignore WordPress.PHP.DisallowShortTernary.Found
-		return WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::MARKETING_CONFIG_TEXT ) ?: self::DEFAULT_LABEL;
+		$configured = WC_Admin_Settings::get_option( Drip_Woocommerce_Settings::MARKETING_CONFIG_TEXT );
+		if ( $configured ) {
+			return $configured;
+		}
+
+		return Drip_Woocommerce_Settings::default_signup_text();
 	}
 
 	/**
