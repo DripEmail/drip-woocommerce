@@ -199,7 +199,7 @@ class Drip_Woocommerce_Checkout_Marketing_Confirmation {
 	private function block_field_meta_key() {
 		$checkout_fields = 'Automattic\WooCommerce\Blocks\Domain\Services\CheckoutFields';
 
-		if ( defined( $checkout_fields . '::OTHER_FIELDS_PREFIX' ) ) {
+		if ( class_exists( $checkout_fields ) && defined( $checkout_fields . '::OTHER_FIELDS_PREFIX' ) ) {
 			return constant( $checkout_fields . '::OTHER_FIELDS_PREFIX' ) . self::BLOCK_FIELD_ID;
 		}
 
