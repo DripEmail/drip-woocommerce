@@ -9,13 +9,13 @@
 Plugin Name: Drip for WooCommerce
 Plugin URI: https://github.com/DripEmail/drip-woocommerce
 Description: A WordPress plugin to connect to Drip's WooCommerce integration
-Version: 1.1.9
+Version: 1.1.10
 Author: Drip
 Author URI: https://www.drip.com/
 License: GPLv2
 
 WC requires at least: 3.0
-WC tested up to: 10.4.3
+WC tested up to: 11.0.1
 */
 
 defined( 'ABSPATH' ) || die( 'Executing outside of the WordPress context.' );

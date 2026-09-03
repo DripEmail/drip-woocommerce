@@ -18,6 +18,19 @@ class Drip_Woocommerce_Settings {
 	const DEFAULT_MARKETING_CONFIG_KEY = 'drip_enable_signup_default';
 
 	/**
+	 * Default checkout sign up checkbox label, including the store name.
+	 *
+	 * @return string
+	 */
+	public static function default_signup_text() {
+		return sprintf(
+			/* translators: %s: store name */
+			__( 'Email me exclusive offers and updates from %s', self::NAME ),
+			get_bloginfo( 'name' )
+		);
+	}
+
+	/**
 	 * Bootstraps the class and hooks required actions & filters.
 	 */
 	public static function init() {
@@ -103,7 +116,7 @@ class Drip_Woocommerce_Settings {
 			'option_key'  => self::MARKETING_CONFIG_TEXT,
 			'label'       => __( 'Default Text', self::NAME ),
 			'description' => __( 'The text displayed next to the subscription checkbox.', self::NAME ),
-			'default'     => __( 'Send me news, announcements, and discounts.', self::NAME ),
+			'default'     => self::default_signup_text(),
 			'type'        => 'text',
 		);
 		return $settings;
@@ -159,7 +172,7 @@ class Drip_Woocommerce_Settings {
 				'name'              => __( 'Default Text', self::NAME ),
 				'type'              => 'text',
 				'desc'              => __( 'Text that will appear next to the sign up checkbox', self::NAME ),
-				'default'           => __( 'Send me news, announcements, and discounts.', self::NAME ),
+				'default'           => self::default_signup_text(),
 				'custom_attributes' => $drip_settings->custom_attributes(),
 			),
 			'section_end'                      => array(
