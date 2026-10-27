@@ -27,8 +27,9 @@ module.exports = defineConfig({
           return null
         },
         wpCli(args) {
-          execFileSync('docker-compose', ['exec', '-u', 'www-data', '-T', 'web', 'wp', ...args], { stdio: 'pipe' })
-          return null
+          return execFileSync('docker-compose', ['exec', '-u', 'www-data', '-T', 'web', 'wp', ...args], { stdio: 'pipe' })
+            .toString()
+            .trim()
         },
       })
       return config

@@ -1,4 +1,20 @@
-import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor"
+import { Given } from "@badeball/cypress-cucumber-preprocessor"
+
+// Posts the login form directly: wp-login.php focuses the username field on a timer
+// that can wipe what was typed, leaving the form invalid and the user logged out.
+function logIn(username, password) {
+  cy.setCookie('wordpress_test_cookie', 'WP Cookie check')
+  cy.request({
+    method: 'POST',
+    url: '/wp-login.php',
+    form: true,
+    body: { log: username, pwd: password, testcookie: 1 },
+  })
+  cy.getCookies().should((cookies) => {
+    expect(cookies.map((cookie) => cookie.name).some((name) => name.startsWith('wordpress_logged_in_')), 'logged in cookie').to.be.true
+  })
+  cy.visit('/')
+}
 
 Given('I have a logged in user', () => {
   cy.log('Creating User')
@@ -10,22 +26,10 @@ Given('I have a logged in user', () => {
   })
 
   cy.log('Logging in as my_fair_user')
-  cy.visit('http://localhost:3007/wp-login.php')
-  cy.contains('Lost your password?')
-  cy.get('#user_login').clear().type('my_fair_user')
-  cy.get('#user_pass').clear().type('123!@#abc')
-  cy.get('#wp-submit[value="Log In"]').click()
-  cy.visit('/')
-  cy.contains("Hello world!")
+  logIn('my_fair_user', '123!@#abc')
 })
 
 Given('I am logged in as an admin user', () => {
   cy.log('logging in as the admin user')
-  cy.visit('http://localhost:3007/wp-login.php')
-  cy.contains('Lost your password?').wait(300)
-  cy.get('#user_login').clear().type('drip')
-  cy.get('#user_pass').clear().type('abc1234567890')
-  cy.get('#wp-submit[value="Log In"]').click()
-  cy.visit('/')
-  cy.contains("Hello world!")
+  logIn('drip', 'abc1234567890')
 })

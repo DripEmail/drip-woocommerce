@@ -1,5 +1,6 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor"
 import { mockServerClient } from "mockserver-client"
+import { placeOrderAndWait, withCheckout } from "../../support/checkout"
 
 const Mockclient = mockServerClient("localhost", 1080)
 
@@ -12,19 +13,24 @@ Then('I add a widget to my cart', () => {
   })
 
   Then('I checkout', () => {
-      cy.contains('a','Checkout').click()
-      cy.get('#billing_first_name').clear({force: true}).type('Eliza')
-      cy.get('#billing_last_name').clear({force: true}).type('Doolittle')
-      cy.get('#billing_address_1').clear({force: true}).type('8 Albert Street')
-      cy.get('#billing_city').clear({force: true}).type('Rugby')
-      cy.get('#billing_postcode').clear({force: true}).type('CV212RS')
-      cy.get('#billing_phone').clear({force: true}).type('1234567890')
-      cy.get('#billing_email').clear({force: true}).type('eliza.doolittle@example.com')
-      cy.get('#place_order').click({force: true}).wait(300)
+      cy.visitCheckout()
+      withCheckout((checkout) => {
+        checkout.fillBilling({
+          country: 'GB',
+          firstName: 'Eliza',
+          lastName: 'Doolittle',
+          address: '8 Albert Street',
+          city: 'Rugby',
+          postcode: 'CV212RS',
+          phone: '1234567890',
+          email: 'eliza.doolittle@example.com',
+        })
+        placeOrderAndWait(checkout)
+      })
   })
 
   Then("the page includes a Drip JS API call", () => {
-    cy.get('script[src="http://localhost:3007/wp-content/plugins/drip/src/customer_identify.js?ver=9.3.1"]').should('have.length', 1)
+    cy.get('script[src*="/wp-content/plugins/drip/src/customer_identify.js"]').should('have.length', 1)
 
     cy.window().then(function(window) {
       expect(window._dcq).to.have.lengthOf(1)
@@ -38,7 +44,7 @@ Then('I add a widget to my cart', () => {
   })
 
   Then("the page does not make Drip JS API call", () => {
-    cy.get('script[src="http://localhost:3007/wp-content/plugins/drip/src/customer_identify.js?ver=9.3.1"]').should('have.length', 0)
+    cy.get('script[src*="/wp-content/plugins/drip/src/customer_identify.js"]').should('have.length', 0)
 
     cy.window().then(function(window) {
       expect(Object.keys(window)).to.not.include('_dcq')

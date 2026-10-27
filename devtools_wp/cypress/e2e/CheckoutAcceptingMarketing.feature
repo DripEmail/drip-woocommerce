@@ -1,3 +1,4 @@
+@classic
 Feature: Checkout Accepting Marketing
 
   I want to be able to accept marketing as part of checkout.

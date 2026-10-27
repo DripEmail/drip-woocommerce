@@ -1,9 +1,10 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor"
 import { mockServerClient } from "mockserver-client"
+import { DEFAULT_SIGNUP_TEXT, WEBHOOK_USER_AGENT } from "../../support/drip"
+import { placeOrderAndWait, withCheckout } from "../../support/checkout"
 
 const Mockclient = mockServerClient("localhost", 1080)
-
-const CheckoutPageId = 7
+const SUBSCRIBER_TOPIC = 'action.wc_drip_woocommerce_subscriber_updated'
 
 Given('I have created an accepts marketing webhook', () => {
   cy.wrap(Mockclient.mockAnyResponse({
@@ -23,59 +24,57 @@ Given('I have created an accepts marketing webhook', () => {
   })
 })
 
+// Saving these through the settings screen is covered by AdminTab.feature. A save
+// writes both checkboxes, and the sign up is only hidden when both are off.
 Given('I have opted out of showing email marketing signup at checkout', () => {
-  cy.visit('/wp-admin/admin.php?page=wc-settings&tab=settings_drip');
-  cy.wrap(Mockclient.reset());
-  cy.get('input#drip_enable_signup[type="checkbox"]').uncheck();
-  cy.contains('Save changes').click()
+  cy.wpcliSetOption('drip_enable_signup', 'no')
+  cy.wpcliSetOption('drip_enable_signup_default', 'no')
 })
 
 Given('I have opted into showing email marketing signup at checkout', () => {
-  cy.visit('/wp-admin/admin.php?page=wc-settings&tab=settings_drip');
-  cy.wrap(Mockclient.reset());
-  cy.get('input#drip_enable_signup[type="checkbox"]').check();
-  cy.contains('Save changes').click()
+  cy.wpcliSetOption('drip_enable_signup', 'yes')
 })
 
 Given('I have opted into showing email marketing signup by default at checkout', () => {
-  cy.visit('/wp-admin/admin.php?page=wc-settings&tab=settings_drip');
-  cy.wrap(Mockclient.reset());
-  cy.get('input#drip_enable_signup_default[type="checkbox"]').check();
-  cy.contains('Save changes').click()
+  cy.wpcliSetOption('drip_enable_signup_default', 'yes')
+})
+
+Given('I have set the sign up text to {string}', (text) => {
+  cy.wpcliSetOption('drip_signup_text', text)
 })
 
 Then('I start to check out', () => {
-  cy.visit(`/?page_id=${CheckoutPageId}`).wait(300)
-
-  cy.get('input#billing_first_name').type('Oliver', { force: true })
-  cy.get('input#billing_last_name').type('Smith', { force: true })
-  cy.get('input#billing_address_1').type('123 Main St', { force: true })
-  cy.get('input#billing_city').type('Feltham', { force: true })
-  cy.get('input#billing_postcode').type('TW13 6LL', { force: true })
-  cy.get('input#billing_phone').type('123-456-7890', { force: true })
-  
+  cy.visitCheckout()
+  withCheckout((checkout) => checkout.fillBilling({
+    country: 'GB',
+    firstName: 'Oliver',
+    lastName: 'Smith',
+    address: '123 Main St',
+    city: 'Feltham',
+    postcode: 'TW13 6LL',
+    phone: '123-456-7890',
+  }))
 })
 
 Then('I accept marketing', () => {
   // The input is created before it is attached, and we can sometimes get ahead of that.
-  cy.contains('Send me news, announcements, and discounts.')
-  cy.get('input#drip_woocommerce_accepts_marketing[type="checkbox"]').check({ force: true })
+  cy.contains(DEFAULT_SIGNUP_TEXT)
+  withCheckout((checkout) => cy.get(checkout.signupCheckbox).check({ force: true }))
+})
+
+Then('I decline marketing', () => {
+  cy.contains(DEFAULT_SIGNUP_TEXT)
+  withCheckout((checkout) => cy.get(checkout.signupCheckbox).should('be.checked').uncheck({ force: true }))
 })
 
 Then('I place order', () => {
   cy.wrap(Mockclient.reset())
-  cy.contains('Place order').click({ force: true })
-  cy.contains('Order details').wait(300)
+  withCheckout(placeOrderAndWait)
 })
 
 Then('Drip receives a subscriber event', () => {
   cy.log('Validating that we got the webhook')
-  cy.wrap(Mockclient.retrieveRecordedRequests({
-    'path': '/my_fair_endpoint',
-    'headers': {
-      'X-WC-Webhook-Topic': ["action.wc_drip_woocommerce_subscriber_updated"]
-    }
-  })).then(function (recordedRequests) {
+  cy.receivedWebhooks(SUBSCRIBER_TOPIC).then(function (recordedRequests) {
     const event = validateRequests(recordedRequests)
     expect(event.email).to.eq('myfairuser@example.com')
     expect(event.status).to.eq('active')
@@ -83,36 +82,30 @@ Then('Drip receives a subscriber event', () => {
 })
 
 Then('Drip receives no subscriber event', () => {
-  cy.log('Validating that the webhook did not get called')
-  cy.wrap(Mockclient.retrieveRecordedRequests({
-    'path': '/my_fair_endpoint',
-    'headers': {
-      'X-WC-Webhook-Topic': ["action.wc_drip_woocommerce_subscriber_updated"]
-    }
-  })).then(function (recordedRequests) {
-    expect(recordedRequests).to.have.lengthOf(0)
-  })
+  cy.noWebhookReceived(SUBSCRIBER_TOPIC)
 })
 
 Then('The marketing checkbox is not present', () => {
-  cy.get('input#drip_woocommerce_accepts_marketing[type="checkbox"]').should('have.length', 0)
+  withCheckout((checkout) => cy.get(checkout.signupCheckbox).should('have.length', 0))
 })
 
 Then('The marketing checkbox is present and unchecked', () => {
-  cy.get('input#drip_woocommerce_accepts_marketing[type="checkbox"]').should('have.length', 1)
-  cy.get('input#drip_woocommerce_accepts_marketing[type="checkbox"]').should("not.be.checked")
+  withCheckout((checkout) => cy.get(checkout.signupCheckbox).should('have.length', 1).and('not.be.checked'))
 })
 
 Then('The marketing checkbox is present and checked', () => {
-  cy.get('input#drip_woocommerce_accepts_marketing[type="checkbox"]').should('have.length', 1)
-  cy.get('input#drip_woocommerce_accepts_marketing[type="checkbox"]').should("be.checked")
+  withCheckout((checkout) => cy.get(checkout.signupCheckbox).should('have.length', 1).and('be.checked'))
+})
+
+Then('The marketing checkbox is labelled {string}', (text) => {
+  withCheckout((checkout) => cy.get(checkout.signupCheckbox).parents('label, p, .wc-block-components-checkbox').first().should('contain.text', text))
 })
 
 const validateRequests = function (requests) {
   expect(requests).to.have.lengthOf(1)
   const request = requests[0]
   expect(Object.keys(request.headers)).contains('User-Agent')
-  expect(request.headers['User-Agent'][0]).match(/.*WooCommerce\/\d+\.\d+\.\d+.*Hookshot.*\(WordPress\/\d+\.\d+\.\d+\)/)
+  expect(request.headers['User-Agent'][0]).match(WEBHOOK_USER_AGENT)
   
   const body = request.body.json
   expect(body.action).to.eq('wc_drip_woocommerce_subscriber_updated')

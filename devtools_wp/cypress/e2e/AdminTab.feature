@@ -1,3 +1,4 @@
+@classic
 Feature: Drip Woocommerce settings
 
     I want Drip specific settings to show up in the Woocommerce settings page.
