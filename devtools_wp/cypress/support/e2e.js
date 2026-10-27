@@ -30,3 +30,7 @@ import './mocking_helper'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+// WordPress admin uses the View Transitions API; Chrome rejects the pending
+// transition with this AbortError when Cypress navigates mid-animation.
+Cypress.on('uncaught:exception', (err) => !err.message.includes('Transition was skipped'))

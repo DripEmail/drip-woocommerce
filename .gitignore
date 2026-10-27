@@ -4,4 +4,4 @@
 /devtools_wp/cypress/screenshots/
 /dist
 
-.DS_Store
+.DS_Store/devtools_wp/cypress/videos/
