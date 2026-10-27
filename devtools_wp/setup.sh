@@ -75,4 +75,4 @@ docker-compose exec -T -u root web /bin/bash -c "
 # echo "Backing up database for later reset"
 mkdir -p db_data
 touch db_data/dump.sql
-docker-compose exec -e MYSQL_PWD=woocommerce db mysqldump --no-tablespaces -u woocommerce woocommerce > db_data/dump.sql
+docker-compose exec -T -e MYSQL_PWD=woocommerce db mysqldump --no-tablespaces -u woocommerce woocommerce > db_data/dump.sql
