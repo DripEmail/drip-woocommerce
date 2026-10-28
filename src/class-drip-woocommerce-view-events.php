@@ -22,16 +22,17 @@ class Drip_Woocommerce_View_Events {
 	/**
 	 * Start processing view actions
 	 */
-	public function setup_view_actions()
-	{
-			add_action('wp_enqueue_scripts', array($this, 'conditionally_enqueue_scripts'));
+	public function setup_view_actions() {
+			add_action( 'wp_enqueue_scripts', array( $this, 'conditionally_enqueue_scripts' ) );
 	}
 
-	public function conditionally_enqueue_scripts()
-	{
-			if (is_product()) {
-					$this->drip_woocommerce_viewed_product();
-			}
+	/**
+	 * Enqueue product view tracking on product pages
+	 */
+	public function conditionally_enqueue_scripts() {
+		if ( is_product() ) {
+				$this->drip_woocommerce_viewed_product();
+		}
 	}
 
 	/**
@@ -39,12 +40,12 @@ class Drip_Woocommerce_View_Events {
 	 */
 	public function drip_woocommerce_viewed_product() {
 		wp_register_script( 'Drip product view tracking', plugin_dir_url( __FILE__ ) . 'product_view_tracking.js', array(), '1', true );
-		$product                    = wc_get_product();
-		$image_id                   = $product->get_image_id();
-		$product_price              = $product->get_price();
-		$adjusted_product_price     = 0;
-		if (!empty($product_price)) {
-			$adjusted_product_price = ($product_price * 100);
+		$product                = wc_get_product();
+		$image_id               = $product->get_image_id();
+		$product_price          = $product->get_price();
+		$adjusted_product_price = 0;
+		if ( ! empty( $product_price ) ) {
+			$adjusted_product_price = ( $product_price * 100 );
 		}
 		$product_attributes = array(
 			'product_id'         => $product->get_id(),

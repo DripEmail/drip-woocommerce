@@ -7,8 +7,14 @@
 
 defined( 'ABSPATH' ) || die( 'Executing outside of the WordPress context.' );
 
-$script_type = apply_filters('drip_set_snippet_script_type', 'text/javascript');
-$script_additional_attributes = apply_filters('drip_set_snippet_script_additional_attributes', array());
+// Included from Drip_Woocommerce_Snippet::render_snippet(), so these variables are local to it.
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+
+// Public filters merchants use to customize the snippet; renaming them would break those sites.
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+$script_type = apply_filters( 'drip_set_snippet_script_type', 'text/javascript' );
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+$script_additional_attributes = apply_filters( 'drip_set_snippet_script_additional_attributes', array() );
 ?>
 
 <!-- Drip Code -->
@@ -23,8 +29,8 @@ $script_additional_attributes = apply_filters('drip_set_snippet_script_additiona
 		dc.async = true;
 		dc.src = 'https://tag.getdrip.com/<?php echo esc_js( $account_id ); ?>.js';
 		<?php
-		if(is_array($script_additional_attributes)) {
-			foreach($script_additional_attributes as $attname => $attval) {
+		if ( is_array( $script_additional_attributes ) ) {
+			foreach ( $script_additional_attributes as $attname => $attval ) {
 				?>
 				dc.setAttribute("<?php echo esc_js( $attname ); ?>", "<?php echo esc_js( $attval ); ?>");
 				<?php

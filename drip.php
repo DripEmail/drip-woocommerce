@@ -32,15 +32,18 @@ function drip_woocommerce_is_woocommerce_active() {
 		$active_plugins  = array_merge( $active_plugins, $network_plugins );
 	}
 
-	return in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', $active_plugins ), true );
+	return in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', $active_plugins ), true ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WordPress core filter.
 }
 
 // Enable HPOS compatibility.
-add_action( 'before_woocommerce_init', function() {
-	if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
-		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+add_action(
+	'before_woocommerce_init',
+	function () {
+		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', __FILE__, true );
+		}
 	}
-} );
+);
 
 if ( drip_woocommerce_is_woocommerce_active() ) {
 	require_once __DIR__ . '/src/class-drip-woocommerce-settings.php';

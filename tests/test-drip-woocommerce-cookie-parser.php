@@ -8,7 +8,7 @@
 /**
  * Require the class we are testing
  */
-require_once __dir__ . '/../src/class-drip-woocommerce-cookie-parser.php';
+require_once __DIR__ . '/../src/class-drip-woocommerce-cookie-parser.php';
 
 /**
  * Test Drip_Woocommerce_Cookie_Parser
