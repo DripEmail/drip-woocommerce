@@ -1,3 +1,4 @@
+@classic
 Feature: Cart Interactions
 
   I want cart events to trigger a webhook.

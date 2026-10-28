@@ -23,6 +23,7 @@ CHKOUT_PAGE_ID=\$(/usr/local/bin/wp post create --post_type=page --post_author="
 /usr/local/bin/wp option set woocommerce_checkout_page_id \$CHKOUT_PAGE_ID --autoload='yes'; \
 /usr/local/bin/wp option set woocommerce_cod_settings '{"enabled":"yes","title":"Cash on delivery","description":"Pay with cash upon delivery.","instructions":"Pay with cash upon delivery.","enable_for_methods":"","enable_for_virtual":"yes"}' --autoload='yes' --format='json'; \
 /usr/local/bin/wp wc update; \
+/usr/local/bin/wp option set woocommerce_coming_soon no; \
 if ! grep -q drip_woo_test_force_mocks wp-includes/functions.php; then
 cat << "EOF" >> wp-includes/functions.php
 function drip_woo_test_force_mocks(\$is_external, \$host) {
@@ -56,8 +57,9 @@ docker-compose exec -T -u root web /bin/bash -c "chown www-data wp-content"
 docker-compose exec -T -u www-data web /bin/bash -c "$woocommerce_setup_script"
 docker-compose exec -T -u root web /bin/bash -c "$(cat install-composer.sh)"
 docker-compose exec -T -u root web /bin/bash -c "$update_bashrc_script"
-docker-compose exec -T -u root web /bin/bash -c "$
-$composer config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+docker-compose exec -T -u root web /bin/bash -c "
+  [ -f composer.json ] || echo '{}' > composer.json
+  $composer config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
 "
 docker-compose exec -T -u root web /bin/bash -c "
   $composer global require 'squizlabs/php_codesniffer=*' && \

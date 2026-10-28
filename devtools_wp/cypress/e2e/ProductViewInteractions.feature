@@ -1,3 +1,4 @@
+@classic
 Feature: Product View Interactions
 
   I want product pages to include calls to Drip's JS API.

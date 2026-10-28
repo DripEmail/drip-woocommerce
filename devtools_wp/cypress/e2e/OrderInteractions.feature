@@ -1,3 +1,4 @@
+@classic
 Feature: Order Interactions
 
     I want to include Drip calls when a order is completed

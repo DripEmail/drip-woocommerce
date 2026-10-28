@@ -1,7 +1,5 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor"
-import { mockServerClient } from "mockserver-client"
-
-const Mockclient = mockServerClient("localhost", 1080)
+import { DEFAULT_SIGNUP_TEXT } from "../../support/drip"
 
 When('I navigate to the Woocommerce Settings page', () => {
     cy.visit('wp-admin/admin.php?page=wc-settings')
@@ -32,7 +30,7 @@ Then('the sign-up option should be checked by default', () => {
 })
 
 Then('there should be a textbox to customize the text for the sign-up', () => {
-    cy.get('input[id="drip_signup_text"]').should('have.value', 'Send me news, announcements, and discounts.')
+    cy.get('input[id="drip_signup_text"]').should('have.value', DEFAULT_SIGNUP_TEXT)
 })
 
 Then('the checkbox should be disabled', () => {
@@ -42,7 +40,7 @@ Then('the checkbox should be disabled', () => {
 
 Then('the textbox should be disabled', () => {
     // cannot figure out how to validate the readonly attribute
-    cy.get('input[id="drip_signup_text"]').should('be.disabled').should('have.value', 'Send me news, announcements, and discounts.')
+    cy.get('input[id="drip_signup_text"]').should('be.disabled').should('have.value', DEFAULT_SIGNUP_TEXT)
 })
 
 When('I uncheck the checkbox', () => {
@@ -50,7 +48,7 @@ When('I uncheck the checkbox', () => {
 })
 
 When('I change the sign up text', () => {
-    cy.get('input[id="drip_signup_text"]').should('have.value', 'Send me news, announcements, and discounts.').clear().type('Texty McTextface')
+    cy.get('input[id="drip_signup_text"]').should('have.value', DEFAULT_SIGNUP_TEXT).clear().type('Texty McTextface')
 })
 
 When('I save the settings', () => {
@@ -70,6 +68,6 @@ Then('the settings should be persisted', () => {
 })
 
 Then('the custom text appears on the checkout page', () => {
-    cy.contains('a','Checkout').click()
+    cy.visitCheckout()
     cy.contains('Texty McTextface').should('have.length', 1)
 })
