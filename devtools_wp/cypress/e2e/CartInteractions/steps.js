@@ -1,4 +1,4 @@
-import { Given, When, Then } from "cypress-cucumber-preprocessor/steps"
+import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor"
 import { mockServerClient } from "mockserver-client"
 
 const Mockclient = mockServerClient("localhost", 1080)
@@ -34,30 +34,6 @@ Given('I have set up a cart webhook', () => {
     'topic': 'action.wc_drip_woocommerce_cart_event',
     'delivery_url': 'http://mock:8080/my_fair_endpoint'
   })
-})
-
-Given('I have a logged in user', () => {
-  cy.log('Creating User')
-  cy.wpcliCreateUser({
-    'inviso-user-login': 'my_fair_user',
-    'inviso-user-email': 'myfairuser@example.com',
-    'user_pass': '123!@#abc',
-    'role': 'subscriber'
-  })
-
-  cy.log('Logging in as my_fair_user')
-  cy.visit('http://localhost:3007/wp-login.php')
-  cy.wait(500)
-  cy.contains('Lost your password?')
-  cy.get('#user_login').clear().type('my_fair_user')
-  cy.get('#user_pass').clear().type('123!@#abc')
-  cy.get('#wp-submit[value="Log In"]').click()
-  cy.visit('/')
-  cy.contains("Hello world!")
-})
-
-Given('I have Drip configured', () => {
-  cy.wpcliSetDripAccount('1234567')
 })
 
 Given('I have been cookied', () => {

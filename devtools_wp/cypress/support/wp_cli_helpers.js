@@ -7,32 +7,29 @@ function createWooEntity(entity, params) {
 
   const mergedParams = { ...defaults, ...params }
 
-  let options = ''
+  const options = []
   for (const key in mergedParams) {
-    options += ` --${key}='${mergedParams[key]}'`
+    options.push(`--${key}=${mergedParams[key]}`)
   }
 
-  cy.exec(`docker-compose exec -u www-data -T web wp wc ${entity} create ${options}`)
+  cy.task('wpCli', ['wc', entity, 'create', ...options])
 }
 
 function setDripAccount(account_id){
-  cy.exec(`docker-compose exec -u www-data -T web wp option update account_id "${account_id}"`)
+  cy.task('wpCli', ['option', 'update', 'account_id', `${account_id}`])
 }
 
 Cypress.Commands.add('wpcliCreateUser', (desc) => {
-  const options = function (params) {
-    let options = ''
-    for (const key in params) {
-      if (key.startsWith('inviso-')) {
-        options += ` ${params[key]}`
-      } else {
-        options += ` --${key}="${params[key]}"`
-      }
+  const options = []
+  for (const key in desc) {
+    if (key.startsWith('inviso-')) {
+      options.push(`${desc[key]}`)
+    } else {
+      options.push(`--${key}=${desc[key]}`)
     }
-    return options
   }
 
-  cy.exec(`docker-compose exec -u www-data -T web wp user create ${options(desc)}`)
+  cy.task('wpCli', ['user', 'create', ...options])
 })
 
 Cypress.Commands.add('wpcliCreateProductCategory', (desc) => {

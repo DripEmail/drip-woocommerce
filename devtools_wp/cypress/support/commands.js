@@ -23,8 +23,3 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
-
-beforeEach(function() {
-  // Let's just start the stupid thing.
-  cy.server()
-})

@@ -26,7 +26,7 @@ services:
     volumes: 
       - ./db_data/mysql:/var/lib/mysql
   mock:
-    image: mockserver/mockserver:mockserver-5.14.0
+    image: mockserver/mockserver:mockserver-9.2.0
     # We need to use port 8080 for WP webhooks to work.
     command: ["-logLevel", "INFO", "-serverPort", "8080"]
     ports:

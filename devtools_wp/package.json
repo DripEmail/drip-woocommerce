@@ -5,12 +5,19 @@
   "license": "MIT",
   "dependencies": {
     "chai-string": "^1.5.0",
-    "cypress": "^7.1.0",
-    "cypress-cucumber-preprocessor": "^2.0.1",
     "cypress-pipe": "^1.7.0",
-    "mockserver-client": "5.14.0"
+    "mockserver-client": "9.2.0"
   },
   "cypress-cucumber-preprocessor": {
-    "nonGlobalStepDefinitions": true
+    "stepDefinitions": [
+      "cypress/e2e/[filepath]/**/*.js",
+      "cypress/e2e/common/**/*.js"
+    ]
+  },
+  "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^28.0.1",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.8",
+    "cypress": "^16.2.0",
+    "esbuild": "^0.28.2"
   }
 }
