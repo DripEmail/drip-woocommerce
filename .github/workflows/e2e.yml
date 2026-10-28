@@ -1,0 +1,77 @@
+name: E2E
+
+# Runs the Cypress suite in devtools_wp against the Dockerized WordPress +
+# WooCommerce versions pinned in devtools_wp/Dockerfile.
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'assets/**'
+      - 'drip.php'
+      - 'devtools_wp/**'
+      - '.github/workflows/e2e.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cypress:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: devtools_wp
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: devtools_wp/package-lock.json
+
+      # The scripts and cypress.config.js call the standalone docker-compose;
+      # the runner image only ships the `docker compose` plugin.
+      - name: Provide docker-compose
+        run: |
+          if ! command -v docker-compose >/dev/null; then
+            printf '#!/bin/sh\nexec docker compose "$@"\n' | sudo tee /usr/local/bin/docker-compose >/dev/null
+            sudo chmod +x /usr/local/bin/docker-compose
+          fi
+          docker-compose version
+
+      - name: Cache Cypress binary
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-${{ hashFiles('devtools_wp/package-lock.json') }}
+
+      - run: npm ci
+
+      - name: Start the test store
+        run: |
+          mkdir -p db_data
+          ./setup.sh
+
+      - name: Run Cypress
+        run: npx cypress run
+
+      - name: Container logs
+        if: failure()
+        run: docker-compose logs --no-color > docker-compose.log
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-failure
+          path: |
+            devtools_wp/cypress/screenshots
+            devtools_wp/docker-compose.log
+          if-no-files-found: ignore
