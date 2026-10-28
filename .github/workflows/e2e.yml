@@ -56,7 +56,9 @@ jobs:
       - run: npm ci
 
       - name: Start the test store
-        run: ./setup.sh
+        run: |
+          mkdir -p db_data
+          ./setup.sh
 
       - name: Run Cypress
         run: npx cypress run
