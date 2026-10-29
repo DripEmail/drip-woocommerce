@@ -11,8 +11,8 @@ defined( 'ABSPATH' ) || die( 'Executing outside of the WordPress context.' );
  * Insert checkbox on checkout
  */
 class Drip_Woocommerce_Checkout_Marketing_Confirmation {
-	const FIELD_NAME = 'drip_woocommerce_accepts_marketing';
-	const BLOCK_FIELD_ID = 'drip-woocommerce/accepts-marketing';
+	const FIELD_NAME              = 'drip_woocommerce_accepts_marketing';
+	const BLOCK_FIELD_ID          = 'drip-woocommerce/accepts-marketing';
 	const BLOCK_FIELD_META_PREFIX = '_wc_other/';
 
 	/**
@@ -37,7 +37,7 @@ class Drip_Woocommerce_Checkout_Marketing_Confirmation {
 		add_action( 'woocommerce_review_order_before_submit', array( $this, 'callback_review_order' ), 10, 0 );
 		add_action( 'woocommerce_checkout_order_processed', array( $this, 'callback_checkout_order_processed' ), 10, 3 );
 		add_action( 'woocommerce_init', array( $this, 'register_block_field' ) );
-		add_filter( 'woocommerce_get_default_value_for_' . self::BLOCK_FIELD_ID, array( $this, 'block_field_default_value' ), 10, 3 );
+		add_filter( 'woocommerce_get_default_value_for_' . self::BLOCK_FIELD_ID, array( $this, 'block_field_default_value' ) );
 		add_action( 'woocommerce_store_api_checkout_order_processed', array( $this, 'callback_store_api_order_processed' ), 10, 1 );
 	}
 
@@ -167,12 +167,10 @@ class Drip_Woocommerce_Checkout_Marketing_Confirmation {
 	 *
 	 * Callback for woocommerce_get_default_value_for_{$field_id}.
 	 *
-	 * @param mixed  $value The default value WooCommerce resolved.
-	 * @param string $group The group the field is being read for.
-	 * @param object $wc_object The order or customer the field is being read from.
+	 * @param mixed $value The default value WooCommerce resolved.
 	 * @return mixed
 	 */
-	public function block_field_default_value( $value, $group, $wc_object ) {
+	public function block_field_default_value( $value ) {
 		return $this->signup_checked_by_default() ? '1' : $value;
 	}
 

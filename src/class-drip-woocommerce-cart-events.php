@@ -30,18 +30,18 @@ class Drip_Woocommerce_Cart_Events {
 	 * Set up cart actions ensuring that actions will be registered after WordPress has fully loaded
 	 */
 	public function setup_cart_actions() {
-		add_action('wp_loaded', array($this, 'register_cart_actions'));
+		add_action( 'wp_loaded', array( $this, 'register_cart_actions' ) );
 	}
-	
+
 	/**
 	 * Register cart action callbacks
 	 */
 	public function register_cart_actions() {
-		add_action('woocommerce_after_cart_item_quantity_update', array($this, 'drip_woocommerce_cart_updated'), 10, 0);
-		add_action('woocommerce_cart_item_removed', array($this, 'drip_woocommerce_cart_updated'), 10, 0);
-		add_action('woocommerce_add_to_cart', array($this, 'drip_woocommerce_cart_updated'), 10, 0);
-		add_action('woocommerce_cart_item_restored', array($this, 'drip_woocommerce_cart_updated'), 10, 0);
-		add_action('woocommerce_cart_emptied', array($this, 'drip_woocommerce_cart_updated'), 10, 0);
+		add_action( 'woocommerce_after_cart_item_quantity_update', array( $this, 'drip_woocommerce_cart_updated' ), 10, 0 );
+		add_action( 'woocommerce_cart_item_removed', array( $this, 'drip_woocommerce_cart_updated' ), 10, 0 );
+		add_action( 'woocommerce_add_to_cart', array( $this, 'drip_woocommerce_cart_updated' ), 10, 0 );
+		add_action( 'woocommerce_cart_item_restored', array( $this, 'drip_woocommerce_cart_updated' ), 10, 0 );
+		add_action( 'woocommerce_cart_emptied', array( $this, 'drip_woocommerce_cart_updated' ), 10, 0 );
 	}
 
 	/**
@@ -196,10 +196,9 @@ class Drip_Woocommerce_Cart_Events {
 	/**
 	 * Retrieve the current date & time in ISO8601 format
 	 **/
-	private function current_time()
-	{
-		$time_obj = new DateTime('NOW');
+	private function current_time() {
+		$time_obj = new DateTime( 'NOW' );
 
-		return $time_obj->format('c');
+		return $time_obj->format( 'c' );
 	}
 }

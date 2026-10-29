@@ -1,0 +1,77 @@
+name: PHP
+
+# Coding standards plus the PHPUnit suite against WordPress's test library.
+on:
+  pull_request:
+    paths:
+      - '**.php'
+      - 'composer.json'
+      - 'composer.lock'
+      - 'phpunit.xml.dist'
+      - '.phpcs.xml.dist'
+      - 'bin/install-wp-tests.sh'
+      - '.github/workflows/php.yml'
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: php-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Keep in step with the WordPress image in devtools_wp/Dockerfile.
+  WP_VERSION: '7.1'
+
+jobs:
+  phpcs:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+
+      - run: composer install --no-interaction --no-progress
+
+      - run: vendor/bin/phpcs
+
+  phpunit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        # 7.4 is the oldest PHP WordPress 7.1 supports, and what composer.lock is resolved for.
+        php: ['7.4', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mysqli
+          coverage: none
+
+      # The runner image ships MySQL 8 (root/root), stopped by default.
+      - run: sudo systemctl start mysql.service
+
+      - run: composer install --no-interaction --no-progress
+
+      - name: Install the WordPress test library
+        run: bash bin/install-wp-tests.sh wordpress_test root root 127.0.0.1 "$WP_VERSION"
+        env:
+          WP_INSTALL_TESTS_SKIP_UPDATE_CHECK: 'true'
+
+      - run: vendor/bin/phpunit
+
+      - name: Run PHPUnit as multisite
+        run: vendor/bin/phpunit
+        env:
+          WP_MULTISITE: '1'
