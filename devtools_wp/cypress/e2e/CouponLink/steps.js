@@ -1,6 +1,7 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor"
 
-const STORE_CART = '/wp-json/wc/store/v1/cart'
+// rest_route rather than /wp-json/, which only routes with pretty permalinks (the test store uses plain ones).
+const STORE_CART = '/?rest_route=/wc/store/v1/cart'
 
 function createCoupon(code, extra = {}) {
   cy.wpcliCreateCoupon({ 'code': code, 'discount_type': 'percent', 'amount': 10, ...extra })
@@ -27,7 +28,7 @@ When('I add it to the cart through the Store API', () => {
     cy.request(STORE_CART).then((cart) => {
       cy.request({
         method: 'POST',
-        url: `${STORE_CART}/add-item`,
+        url: '/?rest_route=/wc/store/v1/cart/add-item',
         headers: { 'Nonce': cart.headers['nonce'] },
         body: { id: Number(id), quantity: 1 },
       })
