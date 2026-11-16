@@ -3,7 +3,7 @@ Contributors: getdrip
 Tags: ecommerce, emailmarketing, marketingautomation, emailmarketingautomation, woocommerce, drip
 Requires at least: 4.6
 Tested up to: 7.1.0
-Stable tag: 1.1.10
+Stable tag: 1.1.11
 Requires at least PHP: 5.6
 License: GPLv2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -73,6 +73,10 @@ The philosophy behind this plugin is to do as little as possible in it, and as m
 = NEXT =
 
 * Your change here!
+
+= 1.1.11 =
+
+* Apply a coupon from a link: visiting any store page with `?drip_coupon=CODE` (used by Drip emails' discount buttons) saves the code and applies it to the cart as soon as it has items
 
 = 1.1.10 =
 

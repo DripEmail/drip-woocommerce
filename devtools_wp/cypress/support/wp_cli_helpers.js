@@ -46,6 +46,11 @@ Cypress.Commands.add('wpcliCreateProduct', (desc) => {
   return createWooEntity('product', desc)
 })
 
+// Parameters can be found by running `wp wc shop_coupon create --help` in the container.
+Cypress.Commands.add('wpcliCreateCoupon', (desc) => {
+  return createWooEntity('shop_coupon', desc)
+})
+
 Cypress.Commands.add('wpcliCreateWebhook', (desc) => {
   return createWooEntity('webhook', desc)
 })
